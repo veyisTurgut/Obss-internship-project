@@ -1,8 +1,8 @@
-package com.example.veyis.manageMentorships.mapper;
+package obss.intern.veyis.manageMentorships.mapper;
 
-import com.example.veyis.manageMentorships.dto.UserDTO;
-import com.example.veyis.manageMentorships.entity.Users;
-import org.mapstruct.Mapper;
+import obss.intern.veyis.manageMentorships.dto.UserDTO;
+import obss.intern.veyis.manageMentorships.entity.Users;
+
 import java.util.List;
 
 

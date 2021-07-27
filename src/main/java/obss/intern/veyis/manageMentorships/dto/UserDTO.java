@@ -1,4 +1,4 @@
-package com.example.veyis.manageMentorships.dto;
+package obss.intern.veyis.manageMentorships.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

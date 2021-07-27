@@ -1,7 +1,7 @@
-package com.example.veyis.manageMentorships.repository;
+package obss.intern.veyis.manageMentorships.repository;
 
+import obss.intern.veyis.manageMentorships.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.veyis.manageMentorships.entity.Admin;
 
 public interface AdminRepository extends JpaRepository<Admin, Long> {
     Admin findByUsername(String username);

@@ -1,12 +1,12 @@
-package com.example.veyis.manageMentorships.entity;
+package obss.intern.veyis.manageMentorships.entity;
 
-import com.example.veyis.common.BaseEntity;
+import obss.intern.veyis.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Date;
 
 @Entity

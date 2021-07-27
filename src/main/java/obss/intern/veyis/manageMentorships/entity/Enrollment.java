@@ -1,5 +1,5 @@
-package com.example.veyis.manageMentorships.entity;
-import com.example.veyis.common.BaseEntity;
+package obss.intern.veyis.manageMentorships.entity;
+import obss.intern.veyis.common.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -8,9 +8,9 @@ import javax.persistence.*;
 @Getter
 public class Enrollment extends BaseEntity {
 
-    @Column(name = "PROGRAM_NAME")
+    @Column(name = "PROGRAM_ID")
     private Long program_id;
-    @Column(name = "MENTEE_USERNAME")
+    @Column(name = "MENTEE_ID")
     private Long mentee_id;
     @Column(name = "IS_ACTIVE")
     private boolean is_active;

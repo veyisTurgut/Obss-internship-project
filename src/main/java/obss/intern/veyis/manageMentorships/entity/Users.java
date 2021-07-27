@@ -1,9 +1,9 @@
-package com.example.veyis.manageMentorships.entity;
-import com.example.veyis.common.BaseEntity;
+package obss.intern.veyis.manageMentorships.entity;
+import obss.intern.veyis.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity

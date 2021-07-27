@@ -3,10 +3,10 @@
 // (powered by FernFlower decompiler)
 //
 
-package com.example.veyis.manageMentorships.mapper;
+package obss.intern.veyis.manageMentorships.mapper;
 
-import com.example.veyis.manageMentorships.dto.UserDTO;
-import com.example.veyis.manageMentorships.entity.Users;
+import obss.intern.veyis.manageMentorships.dto.UserDTO;
+import obss.intern.veyis.manageMentorships.entity.Users;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,8 +30,10 @@ public class UserMapperImpl implements UserMapper {
         if (userDTO == null) {
             return null;
         } else {
-            Users users = new Users();
-            return users;
+            Users user = new Users();
+            user.setUsername(userDTO.getUsername());
+            user.setGmail_address(userDTO.getGmail_address());
+            return user;
         }
     }
 

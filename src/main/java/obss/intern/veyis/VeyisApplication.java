@@ -1,4 +1,4 @@
-package com.example.veyis;
+package obss.intern.veyis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

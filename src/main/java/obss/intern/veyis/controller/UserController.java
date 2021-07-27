@@ -1,10 +1,10 @@
-package com.example.veyis.controller;
+package obss.intern.veyis.controller;
 
-import com.example.veyis.manageMentorships.dto.UserDTO;
-import com.example.veyis.manageMentorships.entity.Users;
-import com.example.veyis.manageMentorships.mapper.UserMapper;
-import com.example.veyis.manageMentorships.mapper.UserMapperImpl;
-import com.example.veyis.service.UserService;
+import obss.intern.veyis.manageMentorships.dto.UserDTO;
+import obss.intern.veyis.manageMentorships.entity.Program;
+import obss.intern.veyis.manageMentorships.entity.Users;
+import obss.intern.veyis.manageMentorships.mapper.UserMapperImpl;
+import obss.intern.veyis.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,20 +25,29 @@ public class UserController {
     private final UserMapperImpl userMapper;
 
     @GetMapping("/all")
-    public List<UserDTO> getAllUsers(){
+    public List<UserDTO> getAllUsers() {
         List<Users> users = userService.getAllUsers();
         System.out.println(users);
-        // ok so far. problem is in mapping
         return userMapper.mapToDto(new ArrayList<>(users));
     }
 
 
     @GetMapping("/{id}")
-    public UserDTO getAllUsers(@PathVariable int id){
-    //TODO: check id is valid.
+    public UserDTO getAllUsers(@PathVariable int id) {
+        //TODO: check id is valid.
         List<Users> users = userService.getAllUsers();
         System.out.println(users);
-        // ok so far. problem is in mapping
         return userMapper.mapToDto(users.get(id));
+    }
+
+    @GetMapping("/{user_id}/programsmenteed")
+//    public ProgramDTO getProgramsMenteed(@PathVariable int user_id){
+    public List<Program> getProgramsMenteed(@PathVariable int user_id) {
+        //TODO: check id is valid.
+        List<Program> programs = userService.getProgramsMenteed(user_id);
+        System.out.println(programs);
+        // ok so far. problem is in mapping
+        //return ProgramMapper.mapToDto();
+        return programs;
     }
 }

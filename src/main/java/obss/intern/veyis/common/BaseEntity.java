@@ -1,4 +1,4 @@
-package com.example.veyis.common;
+package obss.intern.veyis.common;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
