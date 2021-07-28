@@ -15,14 +15,12 @@ public class Users extends BaseEntity {
     private String username;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "GMAIL",unique = true)
-    private String gmail_address;
     @Column(name = "MENTORED_PROGRAM_ID")
-    private Long mentored_program_id;
+    private int mentored_program_id;
 
 
-    @Override
+    /*@Override
     public String toString(){
         return this.username + " " + this.getId();
-    }
+    }*/
 }

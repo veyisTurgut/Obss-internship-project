@@ -28,6 +28,6 @@ public class Phase extends BaseEntity {
     @Column(name = "IS_ACTIVE")
     private boolean is_active;
     @Column(name = "PROGRAM_ID")
-    private Long program_id;
+    private int program_id;
 
 }

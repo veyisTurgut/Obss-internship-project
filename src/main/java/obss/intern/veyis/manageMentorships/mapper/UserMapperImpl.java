@@ -21,7 +21,7 @@ public class UserMapperImpl implements UserMapper {
         if (user == null) {
             return null;
         } else {
-            UserDTO userDTO = new UserDTO(user.getUsername(),user.getGmail_address());
+            UserDTO userDTO = new UserDTO(user.getUsername());
             return userDTO;
         }
     }
@@ -32,7 +32,6 @@ public class UserMapperImpl implements UserMapper {
         } else {
             Users user = new Users();
             user.setUsername(userDTO.getUsername());
-            user.setGmail_address(userDTO.getGmail_address());
             return user;
         }
     }

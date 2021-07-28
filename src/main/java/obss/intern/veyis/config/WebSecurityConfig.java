@@ -38,6 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println(encoder.encode("admin2345"));
         System.out.println(encoder.encode("user1234"));
         System.out.println(encoder.encode("user2345"));
+        System.out.println(encoder.encode("user3456"));
+        System.out.println(encoder.encode("user4567"));
+        System.out.println(encoder.encode("user5678"));
+        System.out.println(encoder.encode("user6789"));
         */
     }
 
