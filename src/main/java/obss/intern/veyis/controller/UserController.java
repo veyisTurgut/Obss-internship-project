@@ -6,6 +6,8 @@ import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.mapper.UserMapperImpl;
 import obss.intern.veyis.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,13 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapperImpl userMapper;
+
+    @GetMapping("/")
+    public String index(){
+        SecurityContext context = SecurityContextHolder.getContext();
+        System.out.println(context.getAuthentication().getAuthorities());
+        return context.getAuthentication().toString();
+    }
 
     @GetMapping("/all")
     public List<UserDTO> getAllUsers() {
