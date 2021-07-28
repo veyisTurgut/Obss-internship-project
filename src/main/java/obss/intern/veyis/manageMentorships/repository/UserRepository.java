@@ -12,9 +12,9 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<Users, Long> {
     Users findByUsername(String username);
 
-    @Query(value = "SELECT PROGRAM.programname,PROGRAM.startdate,PROGRAM.enddate,PROGRAM.status \n" +
-            " FROM \n" +
-            " (SELECT program_id FROM ENROLLMENT WHERE mentee_id = :user_id) E, PROGRAM \n" +
+    @Query(value = "SELECT PROGRAM.programname,PROGRAM.startdate,PROGRAM.enddate,PROGRAM.status FROM \n" +
+            " (SELECT program_id FROM ENROLLMENT WHERE mentee_id = ?1) E, PROGRAM \n" +
             " WHERE PROGRAM.id = E.program_id; ", nativeQuery = true)
+
     List<Program> findAllProgramsMenteed(@Param("user_id")int user_id);
 }
