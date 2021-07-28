@@ -1,5 +1,6 @@
 package obss.intern.veyis.controller;
 
+import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Users;
@@ -9,13 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,22 +40,42 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
-    public UserDTO getAllUsers(@PathVariable int id) {
-        //TODO: check id is valid.
-        List<Users> users = userService.getAllUsers();
-        System.out.println(users);
-        return userMapper.mapToDto(users.get(id));
+    @GetMapping("/{user_id}")
+    public UserDTO getAllUsers(@PathVariable Integer user_id) {
+        Users user = userService.getUserById(user_id);
+        System.out.println(user);
+        return userMapper.mapToDto(user);
     }
 
     @GetMapping("/{user_id}/programsmenteed")
 //    public ProgramDTO getProgramsMenteed(@PathVariable int user_id){
-    public List<Program> getProgramsMenteed(@PathVariable int user_id) {
+    public List<Program> getProgramsMenteed(@PathVariable Integer user_id) {
         //TODO: check id is valid.
+
+        System.out.println(userService.getProgramsMenteed(user_id));
+
         List<Program> programs = userService.getProgramsMenteed(user_id);
         System.out.println(programs);
         // ok so far. problem is in mapping
         //return ProgramMapper.mapToDto();
         return programs;
     }
+    @GetMapping("/{username}/programsmenteed2")
+//    public ProgramDTO getProgramsMenteed(@PathVariable int user_id){
+    public List<Program> getProgramsMenteed2(@PathVariable String username) {
+        //TODO: check id is valid.
+        System.out.println(username);
+        List<Program> programs = userService.getProgramsMenteed(username);
+        System.out.println(programs);
+        // ok so far. problem is in mapping
+        //return ProgramMapper.mapToDto();
+        return programs;
+    }
+
+    @GetMapping("/{username}/programMentored")
+    public Program getProgramMentored(@PathVariable String username){
+        return userService.getProgramMentored(username);
+    }
+
+
 }

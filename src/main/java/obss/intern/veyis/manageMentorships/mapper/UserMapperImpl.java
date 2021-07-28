@@ -21,7 +21,7 @@ public class UserMapperImpl implements UserMapper {
         if (user == null) {
             return null;
         } else {
-            UserDTO userDTO = new UserDTO(user.getUsername());
+            UserDTO userDTO = new UserDTO(user.getUsername(),user.getMentored_program_id());
             return userDTO;
         }
     }

@@ -14,9 +14,9 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class MentorshipApplication extends BaseEntity {
     @Column(name = "APPLICANT_ID")
-    private int applicant_userid;
+    private Integer applicant_userid;
     @Column(name = "EXPERIENCE")
     private String experience;
     @Column(name = "IS_ACTIVE")
-    private boolean is_active;
+    private Boolean is_active;
 }

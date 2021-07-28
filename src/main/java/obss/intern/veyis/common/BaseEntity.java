@@ -21,11 +21,11 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idgen")
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @Version
     @Column(name = "VERSION")
-    private int version;
+    private Integer version;
 
     @CreatedDate
     @Column(name = "CREATED", updatable = false)

@@ -72,4 +72,3 @@ VALUES (39,33,37,'was a good program','it was nice to work with these amazing me
 ON CONFLICT DO NOTHING;
 
 
-

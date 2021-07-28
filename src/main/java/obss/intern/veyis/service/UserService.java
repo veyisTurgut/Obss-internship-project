@@ -18,6 +18,19 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Program getProgramMentored(String username) {
+        return userRepository.findProgramMentored(username);
+    }
 
-    public List<Program> getProgramsMenteed(int user_id) { return userRepository.findAllProgramsMenteed(user_id);    }
+    public List<Program> getProgramsMenteed(int user_id) {
+        return userRepository.findAllProgramsMenteed(user_id);
+    }
+
+    public List<Program> getProgramsMenteed(String username) {
+        return userRepository.findAllProgramsMenteed(username);
+    }
+
+    public Users getUserById(Integer user_id) {
+        return userRepository.findById(user_id);
+    }
 }

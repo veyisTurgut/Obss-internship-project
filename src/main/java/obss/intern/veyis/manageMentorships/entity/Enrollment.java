@@ -9,11 +9,11 @@ import javax.persistence.*;
 public class Enrollment extends BaseEntity {
 
     @Column(name = "PROGRAM_ID")
-    private int program_id;
+    private Integer program_id;
     @Column(name = "MENTEE_ID")
-    private int mentee_id;
+    private Integer mentee_id;
     @Column(name = "IS_ACTIVE")
-    private boolean is_active;
+    private Boolean is_active;
     @Column(name = "MENTORCOMMENT")
     private String mentor_comment;
     @Column(name = "MENTEECOMMENT")

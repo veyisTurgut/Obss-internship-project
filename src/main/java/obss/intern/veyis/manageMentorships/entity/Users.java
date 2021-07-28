@@ -16,7 +16,7 @@ public class Users extends BaseEntity {
     @Column(name = "PASSWORD")
     private String password;
     @Column(name = "MENTORED_PROGRAM_ID")
-    private int mentored_program_id;
+    private Integer mentored_program_id;
 
 
     /*@Override

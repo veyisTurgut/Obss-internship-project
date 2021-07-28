@@ -14,8 +14,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class ApplicationSubsubjects extends BaseEntity {
     @Column(name = "SUBSUBJECT_ID", unique = true)
-    private int subsubject_id;
+    private Integer subsubject_id;
     @Column(name = "APPLICATION_ID", unique = true)
-    private int application_d;
+    private Integer application_d;
 
 }

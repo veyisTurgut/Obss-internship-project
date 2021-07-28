@@ -16,15 +16,14 @@ public class UserDTO {
     @JsonProperty("username")
     @NotBlank(message = "Kullanıcı adı boş olamaz!")
     private String username;
-    /*
-    @JsonProperty("gmail_address")
-    @Email(message = "gmail adresi geçerli olmalı!")
-    private String gmail_address;
-*/
+
+    @JsonProperty("program_mentored")
+    private Integer program_mentored;
+
     @JsonCreator
     public UserDTO(@JsonProperty("username") String username
-                   /*,@JsonProperty("gmail_address") String gmail_address*/) {
+                   ,@JsonProperty("program_mentored") Integer program_mentored) {
         this.username = username;
-/*        this.gmail_address = gmail_address;*/
+       this.program_mentored = program_mentored;
     }
 }

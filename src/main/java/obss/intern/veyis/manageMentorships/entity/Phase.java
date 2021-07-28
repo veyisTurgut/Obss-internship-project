@@ -22,12 +22,12 @@ public class Phase extends BaseEntity {
     @Column(name = "ENDDATE")
     private Date end_date;
     @Column(name = "POINT")
-    private int point;
+    private Integer point;
     @Column(name = "EXPERIENCE")
     private String experience;
     @Column(name = "IS_ACTIVE")
-    private boolean is_active;
+    private Boolean is_active;
     @Column(name = "PROGRAM_ID")
-    private int program_id;
+    private Integer program_id;
 
 }

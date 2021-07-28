@@ -16,6 +16,6 @@ public class Subsubject extends BaseEntity {
     @Column(name = "SUBSUBJECT_NAME", unique = true)
     private String subsubject_name;
     @Column(name = "SUBJECT_ID")
-    private int subject_id;
+    private Integer subject_id;
 
 }
