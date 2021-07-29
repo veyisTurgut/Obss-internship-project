@@ -1,20 +1,19 @@
 package obss.intern.veyis.manageMentorships.entity;
 
-import obss.intern.veyis.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Phase extends BaseEntity {
+public class Phase {
 
+    @Id
     @Column(name = "PHASENAME", unique = true)
     private String phase_name;
     @Column(name = "STARTDATE")
@@ -25,9 +24,9 @@ public class Phase extends BaseEntity {
     private Integer point;
     @Column(name = "EXPERIENCE")
     private String experience;
-    @Column(name = "IS_ACTIVE")
-    private Boolean is_active;
-    @Column(name = "PROGRAM_ID")
-    private Integer program_id;
+
+    @ManyToOne
+    @JoinColumn(name = "PROGRAM_NAME")
+    private Program  program;
 
 }

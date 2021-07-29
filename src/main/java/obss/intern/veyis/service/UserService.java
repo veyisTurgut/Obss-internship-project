@@ -30,7 +30,7 @@ public class UserService {
         return userRepository.findAllProgramsMenteed(username);
     }
 
-    public Users getUserById(Integer user_id) {
+    /*public Users getUserById(Integer user_id) {
         return userRepository.findById(user_id);
-    }
+    }*/
 }

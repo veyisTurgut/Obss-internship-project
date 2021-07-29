@@ -39,14 +39,14 @@ public class UserController {
         return userMapper.mapToDto(new ArrayList<>(users));
     }
 
-
+/*
     @GetMapping("/{user_id}")
     public UserDTO getAllUsers(@PathVariable Integer user_id) {
         Users user = userService.getUserById(user_id);
         System.out.println(user);
         return userMapper.mapToDto(user);
     }
-
+*/
     @GetMapping("/{user_id}/programsmenteed")
 //    public ProgramDTO getProgramsMenteed(@PathVariable int user_id){
     public List<Program> getProgramsMenteed(@PathVariable Integer user_id) {

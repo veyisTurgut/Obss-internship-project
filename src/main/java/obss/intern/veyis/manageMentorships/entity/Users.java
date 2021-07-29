@@ -1,22 +1,26 @@
 package obss.intern.veyis.manageMentorships.entity;
-import obss.intern.veyis.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Users extends BaseEntity {
+public class Users  {
+    @Id
     @Column(name = "USERNAME", unique = true)
     private String username;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "MENTORED_PROGRAM_ID")
-    private Integer mentored_program_id;
+    @Column(name = "MENTORED_PROGRAM_NAME")
+    private String mentored_program_name;
+
+    @OneToMany(mappedBy = "mentee")
+    Set<Enrollment> enrollmentSet;
 
 
     /*@Override

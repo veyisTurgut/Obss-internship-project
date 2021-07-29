@@ -22,8 +22,7 @@ public class UserDTO {
 
     @JsonCreator
     public UserDTO(@JsonProperty("username") String username
-                   ,@JsonProperty("program_mentored") Integer program_mentored) {
+                   ) {
         this.username = username;
-       this.program_mentored = program_mentored;
     }
 }

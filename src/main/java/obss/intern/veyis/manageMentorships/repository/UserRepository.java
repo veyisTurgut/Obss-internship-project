@@ -30,5 +30,4 @@ public interface UserRepository extends JpaRepository<Users, Long> {
             nativeQuery = true)
     Program findProgramMentored(@Param("username") String username);
 
-    Users findById(Integer user_id);
 }

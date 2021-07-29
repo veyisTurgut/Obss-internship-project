@@ -1,19 +1,22 @@
 package obss.intern.veyis.manageMentorships.entity;
 
-import obss.intern.veyis.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Program extends BaseEntity {
+public class Program  {
+    @Id
     @Column(name = "PROGRAMNAME", unique = true)
     private String program_name;
     @Column(name = "STATUS")
@@ -22,4 +25,10 @@ public class Program extends BaseEntity {
     private Date start_date;
     @Column(name = "ENDDATE")
     private Date end_date;
+
+    @OneToMany(mappedBy = "program")
+    Set<Enrollment> enrollmentSet;
+
+    @OneToMany(mappedBy = "program")
+    Set<Phase> phases;
 }

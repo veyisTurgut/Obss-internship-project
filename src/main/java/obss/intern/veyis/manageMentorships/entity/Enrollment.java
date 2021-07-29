@@ -1,22 +1,28 @@
 package obss.intern.veyis.manageMentorships.entity;
-import obss.intern.veyis.common.BaseEntity;
 import lombok.Getter;
+import obss.intern.veyis.manageMentorships.entity.keysAndIds.EnrollmentKey;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class Enrollment extends BaseEntity {
+public class Enrollment  {
 
-    @Column(name = "PROGRAM_ID")
-    private Integer program_id;
-    @Column(name = "MENTEE_ID")
-    private Integer mentee_id;
-    @Column(name = "IS_ACTIVE")
+    @EmbeddedId
+    EnrollmentKey id;
+
+    @ManyToOne
+    @MapsId("program_name")
+    @JoinColumn(name = "program_name")
+    private Program program;
+
+    @ManyToOne
+    @MapsId("mentee_username")
+    @JoinColumn(name = "MENTEE_NAME")
+    private Users mentee;
+
     private Boolean is_active;
-    @Column(name = "MENTORCOMMENT")
     private String mentor_comment;
-    @Column(name = "MENTEECOMMENT")
     private String mentee_comment;
 
 }
