@@ -1,10 +1,13 @@
 package obss.intern.veyis.controller;
 
 import obss.intern.veyis.config.response.MessageResponse;
+import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
 import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.dto.UserDTO;
+import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Users;
+import obss.intern.veyis.manageMentorships.mapper.ApplicationMapperImpl;
 import obss.intern.veyis.manageMentorships.mapper.UserMapperImpl;
 import obss.intern.veyis.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapperImpl userMapper;
+    private final ApplicationMapperImpl applicationMapper;
 
     @GetMapping("/")
     public String index(){
@@ -60,6 +64,13 @@ public class UserController {
     @GetMapping("/{username}/programMentored")
     public Program getProgramMentored(@PathVariable String username){
         return userService.getProgramMentored(username);
+    }
+
+    @GetMapping("/{username}/applications")
+    public List<ApplicationDTO> getMentorshipApplications(@PathVariable String username){
+        List<MentorshipApplication> applications = userService.getMentorshipApplications(username);
+        return (applications == null) ? null : applicationMapper.mapToDto(applications);
+
     }
 
 

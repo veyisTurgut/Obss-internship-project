@@ -24,7 +24,8 @@ public class ApplicationService {
     private final SubjectRepository subjectRepository;
 
     public List<MentorshipApplication> findAllApplications() {
-        return applicationRepository.findAllApplications();
+        List<MentorshipApplication> list =  applicationRepository.findAllApplications();
+        return list;
     }
 
     public MessageResponse addMentorshipApplication(MentorshipApplication application) {
@@ -38,7 +39,7 @@ public class ApplicationService {
             return new MessageResponse("subject not found", MessageType.ERROR);
         }
 
-        MentorshipApplication application_from_db = applicationRepository.findByKeys(application.getApplicant().getUsername(), application.getSubject().getSubject_name(), application.getSubject().getSubsubject_name());
+        MentorshipApplication application_from_db = applicationRepository.findByKeys(user.getUsername(),subject.getId());
         if (application_from_db != null) {
             return new MessageResponse("application already exists", MessageType.ERROR);
         }

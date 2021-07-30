@@ -3,6 +3,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.EnrollmentKey;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -18,12 +20,14 @@ public class Enrollment  {
     @MapsId("program_name")
     @JoinColumn(name = "program_name")
     @JsonIgnoreProperties({"enrollmentSet"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Program program;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @MapsId("mentee_username")
     @JoinColumn(name = "mentee_username")
     @JsonIgnoreProperties({"enrollmentSet"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Users mentee;
 
     private Boolean is_active;

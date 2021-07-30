@@ -1,5 +1,6 @@
 package obss.intern.veyis.manageMentorships.entity.compositeKeys;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.entity.Users;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode(of = "id")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class MentorshipApplicationKey implements Serializable {
 
     @Column(name= "subject_id")
