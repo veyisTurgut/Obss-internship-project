@@ -3,6 +3,7 @@ package obss.intern.veyis.service;
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
+import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.entity.Users;
@@ -45,5 +46,19 @@ public class ApplicationService {
         }
         applicationRepository.save(application);
         return new MessageResponse("success", MessageType.SUCCESS);
+    }
+
+    public MessageResponse deleteMentorshipApplication(ApplicationDTO applicationDTO){
+        Subject subject = subjectRepository.findSubject(applicationDTO.getSubject_name(),applicationDTO.getSubsubject_name());
+        //subject must be nonnull, so need to check.
+
+        MentorshipApplication application = applicationRepository.findByKeys(applicationDTO.getApplicant_username(),subject.getId());
+        if (application==null){
+            return new MessageResponse("Yok zaten.",MessageType.ERROR);
+        }
+        applicationRepository.delete(application);
+        return new MessageResponse("Silindi.",MessageType.SUCCESS);
+
+
     }
 }

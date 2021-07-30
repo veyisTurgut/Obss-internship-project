@@ -27,13 +27,19 @@ public class ApplicationController {
     private final ApplicationMapperImpl applicationMapper;
 
 
-    @PostMapping("/applyForMentorship")
+    @PostMapping()
     public MessageResponse applyForMentorship(@RequestBody ApplicationDTO applicationDTO){
-        MessageResponse application = applicationService.addMentorshipApplication(applicationMapper.mapToEntity(applicationDTO));
-        return application;
+        return applicationService.addMentorshipApplication(applicationMapper.mapToEntity(applicationDTO));
     }
     @GetMapping("/all")
     public List<MentorshipApplication> allApplications(){
         return applicationService.findAllApplications();
     }
+
+    @DeleteMapping()
+    public MessageResponse deleteMentorshipApplication(@RequestBody ApplicationDTO applicationDTO){
+        return applicationService.deleteMentorshipApplication(applicationDTO);
+    }
+
+
 }
