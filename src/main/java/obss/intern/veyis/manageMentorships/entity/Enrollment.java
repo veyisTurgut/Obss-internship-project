@@ -1,24 +1,29 @@
 package obss.intern.veyis.manageMentorships.entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
-import obss.intern.veyis.manageMentorships.entity.keysAndIds.EnrollmentKey;
+import lombok.Setter;
+import obss.intern.veyis.manageMentorships.entity.compositeKeys.EnrollmentKey;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 public class Enrollment  {
 
     @EmbeddedId
     EnrollmentKey id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @MapsId("program_name")
     @JoinColumn(name = "program_name")
+    @JsonIgnoreProperties({"enrollmentSet"})
     private Program program;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @MapsId("mentee_username")
-    @JoinColumn(name = "MENTEE_NAME")
+    @JoinColumn(name = "mentee_username")
+    @JsonIgnoreProperties({"enrollmentSet"})
     private Users mentee;
 
     private Boolean is_active;

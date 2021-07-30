@@ -21,8 +21,7 @@ public class UserDTO {
     private Integer program_mentored;
 
     @JsonCreator
-    public UserDTO(@JsonProperty("username") String username
-                   ) {
+    public UserDTO(@JsonProperty("username") String username) {
         this.username = username;
     }
 }

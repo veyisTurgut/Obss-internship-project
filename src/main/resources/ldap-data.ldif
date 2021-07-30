@@ -46,13 +46,13 @@ sn: Hamilton
 uid: admin2
 userPassword: $2a$10$DiCiFafymzmdqaOfhlwxQu.yA79T25hwuCGL08HGwOFEneeWnRr3q
 
-dn: uid=user1,ou=otherpeople,dc=springframework,dc=org
+dn: uid=user1,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Joe Smeth
-sn: Smeth
+cn: First User
+sn: First
 uid: user1
 userPassword: $2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86
 
@@ -61,8 +61,8 @@ objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Mouse, Jerry
-sn: Mouse
+cn: Second, User
+sn: Second
 uid: user2
 userPassword: $2a$10$Z329QvVPCViUzQnlK5l/qOO3qc25YrlORlyJhc0xdruFurvzp8v0i
 
@@ -71,8 +71,8 @@ objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Mouse, Jerry
-sn: Mouse
+cn: Third, User
+sn: Third
 uid: user3
 userPassword: $2a$10$gyZagwu.9vysY39jsEA0BeDwc8TDh.P8cHWkJQQe2oSvNZq/DO2Ou
 
@@ -125,3 +125,7 @@ cn: users
 ou: user
 uniqueMember: uid=user1,ou=people,dc=springframework,dc=org
 uniqueMember: uid=user2,ou=people,dc=springframework,dc=org
+uniqueMember: uid=user3,ou=people,dc=springframework,dc=org
+uniqueMember: uid=user4,ou=people,dc=springframework,dc=org
+uniqueMember: uid=user5,ou=people,dc=springframework,dc=org
+uniqueMember: uid=user6,ou=people,dc=springframework,dc=org

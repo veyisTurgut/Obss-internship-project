@@ -1,5 +1,6 @@
 package obss.intern.veyis.manageMentorships.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,9 +27,11 @@ public class Program  {
     @Column(name = "ENDDATE")
     private Date end_date;
 
+    @JsonIgnoreProperties({"program"})
     @OneToMany(mappedBy = "program")
     Set<Enrollment> enrollmentSet;
 
+    @JsonIgnoreProperties({"program"})
     @OneToMany(mappedBy = "program")
     Set<Phase> phases;
 }

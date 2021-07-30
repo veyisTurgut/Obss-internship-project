@@ -1,6 +1,7 @@
 package obss.intern.veyis.controller;
 
 import obss.intern.veyis.config.response.MessageResponse;
+import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Users;
@@ -29,6 +30,11 @@ public class UserController {
     public String index(){
         SecurityContext context = SecurityContextHolder.getContext();
         System.out.println(context.getAuthentication().getAuthorities());
+        System.out.println(context.getAuthentication().getDetails());
+        String details = context.getAuthentication().getDetails().toString();
+        String session_id = details.substring(details.indexOf("SessionId")+10,details.indexOf("]"));
+        System.out.println(session_id);
+
         return context.getAuthentication().toString();
     }
 
@@ -39,30 +45,9 @@ public class UserController {
         return userMapper.mapToDto(new ArrayList<>(users));
     }
 
-/*
-    @GetMapping("/{user_id}")
-    public UserDTO getAllUsers(@PathVariable Integer user_id) {
-        Users user = userService.getUserById(user_id);
-        System.out.println(user);
-        return userMapper.mapToDto(user);
-    }
-*/
-    @GetMapping("/{user_id}/programsmenteed")
-//    public ProgramDTO getProgramsMenteed(@PathVariable int user_id){
-    public List<Program> getProgramsMenteed(@PathVariable Integer user_id) {
-        //TODO: check id is valid.
 
-        System.out.println(userService.getProgramsMenteed(user_id));
-
-        List<Program> programs = userService.getProgramsMenteed(user_id);
-        System.out.println(programs);
-        // ok so far. problem is in mapping
-        //return ProgramMapper.mapToDto();
-        return programs;
-    }
-    @GetMapping("/{username}/programsmenteed2")
-//    public ProgramDTO getProgramsMenteed(@PathVariable int user_id){
-    public List<Program> getProgramsMenteed2(@PathVariable String username) {
+    @GetMapping("/{username}/programsmenteed")
+    public List<Program> getProgramsMenteed(@PathVariable String username) {
         //TODO: check id is valid.
         System.out.println(username);
         List<Program> programs = userService.getProgramsMenteed(username);

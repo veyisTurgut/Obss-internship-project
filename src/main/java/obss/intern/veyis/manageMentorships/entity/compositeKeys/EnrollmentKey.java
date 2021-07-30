@@ -1,10 +1,13 @@
-package obss.intern.veyis.manageMentorships.entity.keysAndIds;
+package obss.intern.veyis.manageMentorships.entity.compositeKeys;
+
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
+@EqualsAndHashCode(of = "id")
 public class EnrollmentKey implements Serializable {
     @Column(name= "mentee_username")
     String mentee_username;

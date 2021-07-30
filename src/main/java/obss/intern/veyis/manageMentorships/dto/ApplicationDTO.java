@@ -11,28 +11,30 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class ApplicationDTO {
 
-    @JsonProperty("user_id")
+    @JsonProperty("applicant_username")
     @NotBlank(message = "Kullanıcı adı boş olamaz!")
-    private Integer user_id;
+    private String applicant_username;
 
-    @JsonProperty("subject_id")
-    private Integer subject_id;
+    @JsonProperty("subject_name")
+    @NotBlank(message = "Başlık adı boş olamaz!")
+    private String subject_name;
 
-    @JsonProperty("subsubject_id")
-    private Integer subsubject_id;
+    @JsonProperty("subsubject_name")
+    @NotBlank(message = "Altbaşlık adı boş olamaz!")
+    private String  subsubject_name;
 
 
     @JsonProperty("experience")
     private String experience;
 
     @JsonCreator
-    public ApplicationDTO(@JsonProperty("user_id") Integer user_id,
-                          @JsonProperty("subject_id") Integer subject_id,
-                          @JsonProperty("subsubject_id") Integer subsubject_id,
+    public ApplicationDTO(@JsonProperty("applicant_username") String applicant_username,
+                          @JsonProperty("subject_name") String subject_name,
+                          @JsonProperty("subsubject_name") String subsubject_name,
                           @JsonProperty("experience") String experience) {
-        this.user_id = user_id;
-        this.subject_id = subject_id;
-        this.subsubject_id = subsubject_id;
+        this.applicant_username = applicant_username;
+        this.subject_name = subject_name;
+        this.subsubject_name = subsubject_name;
         this.experience = experience;
     }
 }
