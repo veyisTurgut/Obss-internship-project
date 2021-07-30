@@ -6,13 +6,12 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-
 @Embeddable
 @EqualsAndHashCode(of = "id")
-public class EnrollmentKey implements Serializable {
-    @Column(name= "mentee_username")
-    String mentee_username;
-    @Column(name= "program_name")
-    String program_name;
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
+public class ProgramId implements Serializable {
+
+    @Column(name= "PROGRAM_ID")
+    private Long program_id;
 
 }

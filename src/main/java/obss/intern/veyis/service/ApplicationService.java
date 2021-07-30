@@ -25,7 +25,7 @@ public class ApplicationService {
     private final SubjectRepository subjectRepository;
 
     public List<MentorshipApplication> findAllApplications() {
-        List<MentorshipApplication> list =  applicationRepository.findAllApplications();
+        List<MentorshipApplication> list = applicationRepository.findAllApplications();
         return list;
     }
 
@@ -40,7 +40,7 @@ public class ApplicationService {
             return new MessageResponse("subject not found", MessageType.ERROR);
         }
 
-        MentorshipApplication application_from_db = applicationRepository.findByKeys(user.getUsername(),subject.getId());
+        MentorshipApplication application_from_db = applicationRepository.findByKeys(user.getUsername(), subject.getSubject_id());
         if (application_from_db != null) {
             return new MessageResponse("application already exists", MessageType.ERROR);
         }
@@ -48,17 +48,33 @@ public class ApplicationService {
         return new MessageResponse("success", MessageType.SUCCESS);
     }
 
-    public MessageResponse deleteMentorshipApplication(ApplicationDTO applicationDTO){
-        Subject subject = subjectRepository.findSubject(applicationDTO.getSubject_name(),applicationDTO.getSubsubject_name());
+    public MessageResponse rejectMentorshipApplication(ApplicationDTO applicationDTO) {
+        Subject subject = subjectRepository.findSubject(applicationDTO.getSubject_name(), applicationDTO.getSubsubject_name());
         //subject must be nonnull, so need to check.
 
-        MentorshipApplication application = applicationRepository.findByKeys(applicationDTO.getApplicant_username(),subject.getId());
-        if (application==null){
-            return new MessageResponse("Yok zaten.",MessageType.ERROR);
+        MentorshipApplication application = applicationRepository.findByKeys(applicationDTO.getApplicant_username(), subject.getSubject_id());
+        if (application == null) {
+            return new MessageResponse("Yok zaten.", MessageType.ERROR);
         }
-        applicationRepository.delete(application);
-        return new MessageResponse("Silindi.",MessageType.SUCCESS);
-
+        //applicationRepository.delete(application);
+        //applicationRepository.deleteApplication(application.getApplicant().getUsername(), application.getSubject().getId());
+        applicationRepository.rejectApplication(application.getApplicant().getUsername(), application.getSubject().getSubject_id());
+        return new MessageResponse("Silindi.", MessageType.SUCCESS);
 
     }
+
+    public MessageResponse updateMentorshipApplication(ApplicationDTO applicationDTO) {
+        Subject subject = subjectRepository.findSubject(applicationDTO.getSubject_name(), applicationDTO.getSubsubject_name());
+        if (subject == null) {
+            return new MessageResponse("Konu başlıklarını kontrol et!", MessageType.ERROR);
+        }
+        MentorshipApplication application = applicationRepository.findByKeys(applicationDTO.getApplicant_username(), subject.getSubject_id());
+        if (application == null) {
+            return new MessageResponse("Yok zaten.", MessageType.ERROR);
+        }
+        application.setExperience(applicationDTO.getExperience());
+        applicationRepository.save(application);
+        return new MessageResponse("experience updated.", MessageType.SUCCESS);
+    }
+
 }

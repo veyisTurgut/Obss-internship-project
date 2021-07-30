@@ -17,8 +17,6 @@ public class UserDTO {
     @NotBlank(message = "Kullanıcı adı boş olamaz!")
     private String username;
 
-    @JsonProperty("program_mentored")
-    private Integer program_mentored;
 
     @JsonCreator
     public UserDTO(@JsonProperty("username") String username) {

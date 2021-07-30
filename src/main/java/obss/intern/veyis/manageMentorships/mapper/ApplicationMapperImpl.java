@@ -27,6 +27,7 @@ public class ApplicationMapperImpl implements ApplicationMapper {
         }
     }
 
+    // not working
     @Override
     public MentorshipApplication mapToEntity(ApplicationDTO applicationDTO) {
         if (applicationDTO == null) {
@@ -59,6 +60,7 @@ public class ApplicationMapperImpl implements ApplicationMapper {
         }
     }
 
+    // not working
     @Override
     public List<MentorshipApplication> mapToEntity(List<ApplicationDTO> applicationDTOList) {
         if (applicationDTOList == null) {

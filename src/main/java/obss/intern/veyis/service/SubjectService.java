@@ -32,7 +32,7 @@ public class SubjectService {
             return new MessageResponse("Zaten yok!", MessageType.ERROR);
         }
         //subjectRepository.delete(subject);
-        subjectRepository.deleteSubject(subject.getId());
+        subjectRepository.deleteSubject(subject.getSubject_id());
         return new MessageResponse("Silindi",MessageType.SUCCESS);
     }
 }

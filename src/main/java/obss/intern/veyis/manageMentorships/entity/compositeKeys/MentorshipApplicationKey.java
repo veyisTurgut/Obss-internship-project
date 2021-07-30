@@ -15,13 +15,7 @@ import java.io.Serializable;
 public class MentorshipApplicationKey implements Serializable {
 
     @Column(name= "subject_id")
-
     private Long subject_id;
-
-    /*
-    private String subject_name;
-    private String subsubject_name;
-     */
 
     @Column(name= "applicant_username")
     private String applicant_username;

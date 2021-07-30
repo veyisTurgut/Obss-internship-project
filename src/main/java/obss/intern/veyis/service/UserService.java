@@ -42,7 +42,7 @@ public class UserService {
         if (user == null) {
             return null;
         }
-        return applicationRepository.findMentorshipApplicationsByApplicantLike(user);
+        return applicationRepository.findMentorshipApplicationsByApplicant(user);
     }
 
 }

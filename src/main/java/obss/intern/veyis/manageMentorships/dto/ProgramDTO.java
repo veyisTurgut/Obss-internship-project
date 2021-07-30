@@ -19,7 +19,6 @@ public class ProgramDTO {
     @JsonProperty("enddate")
     private Date enddate;
 
-
     @JsonProperty("startdate")
     private Date startdate;
 

@@ -16,14 +16,14 @@ public class MentorshipApplication  {
     @EmbeddedId
     MentorshipApplicationKey id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("applicant_username")
     @JoinColumn(name = "applicant_username")
     @JsonIgnoreProperties({"applicationSet"})
     private Users applicant;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.LAZY)
     @MapsId("subject_id")
     @JoinColumn(name = "subject_id")
     @JsonIgnoreProperties({"applicationSet"})

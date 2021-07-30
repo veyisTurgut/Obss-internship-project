@@ -4,13 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -18,22 +14,36 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
-public class Program  {
-    @Id
-    @Column(name = "PROGRAMNAME", unique = true)
-    private String program_name;
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
+public class Program {
+
+    @EmbeddedId
+    @GeneratedValue
+    @Column(name = "PROGRAM_ID")
+    private ProgramId program_id;
     @Column(name = "STATUS")
     private String status;
     @Column(name = "STARTDATE")
     private Date start_date;
     @Column(name = "ENDDATE")
     private Date end_date;
+    @Column(name = "IS_ACTIVE")
+    private Boolean is_active;
+    @Column(name = "MENTEE_COMMENT")
+    private String mentee_comment;
+    @Column(name = "MENTOR_COMMENT")
+    private String mentor_comment;
 
-    @JsonIgnoreProperties({"program"})
-    @OneToMany(mappedBy = "program")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    Set<Enrollment> enrollmentSet;
+
+    @JsonIgnoreProperties({"programsMentored"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mentor_username")
+    Users mentor;
+
+    @JsonIgnoreProperties({"programsMenteed"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mentee_username")
+    Users mentee;
 
     @JsonIgnoreProperties({"program"})
     @OneToMany(mappedBy = "program")
