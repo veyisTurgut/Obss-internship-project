@@ -1,6 +1,5 @@
 package obss.intern.veyis.manageMentorships.repository;
 
-import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.entity.Program;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +15,6 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     Program findByKeys(@Param("mentee_username") String mentee_username, @Param("mentor_username") String mentor_username,
                        @Param("subject_name") String subject_name, @Param("subsubject_name") String subsubject_name);
 
-
+    @Query(value = "SELECT * FROM program WHERE program_id = ?1", nativeQuery = true)
+    Program getProgramById(@Param("program_id") Long program_id);
 }

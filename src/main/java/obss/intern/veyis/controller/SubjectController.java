@@ -5,7 +5,6 @@ import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
 import obss.intern.veyis.manageMentorships.mapper.SubjectMapper;
 import obss.intern.veyis.service.SubjectService;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

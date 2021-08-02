@@ -17,4 +17,5 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     @Transactional
     @Modifying
     void deleteSubject(@Param("subject_id") Long id);
+
 }

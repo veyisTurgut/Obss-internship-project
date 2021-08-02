@@ -5,14 +5,20 @@ import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.manageMentorships.dto.PhaseDTO;
 import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.entity.Phase;
-import obss.intern.veyis.manageMentorships.entity.Program;
-import obss.intern.veyis.manageMentorships.mapper.PhaseMapper;
-import obss.intern.veyis.manageMentorships.mapper.ProgramMapper;
+import obss.intern.veyis.manageMentorships.entity.Subject;
+import obss.intern.veyis.manageMentorships.entity.Users;
+import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
+import obss.intern.veyis.manageMentorships.mapper.PhaseMapperImpl;
+import obss.intern.veyis.manageMentorships.mapper.ProgramMapperImpl;
 import obss.intern.veyis.service.ProgramService;
+import obss.intern.veyis.service.SubjectService;
+import obss.intern.veyis.service.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,10 +26,11 @@ import java.util.List;
 @RequestMapping("/programs")
 public class ProgramController {
 
-    private final ProgramMapper programMapper;
-    private final PhaseMapper phaseMapper;
+    private final ProgramMapperImpl programMapper;
+    private final PhaseMapperImpl phaseMapper;
     private final ProgramService programService;
-
+    private final UserService userService;
+    private final SubjectService subjectService;
 
     @GetMapping("/all")
     public List<ProgramDTO> getAllPrograms() {
@@ -52,7 +59,12 @@ public class ProgramController {
 
     @PostMapping()
     public MessageResponse addProgram(@RequestBody @Validated ProgramDTO programDTO) {
-        return programService.addProgram(programMapper.mapToEntity(programDTO));
+        Users Mentor = userService.getUser(programDTO.getMentor_username());
+        Users Mentee = userService.getUser(programDTO.getMentee_username());
+        Set<Phase> phases = phaseMapper.mapToEntity(programDTO.getPhases().stream().collect(Collectors.toList())).stream().collect(Collectors.toSet());
+        Subject subject = subjectService.getByKeys(programDTO.getSubject_name(), programDTO.getSubsubject_name());
+
+        return programService.addProgram(programMapper.mapToEntity(programDTO, Mentor, Mentee, phases, subject));
     }
 
 
