@@ -35,4 +35,14 @@ public class SubjectService {
         subjectRepository.deleteSubject(subject.getSubject_id());
         return new MessageResponse("Silindi",MessageType.SUCCESS);
     }
+
+    public MessageResponse deleteSubjectById(Long subject_id) {
+        Subject subject = subjectRepository.getById(subject_id);
+        if (subject== null){
+            return new MessageResponse("Zaten yok!", MessageType.ERROR);
+        }
+        //subjectRepository.delete(subject);
+        subjectRepository.deleteSubject(subject.getSubject_id());
+        return new MessageResponse("Silindi",MessageType.SUCCESS);
+    }
 }

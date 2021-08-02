@@ -31,4 +31,8 @@ public class Subject {
     @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     Set<MentorshipApplication> applicationSet;
 
+    @JsonIgnoreProperties({"subject"})
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<Program> activeProgramsSet;
+
 }

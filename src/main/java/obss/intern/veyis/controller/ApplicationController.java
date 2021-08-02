@@ -28,7 +28,7 @@ public class ApplicationController {
 
 
     @PostMapping()
-    public MessageResponse applyForMentorship(@RequestBody ApplicationDTO applicationDTO) {
+    public MessageResponse applyForMentorship(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.addMentorshipApplication(applicationMapper.mapToEntity(applicationDTO));
     }
 
@@ -38,12 +38,12 @@ public class ApplicationController {
     }
 
     @DeleteMapping()
-    public MessageResponse rejectMentorshipApplication(@RequestBody ApplicationDTO applicationDTO) {
+    public MessageResponse rejectMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.rejectMentorshipApplication(applicationDTO);
     }
 
     @PutMapping()
-    public MessageResponse updateMentorshipApplication(@RequestBody ApplicationDTO applicationDTO) {
+    public MessageResponse updateMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.updateMentorshipApplication(applicationDTO);
     }
 

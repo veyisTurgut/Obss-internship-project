@@ -35,6 +35,11 @@ public class Program {
     private String mentor_comment;
 
 
+    @JsonIgnoreProperties({"activePrograms"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
+    Subject subject;
+
     @JsonIgnoreProperties({"programsMentored"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_username")

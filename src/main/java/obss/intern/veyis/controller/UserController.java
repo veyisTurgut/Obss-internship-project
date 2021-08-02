@@ -62,8 +62,8 @@ public class UserController {
     }
 
     @GetMapping("/{username}/programMentored")
-    public Program getProgramMentored(@PathVariable String username){
-        return userService.getProgramMentored(username);
+    public List<Program> getProgramMentored(@PathVariable String username){
+        return userService.getProgramsMentored(username);
     }
 
     @GetMapping("/{username}/applications")

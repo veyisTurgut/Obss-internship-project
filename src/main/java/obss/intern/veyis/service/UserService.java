@@ -12,6 +12,7 @@ import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,15 +30,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Program getProgramMentored(String username) {
-        return programRepository.findProgramMentored(username);
+    public List<Program> getProgramsMentored(String username) {
+        return userRepository.findByUsername(username).getProgramsMentored().stream().collect(Collectors.toList());
     }
 
     public List<Program> getProgramsMenteed(String username) {
-        return programRepository.findAllProgramsMenteed(username);
+        return userRepository.findByUsername(username).getProgramsMenteed().stream().collect(Collectors.toList());
     }
 
-    public List<MentorshipApplication> getMentorshipApplications(String username){
+    public List<MentorshipApplication> getMentorshipApplications(String username) {
         Users user = userRepository.findByUsername(username);
         if (user == null) {
             return null;

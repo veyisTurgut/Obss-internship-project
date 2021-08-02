@@ -8,15 +8,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ProgramRepository extends JpaRepository<Program,Long> {
-    @Query(value = "SELECT PROGRAM.programname,PROGRAM.startdate,PROGRAM.enddate,PROGRAM.status FROM \n" +
-            " (SELECT program_name FROM ENROLLMENT WHERE mentee_name=?1) E, PROGRAM \n" +
-            " WHERE PROGRAM.programname = E.program_name; ", nativeQuery = true)
-    List<Program> findAllProgramsMenteed(@Param("username") String username);
+public interface ProgramRepository extends JpaRepository<Program, Long> {
 
-    @Query(value = "SELECT PROGRAM.programname,PROGRAM.startdate,PROGRAM.enddate,PROGRAM.status FROM " +
-            "PROGRAM,(SELECT mentored_program_name FROM USERS WHERE username=?1)U WHERE U.mentored_program_name = PROGRAM.programname",
-            nativeQuery = true)
-    Program findProgramMentored(@Param("username") String username);
+
+    @Query(value = "SELECT program.* FROM program,subject WHERE mentee_username= ?1 AND mentor_username = ?2 and subject_name = ?3" +
+            " AND subsubject_name = ?4 AND program.subject_id = subject.subject_id", nativeQuery = true)
+    Program findByKeys(@Param("mentee_username") String mentee_username, @Param("mentor_username") String mentor_username,
+                       @Param("subject_name") String subject_name, @Param("subsubject_name") String subsubject_name);
+
 
 }
