@@ -32,7 +32,7 @@ public class Subject {
     Set<MentorshipApplication> applicationSet;
 
     @JsonIgnoreProperties({"subject"})
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<Program> activeProgramsSet;
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    Set<Program> programsSet;
 
 }

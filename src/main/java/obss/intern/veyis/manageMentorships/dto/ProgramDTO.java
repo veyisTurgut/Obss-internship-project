@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -25,9 +26,11 @@ public class ProgramDTO {
     private String status;
 
     @JsonProperty("mentee_username")
+    @NotNull(message = "Mentee adı olmak zorunda!")
     private String mentee_username;
 
     @JsonProperty("mentor_username")
+    @NotNull(message = "Mentor adı olmak zorunda!")
     private String mentor_username;
 
     @JsonProperty("mentor_comment")
@@ -37,9 +40,11 @@ public class ProgramDTO {
     private String mentee_comment;
 
     @JsonProperty("subject_name")
+    @NotNull(message = "Konu başlığı olmak zorunda!")
     private String subject_name;
 
     @JsonProperty("subsubject_name")
+    @NotNull(message = "Alt konu başlığı olmak zorunda!")
     private String subsubject_name;
 
 
@@ -55,7 +60,10 @@ public class ProgramDTO {
                       @JsonProperty("mentor_username") String mentor_username,
                       @JsonProperty("subsubject_name") String subsubject_name,
                       @JsonProperty("subject_name") String subject_name,
-                      @JsonProperty("phases") Set<PhaseDTO> phases
+                      @JsonProperty("phases") Set<PhaseDTO> phases,
+                      @JsonProperty("mentor_comment") String mentor_comment,
+                      @JsonProperty("mentee_comment") String mentee_comment
+
 
     ) {
         this.program_id = program_id;
@@ -66,6 +74,8 @@ public class ProgramDTO {
         this.mentor_username = mentor_username;
         this.subsubject_name = subsubject_name;
         this.phases = phases;
+        this.mentor_comment = mentor_comment;
+        this.mentor_comment = mentor_comment;
         this.subject_name = subject_name;
     }
 }

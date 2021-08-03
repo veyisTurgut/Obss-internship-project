@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class MentorshipApplication  {
+public class MentorshipApplication {
 
     @EmbeddedId
     MentorshipApplicationKey id;
@@ -23,27 +23,17 @@ public class MentorshipApplication  {
     private Users applicant;
 
 
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("subject_id")
     @JoinColumn(name = "subject_id")
     @JsonIgnoreProperties({"applicationSet"})
     private Subject subject;
 
-    /*
-    @Id
-    @Column(name = "APPLICANT_USERNAME")
-    private String applicant_username;
-    @Id
-    @Column(name = "subject_name")
-    private String subject_name;
-    @Id
-    @Column(name = "subsubject_name")
-    private String subsubject_name;
-*/
 
-   // @Column(name = "EXPERIENCE")
+    @Column(name = "EXPERIENCE")
     private String experience;
 
-    //@Column(name = "IS_ACTIVE")
-    private Boolean is_active;
+    @Column(name = "STATUS")
+    private String status;
+    // one of the following: open - approved - rejected
 }

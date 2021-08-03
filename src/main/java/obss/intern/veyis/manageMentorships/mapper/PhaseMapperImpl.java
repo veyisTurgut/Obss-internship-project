@@ -9,6 +9,8 @@ import java.util.zip.DataFormatException;
 
 import obss.intern.veyis.manageMentorships.dto.PhaseDTO;
 import obss.intern.veyis.manageMentorships.entity.Phase;
+import obss.intern.veyis.manageMentorships.entity.Program;
+import obss.intern.veyis.manageMentorships.entity.compositeKeys.PhaseKey;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,11 +36,21 @@ public class PhaseMapperImpl implements PhaseMapper {
         }
     }
 
-    public Phase mapToEntity(PhaseDTO phaseDTO) {
+    public Phase mapToEntity(PhaseDTO phaseDTO, Program program) {
         if (phaseDTO == null) {
             return null;
         } else {
             Phase phase = new Phase();
+            PhaseKey id = new PhaseKey();
+            /**/
+            id.setPhase_id(phaseDTO.getPhase_id());
+            id.setProgram_id(program.getProgram_id());
+            phase.setId(id);
+            /**/
+            phase.setProgram(program);
+
+            phase.setStart_date(phaseDTO.getStart_date());
+            phase.setEnd_date(phaseDTO.getEnd_date());
             phase.setMentee_experience(phaseDTO.getMentee_experience());
             phase.setMentor_experience(phaseDTO.getMentor_experience());
             phase.setMentee_point(phaseDTO.getMentee_point());
@@ -63,7 +75,7 @@ public class PhaseMapperImpl implements PhaseMapper {
         }
     }
 
-    public List<Phase> mapToEntity(List<PhaseDTO> phaseDTOList) {
+    public List<Phase> mapToEntity(List<PhaseDTO> phaseDTOList, Program program) {
         if (phaseDTOList == null) {
             return null;
         } else {
@@ -72,7 +84,7 @@ public class PhaseMapperImpl implements PhaseMapper {
 
             while (var3.hasNext()) {
                 PhaseDTO phaseDTO = (PhaseDTO) var3.next();
-                list.add(this.mapToEntity(phaseDTO));
+                list.add(this.mapToEntity(phaseDTO,program));
             }
 
             return list;

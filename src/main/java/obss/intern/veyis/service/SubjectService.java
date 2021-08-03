@@ -57,4 +57,11 @@ public class SubjectService {
     }
 
 
+    public Subject addSubject(String subject_name, String subsubject_name) {
+        Subject subject = new Subject();
+        subject.setSubject_name(subject_name);
+        subject.setSubsubject_name(subsubject_name);
+        subjectRepository.save(subject);
+        return subject;
+    }
 }

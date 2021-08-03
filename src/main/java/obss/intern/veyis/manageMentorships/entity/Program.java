@@ -18,7 +18,6 @@ import java.util.Set;
 public class Program {
 
     @EmbeddedId
-    @GeneratedValue
     @Column(name = "PROGRAM_ID")
     private ProgramId program_id;
     @Column(name = "STATUS")
@@ -36,17 +35,17 @@ public class Program {
 
 
     @JsonIgnoreProperties({"activePrograms"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     Subject subject;
 
     @JsonIgnoreProperties({"programsMentored"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_username")
     Users mentor;
 
     @JsonIgnoreProperties({"programsMenteed"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "mentee_username")
     Users mentee;
 

@@ -7,9 +7,11 @@ package obss.intern.veyis.manageMentorships.mapper;
 
 import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.Users;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +23,7 @@ public class UserMapperImpl implements UserMapper {
         if (user == null) {
             return null;
         } else {
-            UserDTO userDTO = new UserDTO(user.getUsername());
+            UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
             return userDTO;
         }
     }
@@ -43,8 +45,8 @@ public class UserMapperImpl implements UserMapper {
             List<UserDTO> list = new ArrayList(usersList.size());
             Iterator var3 = usersList.iterator();
 
-            while(var3.hasNext()) {
-                Users users = (Users)var3.next();
+            while (var3.hasNext()) {
+                Users users = (Users) var3.next();
                 list.add(this.mapToDto(users));
             }
 
@@ -59,8 +61,8 @@ public class UserMapperImpl implements UserMapper {
             List<Users> list = new ArrayList(userDTOList.size());
             Iterator var3 = userDTOList.iterator();
 
-            while(var3.hasNext()) {
-                UserDTO userDTO = (UserDTO)var3.next();
+            while (var3.hasNext()) {
+                UserDTO userDTO = (UserDTO) var3.next();
                 list.add(this.mapToEntity(userDTO));
             }
 

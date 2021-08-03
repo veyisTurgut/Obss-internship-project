@@ -27,24 +27,28 @@ public class ApplicationController {
     private final ApplicationMapperImpl applicationMapper;
 
 
-    @PostMapping()
+    @PostMapping()//user
     public MessageResponse applyForMentorship(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.addMentorshipApplication(applicationMapper.mapToEntity(applicationDTO));
     }
 
-    @GetMapping("/all")
-    public List<MentorshipApplication> allApplications() {
-        return applicationService.findAllApplications();
+    @GetMapping("/all")//user-admin
+    public List<ApplicationDTO> allApplications() {
+        return applicationMapper.mapToDto(applicationService.findAllApplications());
     }
 
-    @DeleteMapping()
+    @PutMapping("/reject")//admin
     public MessageResponse rejectMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.rejectMentorshipApplication(applicationDTO);
     }
 
-    @PutMapping()
+    @PutMapping("/update")//user
     public MessageResponse updateMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.updateMentorshipApplication(applicationDTO);
     }
 
+    @PutMapping("/approve")//admin
+    public MessageResponse approveMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
+        return applicationService.approveMentorshipApplication(applicationDTO);
+    }
 }

@@ -2,9 +2,12 @@ package obss.intern.veyis.controller;
 
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
+import obss.intern.veyis.config.response.MessageType;
 import obss.intern.veyis.manageMentorships.dto.PhaseDTO;
 import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
+import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.Phase;
+import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
@@ -32,40 +35,70 @@ public class ProgramController {
     private final UserService userService;
     private final SubjectService subjectService;
 
-    @GetMapping("/all")
+    @GetMapping("/all")//admin
     public List<ProgramDTO> getAllPrograms() {
         return programMapper.mapToDto(programService.getAllPrograms());
     }
 
-    @GetMapping("/{program_id}")
+    @GetMapping("/active")//user
+    public List<ProgramDTO> getActivePrograms() {
+        return programMapper.mapToDto(programService.getActivePrograms());
+    }
+
+
+    @GetMapping("/{program_id}")//admin-user
     public ProgramDTO getAProgramById(@PathVariable Long program_id) {
         return programMapper.mapToDto(programService.getById(program_id));
     }
 
-    @GetMapping("/{mentee_username}/{mentor_username}/{subject_name}/{subsubject_name}")
+    @GetMapping("/{mentee_username}/{mentor_username}/{subject_name}/{subsubject_name}")//admin-user
     public ProgramDTO getAProgramByKeys(@PathVariable String mentee_username, @PathVariable String mentor_username, @PathVariable String subject_name, @PathVariable String subsubject_name) {
         return programMapper.mapToDto(programService.getByKeys(mentee_username, mentor_username, subject_name, subsubject_name));
     }
 
-    @PutMapping("/{program_id}/updatePhase")
+    @PutMapping("/{program_id}/updatePhase")//user
     public MessageResponse updatePhases(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
-        return programService.updatePhase(program_id, phaseMapper.mapToEntity(phaseDTO));
+        Program program = programService.getById(program_id);
+        if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
+        return programService.updatePhase(program_id, phaseMapper.mapToEntity(phaseDTO, program));
     }
 
-    @PutMapping("/{program_id}/closePhase")
+    @PutMapping("/{program_id}/closePhase")//user
     public MessageResponse closePhase(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
-        return programService.closePhase(program_id, phaseMapper.mapToEntity(phaseDTO));
+        Program program = programService.getById(program_id);
+        if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
+        return programService.closePhase(program_id, phaseMapper.mapToEntity(phaseDTO, program));
     }
 
-    @PostMapping()
+    @PostMapping()//user - this is called by mentee to enroll.
     public MessageResponse addProgram(@RequestBody @Validated ProgramDTO programDTO) {
-        Users Mentor = userService.getUser(programDTO.getMentor_username());
-        Users Mentee = userService.getUser(programDTO.getMentee_username());
-        Set<Phase> phases = phaseMapper.mapToEntity(programDTO.getPhases().stream().collect(Collectors.toList())).stream().collect(Collectors.toSet());
+        programDTO.setProgram_id(programService.getMax() + 1);
+        Users mentor = userService.getUser(programDTO.getMentor_username());
+        Users mentee = userService.getUser(programDTO.getMentee_username());
+        if (mentor == null || mentee == null)
+            return new MessageResponse("Mentor ya da mentee sistemde kayıtlı değil.", MessageType.ERROR);
         Subject subject = subjectService.getByKeys(programDTO.getSubject_name(), programDTO.getSubsubject_name());
+        if (subject == null) subjectService.addSubject(programDTO.getSubject_name(), programDTO.getSubsubject_name());
+        Program program = programMapper.mapToEntity(programDTO, mentor, mentee, subject);
 
-        return programService.addProgram(programMapper.mapToEntity(programDTO, Mentor, Mentee, phases, subject));
+        //Set<Phase> phases = phaseMapper.mapToEntity(programDTO.getPhases().stream().collect(Collectors.toList()), program).stream().collect(Collectors.toSet());
+        //program.setPhases(phases);
+        return programService.addProgram(program);
     }
 
+
+    @PostMapping("/{program_id}/phases")//user
+    public MessageResponse addPhases(@PathVariable Long program_id, @RequestBody @Validated List<PhaseDTO> phaseDTOList) {
+        Program program = programService.getById(program_id);
+        if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
+        Set<Phase> phases = phaseMapper.mapToEntity(phaseDTOList, program).stream().collect(Collectors.toSet());
+        return programService.addPhases(program, phases);
+    }
+
+
+    @PutMapping("{program_id}")//user
+    public MessageResponse enrollMentee(@PathVariable Long program_id, @RequestBody @Validated String mentee_username) {
+        return programService.addMentee(program_id, mentee_username);
+    }
 
 }

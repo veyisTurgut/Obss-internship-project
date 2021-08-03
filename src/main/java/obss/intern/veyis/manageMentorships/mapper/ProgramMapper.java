@@ -16,7 +16,7 @@ public interface ProgramMapper {
 
     ProgramDTO mapToDto(Program program);
 
-    Program mapToEntity(ProgramDTO programDTO, Users Mentor, Users Mentee, Set<Phase> phases, Subject subject);
+    Program mapToEntity(ProgramDTO programDTO, Users Mentor, Users Mentee, Subject subject);
 
     List<ProgramDTO> mapToDto(List<Program> programList);
 

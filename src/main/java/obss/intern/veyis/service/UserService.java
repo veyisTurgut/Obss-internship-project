@@ -46,4 +46,7 @@ public class UserService {
         return applicationRepository.findMentorshipApplicationsByApplicant(user);
     }
 
+    public void addUser(Users user) {
+
+    }
 }

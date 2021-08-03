@@ -8,9 +8,11 @@ import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.mapper.ApplicationMapperImpl;
+import obss.intern.veyis.manageMentorships.mapper.ProgramMapperImpl;
 import obss.intern.veyis.manageMentorships.mapper.UserMapperImpl;
 import obss.intern.veyis.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -29,20 +31,24 @@ public class UserController {
     private final UserService userService;
     private final UserMapperImpl userMapper;
     private final ApplicationMapperImpl applicationMapper;
+    private final ProgramMapperImpl programMapper;
 
-    @GetMapping("/")
-    public String index(){
+    //@PreAuthorize("hasRole('ADMINS')")
+    // or
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
+    @GetMapping("/")//TODO: delete this
+    public String index() {
         SecurityContext context = SecurityContextHolder.getContext();
         System.out.println(context.getAuthentication().getAuthorities());
         System.out.println(context.getAuthentication().getDetails());
         String details = context.getAuthentication().getDetails().toString();
-        String session_id = details.substring(details.indexOf("SessionId")+10,details.indexOf("]"));
+        String session_id = details.substring(details.indexOf("SessionId") + 10, details.indexOf("]"));
         System.out.println(session_id);
 
         return context.getAuthentication().toString();
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all")//admin
     public List<UserDTO> getAllUsers() {
         List<Users> users = userService.getAllUsers();
         System.out.println(users);
@@ -50,26 +56,28 @@ public class UserController {
     }
 
 
-    @GetMapping("/{username}/programsmenteed")
-    public List<Program> getProgramsMenteed(@PathVariable String username) {
+    @GetMapping("/{username}/programsmenteed")//user-admin
+    public List<ProgramDTO> getProgramsMenteed(@PathVariable String username) {
         //TODO: check id is valid.
         System.out.println(username);
         List<Program> programs = userService.getProgramsMenteed(username);
         System.out.println(programs);
         // ok so far. problem is in mapping
-        //return ProgramMapper.mapToDto();
-        return programs;
+        return programMapper.mapToDto(programs);
     }
 
-    @GetMapping("/{username}/programMentored")
-    public List<Program> getProgramMentored(@PathVariable String username){
-        return userService.getProgramsMentored(username);
+    @GetMapping("/{username}/programsMentored")//user-admin
+    public List<ProgramDTO> getProgramsMentored(@PathVariable String username) {
+        return programMapper.mapToDto(userService.getProgramsMentored(username));
     }
 
-    @GetMapping("/{username}/applications")
-    public List<ApplicationDTO> getMentorshipApplications(@PathVariable String username){
+    @GetMapping("/{username}/applications")//user-admin
+    public List<ApplicationDTO> getMentorshipApplications(@PathVariable String username) {
+        /*
         List<MentorshipApplication> applications = userService.getMentorshipApplications(username);
         return (applications == null) ? null : applicationMapper.mapToDto(applications);
+        */
+        return applicationMapper.mapToDto(userService.getMentorshipApplications(username));
 
     }
 

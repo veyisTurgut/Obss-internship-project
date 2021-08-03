@@ -110,19 +110,19 @@ userPassword: $2a$10$egmzlCh/TfWQwmkqN3y.cOU6C6jkW6mYnMrmtIOIp1BUgT76sJIZa
 
 
 
-dn: cn=admins,ou=groups,dc=springframework,dc=org
+dn: cn=ADMINS,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: groupOfUniqueNames
-cn: admins
-ou: admin
+cn: ADMINS
+ou: ADMIN
 uniqueMember: uid=admin1,ou=people,dc=springframework,dc=org
 uniqueMember: uid=admin2,ou=people,dc=springframework,dc=org
 
-dn: cn=users,ou=groups,dc=springframework,dc=org
+dn: cn=USERS,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: groupOfUniqueNames
-cn: users
-ou: user
+cn: USERS
+ou: USER
 uniqueMember: uid=user1,ou=people,dc=springframework,dc=org
 uniqueMember: uid=user2,ou=people,dc=springframework,dc=org
 uniqueMember: uid=user3,ou=people,dc=springframework,dc=org

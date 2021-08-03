@@ -18,10 +18,12 @@ public class ApplicationMapperImpl implements ApplicationMapper {
         if (mentorshipApplication == null) {
             return null;
         } else {
-            ApplicationDTO applicationDTO = new ApplicationDTO(mentorshipApplication.getApplicant().getUsername(),
-                    mentorshipApplication.getExperience(),
+            ApplicationDTO applicationDTO = new ApplicationDTO(
+                    mentorshipApplication.getApplicant().getUsername(),
                     mentorshipApplication.getSubject().getSubject_name(),
-                    mentorshipApplication.getSubject().getSubsubject_name());
+                    mentorshipApplication.getSubject().getSubsubject_name(),
+                    mentorshipApplication.getExperience()
+            );
 
             return applicationDTO;
         }
@@ -38,7 +40,7 @@ public class ApplicationMapperImpl implements ApplicationMapper {
             application.setExperience(applicationDTO.getExperience());
             //application.setSubject(applicationDTO.getSubject_name(),applicationDTO.getSubsubject_name());
             //application.setSubsubject_name(applicationDTO.getSubsubject_name());
-            application.setIs_active(true);
+            application.setStatus("open");
             return application;
         }
     }

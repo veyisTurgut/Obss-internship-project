@@ -16,10 +16,6 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class Phase implements Comparable<Phase> {
-    public Phase(ProgramId program_id, Long phase_id) {
-        this.id.setPhase_id(phase_id);
-        this.id.setProgram_id(program_id);
-    }
 
     @EmbeddedId
     PhaseKey id;

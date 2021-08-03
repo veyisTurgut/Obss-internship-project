@@ -6,15 +6,15 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+//@Mapper(componentModel = "spring")
 public interface SubjectMapper {
 
-    SubjectDTO mapToDto(Subject mentorshipApplication);
+    SubjectDTO mapToDto(Subject subject);
 
-    Subject mapToEntity(SubjectDTO applicationDTO);
+    Subject mapToEntity(SubjectDTO subjectDTO);
 
-    List<SubjectDTO> mapToDto(List<Subject> mentorshipApplicationList);
+    List<SubjectDTO> mapToDto(List<Subject> subjectList);
 
-    List<Subject> mapToEntity(List<SubjectDTO> applicationDTOList);
+    List<Subject> mapToEntity(List<SubjectDTO> subjectDTOList);
 
 }

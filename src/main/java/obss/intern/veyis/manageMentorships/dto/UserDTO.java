@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -17,9 +18,13 @@ public class UserDTO {
     @NotBlank(message = "Kullanıcı adı boş olamaz!")
     private String username;
 
+    @JsonProperty("email")
+    private String email;
+
 
     @JsonCreator
-    public UserDTO(@JsonProperty("username") String username) {
+    public UserDTO(@JsonProperty("username") String username, @JsonProperty("email") String email) {
         this.username = username;
+        this.email = email;
     }
 }

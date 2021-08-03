@@ -25,15 +25,15 @@ VALUES (1, 'subject-1', 'a'),
        (9, 'subject-4', 'a')
 ON CONFLICT DO NOTHING;
 
-INSERT INTO mentorship_application(applicant_username, subject_id, experience, is_active)
-VALUES ('user1', 1, 'user 1 experiences for subject 2,a', True),
-       ('user2', 2, 'user 2 experiences for subject 1,a', True),
-       ('user5', 3, 'user 5 experiences for subject 2,b', True),
-       ('user4', 5, 'user 4 experiences for subject 3,b', True),
-       ('user5', 5, 'user 5 experiences for subject 1,c', True),
-       ('user3', 5, 'user 3 experiences for subject 2,a', True),
-       ('user6', 6, 'user 6 experiences for subject 2,a', True),
-       ('user5', 4, 'user 5 experiences for subject 3,c', True)
+INSERT INTO mentorship_application(applicant_username, subject_id, experience, status)
+VALUES ('user1', 1, 'user 1 experiences for subject 2,a', 'open'),
+       ('user2', 2, 'user 2 experiences for subject 1,a', 'open'),
+       ('user5', 3, 'user 5 experiences for subject 2,b', 'open'),
+       ('user4', 5, 'user 4 experiences for subject 3,b', 'open'),
+       ('user5', 5, 'user 5 experiences for subject 1,c', 'open'),
+       ('user3', 5, 'user 3 experiences for subject 2,a', 'open'),
+       ('user6', 6, 'user 6 experiences for subject 2,a', 'open'),
+       ('user5', 4, 'user 5 experiences for subject 3,c', 'open')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO program(program_id, startdate, enddate, status, is_active, mentee_comment, mentor_comment, mentor_username,
