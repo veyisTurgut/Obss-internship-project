@@ -101,13 +101,15 @@ export default class LoginDialog extends Component {
                         <DialogContentText>
                             Kullanıcı tipinizi seçip bilgilerinizi giriniz.
                         </DialogContentText>
-                        <Button variant="contained" color="primary" onClick={() => this.setState({userType: "ADMI"})}>
+                        <Button variant="contained" color="default" onClick={() => this.setState({userType: "ADMI"})}>
                             Admin
                         </Button>
-                        <Button variant="contained" color="secondary" onClick={() => this.setState({userType: "USER"})}>
+                        <Button variant="contained" color="primary" onClick={() => this.setState({userType: "USER"})}>
                             Kullanıcı
                         </Button>
-
+                        <Button variant="contained" color="secondary" href="http:localhost:8080/login/oauth2/code/">
+                            Google ile Giriş
+                        </Button>
                         {this.state.adminDialogFields.map(field => (
                             <TextField
                                 autoFocus
