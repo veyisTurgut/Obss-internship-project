@@ -8,6 +8,7 @@ import obss.intern.veyis.manageMentorships.entity.compositeKeys.MentorshipApplic
 
 import javax.persistence.*;
 
+
 @Entity
 @Getter
 @Setter
@@ -35,5 +36,5 @@ public class MentorshipApplication {
 
     @Column(name = "STATUS")
     private String status;
-    // one of the following: open - approved - rejected
+    // one of the following: open - approved - rejected - full(when 2 mentee enrolled)
 }

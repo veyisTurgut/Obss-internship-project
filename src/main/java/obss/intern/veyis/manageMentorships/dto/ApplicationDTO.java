@@ -15,13 +15,17 @@ public class ApplicationDTO {
     @NotBlank(message = "Kullanıcı adı boş olamaz!")
     private String applicant_username;
 
+    /*
+    @JsonProperty("subject_id")
+    private Long subject_id;
+    */
     @JsonProperty("subject_name")
     @NotBlank(message = "Başlık adı boş olamaz!")
     private String subject_name;
 
     @JsonProperty("subsubject_name")
     @NotBlank(message = "Altbaşlık adı boş olamaz!")
-    private String  subsubject_name;
+    private String subsubject_name;
 
 
     @JsonProperty("experience")
@@ -29,11 +33,16 @@ public class ApplicationDTO {
 
     @JsonCreator
     public ApplicationDTO(@JsonProperty("applicant_username") String applicant_username,
-                          @JsonProperty("subject_name") String subject_name,
+  /*
+                          @JsonProperty("subject_id") Long subject_id,
+*/                          @JsonProperty("subject_name") String subject_name,
                           @JsonProperty("subsubject_name") String subsubject_name,
                           @JsonProperty("experience") String experience) {
         this.applicant_username = applicant_username;
         this.subject_name = subject_name;
+/*
+  this.subject_id= subject_id;
+  */
         this.subsubject_name = subsubject_name;
         this.experience = experience;
     }

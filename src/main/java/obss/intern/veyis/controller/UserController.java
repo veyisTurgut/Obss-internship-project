@@ -2,6 +2,7 @@ package obss.intern.veyis.controller;
 
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
+import obss.intern.veyis.manageMentorships.dto.PhaseDTO;
 import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
@@ -80,6 +81,11 @@ public class UserController {
         return applicationMapper.mapToDto(userService.getMentorshipApplications(username));
 
     }
+    /*//I decided to calculate these in frontend.
+    @GetMapping("/{username}/uncommentedPhases")
+    public List<PhaseDTO> getUncommentedPhases(@PathVariable String username){}
 
-
+    @GetMapping("/{username}/uncommentedPrograms")
+    public List<ProgramDTO> getUncommentedPrograms(@PathVariable String username){}
+    */
 }

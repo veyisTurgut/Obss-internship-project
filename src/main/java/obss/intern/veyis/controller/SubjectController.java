@@ -35,7 +35,7 @@ public class SubjectController {
         return subjectService.deleteSubject(subjectDTO);
     }
 
-    @DeleteMapping("/{id}")//admin
+    @DeleteMapping("/{subject_id}")//admin
     public MessageResponse deleteSubjectById(@PathVariable Long subject_id) {
         return subjectService.deleteSubjectById(subject_id);
     }

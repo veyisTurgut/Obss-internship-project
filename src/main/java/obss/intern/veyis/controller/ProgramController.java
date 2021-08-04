@@ -40,11 +40,12 @@ public class ProgramController {
         return programMapper.mapToDto(programService.getAllPrograms());
     }
 
+    /*
     @GetMapping("/active")//user
     public List<ProgramDTO> getActivePrograms() {
         return programMapper.mapToDto(programService.getActivePrograms());
     }
-
+    */
 
     @GetMapping("/{program_id}")//admin-user
     public ProgramDTO getAProgramById(@PathVariable Long program_id) {
@@ -60,32 +61,24 @@ public class ProgramController {
     public MessageResponse updatePhases(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
         Program program = programService.getById(program_id);
         if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
-        return programService.updatePhase(program_id, phaseMapper.mapToEntity(phaseDTO, program));
+        return programService.updatePhase(phaseMapper.mapToEntity(phaseDTO, program));
     }
-
-    @PutMapping("/{program_id}/closePhase")//user
-    public MessageResponse closePhase(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
-        Program program = programService.getById(program_id);
-        if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
-        return programService.closePhase(program_id, phaseMapper.mapToEntity(phaseDTO, program));
-    }
-
     @PostMapping()//user - this is called by mentee to enroll.
     public MessageResponse addProgram(@RequestBody @Validated ProgramDTO programDTO) {
-        programDTO.setProgram_id(programService.getMax() + 1);
+
+    /*
+        this.startdate = startdate;
+        this.mentee_username = mentee_username;
+        this.mentor_username = mentor_username;
+        this.subsubject_name = subsubject_name;
+        this.subject_name = subject_name;*/
         Users mentor = userService.getUser(programDTO.getMentor_username());
         Users mentee = userService.getUser(programDTO.getMentee_username());
-        if (mentor == null || mentee == null)
-            return new MessageResponse("Mentor ya da mentee sistemde kayıtlı değil.", MessageType.ERROR);
         Subject subject = subjectService.getByKeys(programDTO.getSubject_name(), programDTO.getSubsubject_name());
-        if (subject == null) subjectService.addSubject(programDTO.getSubject_name(), programDTO.getSubsubject_name());
+        programDTO.setProgram_id(programService.getMax() + 1);
         Program program = programMapper.mapToEntity(programDTO, mentor, mentee, subject);
-
-        //Set<Phase> phases = phaseMapper.mapToEntity(programDTO.getPhases().stream().collect(Collectors.toList()), program).stream().collect(Collectors.toSet());
-        //program.setPhases(phases);
         return programService.addProgram(program);
     }
-
 
     @PostMapping("/{program_id}/phases")//user
     public MessageResponse addPhases(@PathVariable Long program_id, @RequestBody @Validated List<PhaseDTO> phaseDTOList) {
@@ -95,10 +88,25 @@ public class ProgramController {
         return programService.addPhases(program, phases);
     }
 
+    @PutMapping("/{program_id}/startPhase1")
+    public MessageResponse startPhase1(@PathVariable Long program_id) {
+        Program program = programService.getById(program_id);
+        if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
+        return programService.startPhase1(program);
+    }
 
+    //TODO: fazı almaya gerek yok. açık olan ilk fazı kapa devam et işte.
+    @PutMapping("/{program_id}/closePhase")//user
+    public MessageResponse closePhase(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
+        Program program = programService.getById(program_id);
+        if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
+        return programService.closePhase(program_id, phaseMapper.mapToEntity(phaseDTO, program));
+    }
+    /*
     @PutMapping("{program_id}")//user
     public MessageResponse enrollMentee(@PathVariable Long program_id, @RequestBody @Validated String mentee_username) {
         return programService.addMentee(program_id, mentee_username);
-    }
+    }*/
+
 
 }

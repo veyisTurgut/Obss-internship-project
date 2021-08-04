@@ -1,8 +1,8 @@
 package obss.intern.veyis.manageMentorships.mapper;
 
 import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
-import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
+import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.entity.Users;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +20,9 @@ public class ApplicationMapperImpl implements ApplicationMapper {
         } else {
             ApplicationDTO applicationDTO = new ApplicationDTO(
                     mentorshipApplication.getApplicant().getUsername(),
+                    /*
+                    mentorshipApplication.getSubject().getSubject_id(),
+                     */
                     mentorshipApplication.getSubject().getSubject_name(),
                     mentorshipApplication.getSubject().getSubsubject_name(),
                     mentorshipApplication.getExperience()
@@ -31,15 +34,14 @@ public class ApplicationMapperImpl implements ApplicationMapper {
 
     // not working
     @Override
-    public MentorshipApplication mapToEntity(ApplicationDTO applicationDTO) {
+    public MentorshipApplication mapToEntity(ApplicationDTO applicationDTO, Subject subject, Users mentor_applicant) {
         if (applicationDTO == null) {
             return null;
         } else {
             MentorshipApplication application = new MentorshipApplication();
-            //application.setApplicant(userService.getUser(applicationDTO.getApplicant_username()));
+            application.setApplicant(mentor_applicant);
             application.setExperience(applicationDTO.getExperience());
-            //application.setSubject(applicationDTO.getSubject_name(),applicationDTO.getSubsubject_name());
-            //application.setSubsubject_name(applicationDTO.getSubsubject_name());
+            application.setSubject(subject);
             application.setStatus("open");
             return application;
         }
@@ -62,21 +64,4 @@ public class ApplicationMapperImpl implements ApplicationMapper {
         }
     }
 
-    // not working
-    @Override
-    public List<MentorshipApplication> mapToEntity(List<ApplicationDTO> applicationDTOList) {
-        if (applicationDTOList == null) {
-            return null;
-        } else {
-            List<MentorshipApplication> list = new ArrayList(applicationDTOList.size());
-            Iterator var3 = applicationDTOList.iterator();
-
-            while (var3.hasNext()) {
-                ApplicationDTO applicationDTO = (ApplicationDTO) var3.next();
-                list.add(this.mapToEntity(applicationDTO));
-            }
-
-            return list;
-        }
-    }
 }

@@ -64,7 +64,7 @@ public class ProgramMapperImpl implements ProgramMapper {
             program.setEnd_date(programDTO.getEnddate());
             program.setMentee(Mentee);
             program.setMentor(Mentor);
-            program.setStart_date(programDTO.getStartdate());
+            program.setStart_date(new Date(System.currentTimeMillis()));
             program.setMentee_comment(programDTO.getMentee_comment());
             program.setMentor_comment(programDTO.getMentor_comment());
             program.setSubject(subject);

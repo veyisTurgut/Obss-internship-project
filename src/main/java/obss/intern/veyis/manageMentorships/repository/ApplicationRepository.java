@@ -12,11 +12,17 @@ import java.util.List;
 
 public interface ApplicationRepository extends JpaRepository<MentorshipApplication, Long> {
 
-    @Query(value = "SELECT * FROM mentorship_application WHERE status like 'open'", nativeQuery = true)
+    @Query(value = "SELECT * FROM mentorship_application", nativeQuery = true)
     List<MentorshipApplication> findAllApplications();
 
-    @Query(value = "select * FROM mentorship_application WHERE applicant_username =?1 AND  subject_id = ?2 AND status like 'open'", nativeQuery = true)
-    MentorshipApplication findByKeys(@Param("applicant_username") String applicant_username, @Param("subject_id") Long subject_id);
+    List<MentorshipApplication> findMentorshipApplicationsByStatusEquals(String status);
+
+    //TODO: status like openı silebilirim belki, nerede kullandığıma bağlı.
+    @Query(value = "SELECT * FROM mentorship_application WHERE applicant_username = ?1 AND subject_id = ?2", nativeQuery = true)
+    MentorshipApplication findAllByKeys(@Param("applicant_username") String applicant_username, @Param("subject_id") Long subject_id);
+
+    @Query(value = "SELECT * FROM mentorship_application WHERE applicant_username = ?1 AND subject_id = ?2 AND status = 'approved'", nativeQuery = true)
+    MentorshipApplication findApprovedByKeys(@Param("applicant_username") String applicant_username, @Param("subject_id") Long subject_id);
 
     /*
         @Query(value = "SELECT M.*, SUBJECT.subject_name, SUBJECT.subsubject_name FROM " +
@@ -27,13 +33,13 @@ public interface ApplicationRepository extends JpaRepository<MentorshipApplicati
     //List<MentorshipApplication> findAllByApplicant(@Param("applicant_username") String username);
     List<MentorshipApplication> findMentorshipApplicationsByApplicant(Users user);
 
-    /*
+    List<MentorshipApplication> findByExperienceContains(String keyword);
+/*
     @Query(value = "UPDATE mentorship_application SET status = 'rejected' WHERE applicant_username = ?1 AND subject_id = ?2 ", nativeQuery = true)
     @Modifying
     @Transactional
     void rejectApplication(@Param("applicant_username") String applicant_username, @Param("subject_id") Long subject_id);
-
-     */
+*/
 }
 
 
