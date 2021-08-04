@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchCrudReposi
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.util.Base64;
+
 @SpringBootApplication
 @EnableJpaRepositories(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ElasticsearchCrudRepository.class))
 @EnableElasticsearchRepositories(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ElasticsearchCrudRepository.class))
@@ -15,6 +17,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class VeyisApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(VeyisApplication.class, args);
     }
 

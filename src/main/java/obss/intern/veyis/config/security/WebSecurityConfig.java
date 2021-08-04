@@ -21,11 +21,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/adminLogin").permitAll()
+                .antMatchers("/userLogin").permitAll()
                 .antMatchers("/activeSessions").permitAll()
                 .anyRequest().fullyAuthenticated()
                 //.and().formLogin()
                 .and().httpBasic()
-                .and().oauth2Login()
+                //.and().oauth2Login()
                 //.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         ;
     }

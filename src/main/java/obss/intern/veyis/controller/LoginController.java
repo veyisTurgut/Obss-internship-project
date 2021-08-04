@@ -6,11 +6,13 @@ import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
 //import obss.intern.veyis.config.security.SessionManager;
 import obss.intern.veyis.manageMentorships.entity.Admin;
+import obss.intern.veyis.manageMentorships.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.HashSet;
 
 @RestController
@@ -31,42 +34,27 @@ public class LoginController {
     //private JwtTokenUtil jwtTokenUtil;
     //private final SessionManager sessionManager;
 
+
     @PostMapping("/login")
-    public String createAuthenticationToken(@RequestBody Admin admin) throws Exception {
+    public MessageResponse login(@RequestBody Admin admin) throws Exception {
+        Authentication auth = null;
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword())
-            );
+            auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword()));
+            System.out.println(auth);
         } catch (BadCredentialsException e) {
-            return "Hatalı kullanıcı adı ya da şifre";
-            //throw new Exception("Hatalı kullanıcı adı ya da şifre");
+            return new MessageResponse("Bilgiler hatalı", MessageType.ERROR);
         }
-        /*
-        String sessionId = sessionManager.generateSesionId(admin.getUsername(), admin.getPassword());
-        return sessionId;
-        */
-        //final UserDetails userDetails = myUserDetailsService.loadUserByUsername(admin.getUsername());
-        //final String sessionToken = Token
-        SecurityContext context = SecurityContextHolder.getContext();
-        String details = context.getAuthentication().getDetails().toString();
-        String session_id = details.substring(details.indexOf("SessionId") + 10, details.indexOf("]"));
-        System.out.println(context.toString());
-        //sessionManager.addSession(session_id);
-        return session_id;
-
-
-    }
-/*
-    @PostMapping("/logout")
-    public MessageResponse logout(String sessionId) {
-        return (sessionManager.removeSession(sessionId)) ? new MessageResponse("Logout successful!", MessageType.SUCCESS) : new MessageResponse("Logout failed!", MessageType.ERROR);
-    }
-
-    @GetMapping("/activeSessions")
-    public HashSet<String> activeSessions(){
-        return sessionManager.getActiveSessionIds();
+        String user_type = "";
+        if (auth.getAuthorities().toString().contains("USERS")) {
+            user_type = "USER";
+        } else if (auth.getAuthorities().toString().contains("ADMINS")) {
+            user_type = "ADMI";
+        } else if (auth.getAuthorities().toString().contains("ANONYMOUS")) {// TODO
+            user_type = "ANON";
+        }
+        System.out.println(Base64.getEncoder().encodeToString((admin.getUsername() + ":" + admin.getPassword()).getBytes()));
+        return new MessageResponse(user_type + " " + Base64.getEncoder().encodeToString((admin.getUsername() + ":" + admin.getPassword()).getBytes()), MessageType.SUCCESS);
     }
 
 
- */
 }

@@ -12,12 +12,16 @@ import {Link, BrowserRouter as Router, Route} from "react-router-dom";
 import Cookie from "js-cookie"
 import CustomizedSnackbars from "../Toast";
 
-/*
-function admin() {
-    return <AdminTable/>
-}*/
 
-export default class AdminLoginDialog extends Component {
+function admin() {
+    return "adminPage"
+}
+
+function user() {
+    return "userPage"
+}
+
+export default class LoginDialog extends Component {
 
     state = {
         showDialog: true,
@@ -29,6 +33,7 @@ export default class AdminLoginDialog extends Component {
             {id: "username", label: "Kullanıcı Adı", type: "text"},
             {id: "password", label: "Şifre", type: "password"}
         ],
+        userType: "",
         inputData: {}
     }
 
@@ -42,7 +47,8 @@ export default class AdminLoginDialog extends Component {
         });
     }
 
-    onSubmit(inputData) {
+    onSubmit(inputData, userType) {
+
         axios.post("http://localhost:8080/login", inputData,
             {
                 headers: {
@@ -50,19 +56,37 @@ export default class AdminLoginDialog extends Component {
                 }
             })
             .then(value => {
-                if (value.status === 200) {
-                    //to set a cookie
-                    {/*
-                    Cookie.set("token", "Bearer " + Object.values(value.data)[0]);
-                    */}
-                    this.setState({showLink: true});
-                } else {
+                if (value.data.message === "Bilgiler hatalı") {
                     this.setState({
                         openToast: true,
                         toastMessage: value.data.message,
                         toastMessageType: value.data.messageType
                     });
+                } else {
+                    console.log(userType)
+                    console.log( value.data.message.toString().substring(0, 4))
+                    if (userType === value.data.message.toString().substring(0, 4)) {
+                        //to set a cookie
+                        Cookie.set("Authorization", "Basic " + value.data.message.toString().substring(5));
+                        console.log(Cookie.get("Authorization"))
+                        this.setState({showLink: true});
+                    } else {
+                        this.setState({
+                            openToast: true,
+                            toastMessage: "Hatalı kullanıcı tipi seçimi!",
+                            toastMessageType: "ERROR"
+                        });
+
+                    }
                 }
+            })
+            .catch(value => {
+                console.log(value);
+                this.setState({
+                    openToast: true,
+                    toastMessage: "Hatalı",
+                    toastMessageType: "ERROR"
+                });
             });
     }
 
@@ -71,11 +95,19 @@ export default class AdminLoginDialog extends Component {
         return (
             <Router>
                 <Dialog open={this.state.showDialog} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Admin Girişi</DialogTitle>
+                    <DialogTitle id="form-dialog-title"></DialogTitle>
                     <DialogContent>
+
                         <DialogContentText>
-                            Kullanıcı bilgilerinizi giriniz.
+                            Kullanıcı tipinizi seçip bilgilerinizi giriniz.
                         </DialogContentText>
+                        <Button variant="contained" color="primary" onClick={() => this.setState({userType: "ADMI"})}>
+                            Admin
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={() => this.setState({userType: "USER"})}>
+                            Kullanıcı
+                        </Button>
+
                         {this.state.adminDialogFields.map(field => (
                             <TextField
                                 autoFocus
@@ -91,12 +123,15 @@ export default class AdminLoginDialog extends Component {
                         ))}
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.onSubmit(this.state.inputData)}
+                        <Button onClick={() => this.onSubmit(this.state.inputData, this.state.userType)}
                                 color="primary">
                             Giriş Yap
                         </Button>
-                        {this.state.showLink &&
+                        {this.state.showLink && this.state.userType === "ADMI" &&
                         <Link to={"/admin"} onClick={() => this.setState({showDialog: false})}>
+                            Sayfaya gitmek için tıklayın</Link>}
+                        {this.state.showLink && this.state.userType === "USER" &&
+                        <Link to={"/user"} onClick={() => this.setState({showDialog: false})}>
                             Sayfaya gitmek için tıklayın</Link>}
                     </DialogActions>
                     <CustomizedSnackbars open={this.state.openToast}
@@ -105,9 +140,10 @@ export default class AdminLoginDialog extends Component {
                                          message={this.state.toastMessage}
                                          messageType={this.state.toastMessageType}/>
                 </Dialog>
-                {/*
+
+
                 <Route path="/admin" component={admin}/>
-                */}
+                <Route path="/user" component={user}/>
             </Router>
         );
     }
