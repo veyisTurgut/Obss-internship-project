@@ -6,6 +6,7 @@ import obss.intern.veyis.config.response.MessageType;
 import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.repository.SubjectRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +17,14 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
 
+
+
     public Subject getById(Long id) {
         return subjectRepository.getById(id);
     }
 
     public List<Subject> getAllSubjects() {
-        return subjectRepository.findAll();
+        return subjectRepository.findAllSorted();
     }
 
     public Subject getByKeys(String subject_name, String subsubject_name) {

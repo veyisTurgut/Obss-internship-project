@@ -3,13 +3,14 @@ import React, {useState} from 'react';
 import {BrowserRouter as Router, Link, Route} from "react-router-dom";
 //import AdminTable from "./component/admin/AdminTable";
 import LoginDialog from "./component/login/LoginDialog";
+import AdminDashboard from "./component/admin/Dashboard";
 
 function login() {
     return <LoginDialog/>
 }
 
 function admin() {
-    return "admin page"
+    return <AdminDashboard/>
 }
 
 function user() {

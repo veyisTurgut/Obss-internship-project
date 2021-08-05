@@ -14,33 +14,33 @@ VALUES ('user1', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO Subject (subject_id, subject_name, subsubject_name)
-VALUES (1, 'subject-1', 'a'),
-       (2, 'subject-1', 'b'),
-       (3, 'subject-1', 'c'),
-       (4, 'subject-2', 'a'),
-       (5, 'subject-2', 'b'),
-       (6, 'subject-2', 'c'),
-       (7, 'subject-3', 'a'),
-       (8, 'subject-3', 'b'),
-       (9, 'subject-4', 'a')
+VALUES (21, 'subject-1', 'a'),
+       (22, 'subject-1', 'b'),
+       (23, 'subject-1', 'c'),
+       (24, 'subject-2', 'a'),
+       (25, 'subject-2', 'b'),
+       (26, 'subject-2', 'c'),
+       (27, 'subject-3', 'a'),
+       (28, 'subject-3', 'b'),
+       (29, 'subject-4', 'a')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO mentorship_application(applicant_username, subject_id, experience, status)
-VALUES ('user1', 1, 'user 1 experiences for subject 2,a', 'open'),
-       ('user2', 2, 'user 2 experiences for subject 1,a', 'open'),
-       ('user5', 3, 'user 5 experiences for subject 2,b', 'open'),
-       ('user4', 5, 'user 4 experiences for subject 3,b', 'open'),
-       ('user5', 5, 'user 5 experiences for subject 1,c', 'open'),
-       ('user3', 5, 'user 3 experiences for subject 2,a', 'open'),
-       ('user6', 6, 'user 6 experiences for subject 2,a', 'open'),
-       ('user5', 4, 'user 5 experiences for subject 3,c', 'open')
+VALUES ('user1', 21, 'user 1 experiences for subject 2,a', 'open'),
+       ('user2', 22, 'user 2 experiences for subject 1,a', 'open'),
+       ('user5', 23, 'user 5 experiences for subject 2,b', 'open'),
+       ('user4', 25, 'user 4 experiences for subject 3,b', 'open'),
+       ('user5', 25, 'user 5 experiences for subject 1,c', 'open'),
+       ('user3', 25, 'user 3 experiences for subject 2,a', 'open'),
+       ('user6', 26, 'user 6 experiences for subject 2,a', 'open'),
+       ('user5', 24, 'user 5 experiences for subject 3,c', 'open')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO program(program_id, startdate, enddate, status, is_active, mentee_comment, mentor_comment, mentor_username,
                     mentee_username, subject_id)
-VALUES (7, '1996-12-02', '1997-12-02', 'ended', false, 'mentee_commentxo', 'mentor_commentxo', 'user5', 'user3', 3),
-       (8, '2006-10-03', '2008-02-22', 'ended', false, 'mentee_commentxo', 'mentor_commentxo', 'user5', 'user2', 4),
-       (9, '2021-07-03', null, 'phase2', true, 'mentee_commentxo', 'mentor_commentxo', 'user4', 'user2', 1)
+VALUES (7, '1996-12-02', '1997-12-02', 'ended', false, 'mentee_commentxo', 'mentor_commentxo', 'user5', 'user3', 23),
+       (8, '2006-10-03', '2008-02-22', 'ended', false, 'mentee_commentxo', 'mentor_commentxo', 'user5', 'user2', 24),
+       (9, '2021-07-03', null, 'phase2', true, 'mentee_commentxo', 'mentor_commentxo', 'user4', 'user2', 21)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO phase(phase_id, program_id, mentee_point, mentor_point, startdate, enddate, mentee_experience,

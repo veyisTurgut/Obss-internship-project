@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
@@ -18,4 +19,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     @Modifying
     void deleteSubject(@Param("subject_id") Long id);
 
+    @Query(value ="SELECT * FROM SUBJECT ORDER BY subject_id ASC ",nativeQuery = true)
+    List<Subject> findAllSorted();
 }

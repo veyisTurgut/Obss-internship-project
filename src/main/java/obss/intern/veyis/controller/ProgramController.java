@@ -63,7 +63,7 @@ public class ProgramController {
         if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
         return programService.updatePhase(phaseMapper.mapToEntity(phaseDTO, program));
     }
-    @PostMapping()//user - this is called by mentee to enroll.
+    @PostMapping("/")//user - this is called by mentee to enroll.
     public MessageResponse addProgram(@RequestBody @Validated ProgramDTO programDTO) {
 
     /*

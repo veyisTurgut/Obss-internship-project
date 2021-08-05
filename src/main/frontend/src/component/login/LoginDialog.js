@@ -8,13 +8,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from "axios";
 import {Link, BrowserRouter as Router, Route} from "react-router-dom";
-//import AdminTable from "../admin/AdminTable";
 import Cookie from "js-cookie"
 import CustomizedSnackbars from "../Toast";
-
+import AdminDashboard from "../admin/Dashboard";
 
 function admin() {
-    return "adminPage"
+    return <AdminDashboard/>
 }
 
 function user() {

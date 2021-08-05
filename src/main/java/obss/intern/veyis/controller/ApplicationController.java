@@ -26,7 +26,7 @@ public class ApplicationController {
     private final ApplicationMapperImpl applicationMapper;
 
 
-    @PostMapping()//user
+    @PostMapping("/")//user
     public MessageResponse applyForMentorship(@RequestBody @Validated ApplicationDTO applicationDTO) {
         Subject subject = subjectService.getByKeys(applicationDTO.getSubject_name(), applicationDTO.getSubsubject_name());
         Users mentor_applicant = userService.getUser(applicationDTO.getApplicant_username());

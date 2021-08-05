@@ -25,13 +25,13 @@ public class SubjectController {
         return subjectMapper.mapToDto(subjectService.getAllSubjects());
     }
 
-    @PostMapping()//admin
-    public MessageResponse addSubject(@RequestBody SubjectDTO subjectDTO) {
+    @PostMapping("/")//admin
+    public MessageResponse addSubject(@RequestBody @Validated SubjectDTO subjectDTO) {
         return subjectService.addSubject(subjectMapper.mapToEntity(subjectDTO));
     }
 
-    @DeleteMapping()//admin
-    public MessageResponse deleteSubject(@RequestBody SubjectDTO subjectDTO) {
+    @DeleteMapping("/")//admin
+    public MessageResponse deleteSubject(@RequestBody @Validated SubjectDTO subjectDTO) {
         return subjectService.deleteSubject(subjectDTO);
     }
 
