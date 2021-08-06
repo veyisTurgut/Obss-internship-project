@@ -50,7 +50,7 @@ export default class AddSubjectDialog extends Component {
                     <Button onClick={this.props.onClose} color="primary">
                         İptal
                     </Button>
-                    <Button onClick={() => this.props.onSubmit(this.state.inputData, this.props.activityTitle)}
+                    <Button onClick={() => this.props.onSubmit(this.state.inputData)}
                             color="primary">
                         Ekle
                     </Button>

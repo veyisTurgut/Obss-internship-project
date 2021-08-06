@@ -59,7 +59,8 @@ public class ProgramService {
             return new MessageResponse("Program zaten var!", MessageType.ERROR);
         }
         List<Program> programs_of_this_mentor = programRepository.findProgramByMentorEqualsAndSubjectEquals(program.getMentor(), program.getSubject());
-        if (programs_of_this_mentor.size() >= 2) {
+        System.out.println(programs_of_this_mentor);
+        if (programs_of_this_mentor.size() >= 1) {
             MentorshipApplication application = applicationRepository.findApprovedByKeys(program.getMentor().getUsername(), program.getSubject().getSubject_id());
             if (application == null) return new MessageResponse("Kaydolunamaz!", MessageType.ERROR);
             application.setStatus("full");

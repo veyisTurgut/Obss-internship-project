@@ -10,14 +10,15 @@ import axios from "axios";
 import {Link, BrowserRouter as Router, Route} from "react-router-dom";
 import Cookie from "js-cookie"
 import CustomizedSnackbars from "../Toast";
-import AdminDashboard from "../admin/Dashboard";
+import AdminDashboard from "../admin/AdminDashboard";
+import UserDashboard from "../user/UserDashboard";
 
 function admin() {
     return <AdminDashboard/>
 }
 
 function user() {
-    return "userPage"
+    return <UserDashboard/>
 }
 
 export default class LoginDialog extends Component {
@@ -67,7 +68,8 @@ export default class LoginDialog extends Component {
                     if (userType === value.data.message.toString().substring(0, 4)) {
                         //to set a cookie
                         Cookie.set("Authorization", "Basic " + value.data.message.toString().substring(5));
-                        console.log(Cookie.get("Authorization"))
+                        Cookie.set("Username", inputData["username"]);
+                        console.log(Cookie.get("Username"))
                         this.setState({showLink: true});
                     } else {
                         this.setState({
@@ -106,7 +108,8 @@ export default class LoginDialog extends Component {
                         <Button variant="contained" color="primary" onClick={() => this.setState({userType: "USER"})}>
                             Kullanıcı
                         </Button>
-                        <Button variant="contained" color="secondary" href="http:localhost:8080/login/oauth2/code/">
+                        {/*TODO: link to external */}
+                        <Button variant="contained" color="secondary" target="_blank" rel="noopener noreferrer" href="http:localhost:8080/login/oauth2/code/">
                             Google ile Giriş
                         </Button>
                         {this.state.adminDialogFields.map(field => (
@@ -149,3 +152,4 @@ export default class LoginDialog extends Component {
         );
     }
 }
+

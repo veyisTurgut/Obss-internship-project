@@ -101,7 +101,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login")
                 .and()
-                .oauth2Login();
+        //        .oauth2Login()
+        ;
     }
     /*
     @Override

@@ -4,19 +4,22 @@ import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
 import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
+import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Subject;
+import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
 import obss.intern.veyis.manageMentorships.repository.SubjectRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SubjectService {
 
     private final SubjectRepository subjectRepository;
-
+    private final ApplicationRepository applicationRepository;
 
 
     public Subject getById(Long id) {
@@ -66,5 +69,10 @@ public class SubjectService {
         subject.setSubsubject_name(subsubject_name);
         subjectRepository.save(subject);
         return subject;
+    }
+
+    public List<Subject> getApplicationsOfAUser(String username) {
+        return applicationRepository.findByUsername(username).stream().
+                filter(x -> x.getApplicant().getUsername().equals(username)).map(x -> x.getSubject()).collect(Collectors.toList());
     }
 }

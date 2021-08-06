@@ -4,14 +4,19 @@ import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
 import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
+import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Subject;
+import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
 import obss.intern.veyis.manageMentorships.repository.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +46,7 @@ public class ApplicationService {
         if (application_from_db != null) {
             return new MessageResponse("application already exists", MessageType.ERROR);
         }
-        applicationRepository.save(application);
+        applicationRepository.saveManually(application.getApplicant().getUsername(), application.getSubject().getSubject_id(), application.getExperience());
         return new MessageResponse("success", MessageType.SUCCESS);
     }
 
@@ -106,7 +111,19 @@ public class ApplicationService {
         return applicationRepository.findMentorshipApplicationsByStatusEquals("open");
     }
 
-    public List<MentorshipApplication> findByKeyword(String keyword) {
-        return applicationRepository.findByExperienceContains(keyword);
+    public List<MentorshipApplication> findByKeyword(String keyword, List<SubjectDTO> subjectDTOs) {
+        Set<MentorshipApplication> set = new HashSet<>();
+        for (SubjectDTO subjectDTO : subjectDTOs) {
+            Subject subject_from_db = subjectRepository.findSubject(subjectDTO.getSubject_name(), subjectDTO.getSubsubject_name());
+            if (subject_from_db == null) continue;
+            set.addAll(applicationRepository.findByKeywordAndSubject(keyword, subject_from_db.getSubject_id()));
+        }
+        return set.stream().collect(Collectors.toList());
+    }
+
+    public MessageResponse deleteMentorshipApplication(Subject subject, Users mentor) {
+        MentorshipApplication application = applicationRepository.findAllByKeys(mentor.getUsername(), subject.getSubject_id());
+        applicationRepository.delete(application);
+        return new MessageResponse("Silindi!", MessageType.SUCCESS);
     }
 }

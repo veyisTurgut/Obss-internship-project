@@ -25,6 +25,12 @@ public class SubjectController {
         return subjectMapper.mapToDto(subjectService.getAllSubjects());
     }
 
+    @GetMapping("/{username}")//admin-user
+    public List<SubjectDTO> getApplicationsOfAUser(@PathVariable String username) {
+        return subjectMapper.mapToDto(subjectService.getApplicationsOfAUser(username));
+    }
+
+
     @PostMapping("/")//admin
     public MessageResponse addSubject(@RequestBody @Validated SubjectDTO subjectDTO) {
         return subjectService.addSubject(subjectMapper.mapToEntity(subjectDTO));
