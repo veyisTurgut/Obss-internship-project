@@ -30,6 +30,7 @@ export default class EnrollDialog extends Component {
     render() {
         return (
             <Dialog
+                fullWidth
                 open={this.props.open}
                 TransitionComponent={Transition}
                 keepMounted
@@ -38,22 +39,23 @@ export default class EnrollDialog extends Component {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle id="alert-dialog-slide-title">{this.props.who + " Kaydolma Ekranı"}</DialogTitle>
-
-                {this.props.who === "Mentor" &&
-                <TextField
-                    autoFocus
-                    variant="filled"
-                    margin="dense"
-                    id="experience"
-                    label="experience"
-                    type={<text/>}
-                    onChange={this.handleInputChange}
-                    fullWidth
-                    required
-                />}
-
-
                 <DialogContent>
+                    {this.props.who === "Mentor" &&
+                    <TextField
+                        autoFocus
+                        variant="filled"
+                        margin="dense"
+                        id="experience"
+                        label="experience"
+                        type={<text/>}
+                        onChange={this.handleInputChange}
+                        multiline={"yes"}
+                        size={"medium"}
+                        fullWidth
+                        required
+                    />}
+
+
                     <DialogContentText id="alert-dialog-slide-description">
                         Programa gerçekten kaydolmak istiyor musun?
                     </DialogContentText>

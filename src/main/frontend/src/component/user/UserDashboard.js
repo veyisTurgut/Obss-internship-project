@@ -24,6 +24,8 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ApplyMenteeTable from "./ApplyMenteeTable";
 import ApplyMentorTable from "./ApplyMentorTable";
 import {Link} from "react-router-dom";
+import ProgramDialog from "./ProgramDialog";
+
 
 export default class UserDashboard extends Component {
     constructor(props) {
@@ -35,9 +37,11 @@ export default class UserDashboard extends Component {
             programData: [],
             openUserDialog: false,
             openAdminDialog: false,
+            openProgramDialog: false,
             openToast: false,
             toastMessage: '',
             toastMessageType: '',
+            program_id: 0,
             isDeleteDialogOpen: false,
             isApproveRejectDialogOpen: false,
             subject_id: "",
@@ -65,30 +69,43 @@ export default class UserDashboard extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        /*
-                if (this.state !== prevState) {
-                    axios.get('http://localhost:8080/subjects/all', {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                            'Authorization': Cookie.get("Authorization")
-                        }
-                    }).then(response => {
-                        this.setState({
-                            SubjectData: response.data
-                        });
-                    });
 
-                    axios.get('http://localhost:8080/applications/open', {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                            'Authorization': Cookie.get("Authorization")
-                        }
-                    }).then(response => {
-                        this.setState({
-                            ApplicationData: response.data
-                        });
+        if (this.state !== prevState) {
+            if (this.state.navValue === "Menteeliklerin" && prevState.navValue !== "Menteeliklerin") {
+                axios.get('http://localhost:8080/users/' + Cookie.get("Username") + '/programsmenteed', {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Authorization': Cookie.get("Authorization")
+                    }
+                }).then(response => {
+                    this.setState({
+                        programData: response.data
                     });
-                }*/
+                });
+            }
+
+            /*    axios.get('http://localhost:8080/subjects/all', {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Authorization': Cookie.get("Authorization")
+                    }
+                }).then(response => {
+                    this.setState({
+                        SubjectData: response.data
+                    });
+                });
+
+                axios.get('http://localhost:8080/applications/open', {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Authorization': Cookie.get("Authorization")
+                    }
+                }).then(response => {
+                    this.setState({
+                        ApplicationData: response.data
+                    });
+                });*/
+        }
     }
 
     handleAddSubjectDialog = (inputData) => {
@@ -192,25 +209,59 @@ export default class UserDashboard extends Component {
         })
     }
 
+    handleAddMentorExperience = (program_id, experience) => {
+    }
+    handleAddMentorPoint = (program_id, point) => {
+    }
+    handleAddPhase = (program_id, phase_count) => {
+    }
+    handleNextPhase = (program_id) => {
+    }
+
     render() {
         return (
             <div>
                 <BottomNavigation showLabels>
+                    {this.state.navValue === "Mentorlukların" &&
+                    <BottomNavigationAction label="Mentorlukların" icon={<ViewListIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Mentorlukların",
+                                            })}/>}
+                    {this.state.navValue !== "Mentorlukların" &&
                     <BottomNavigationAction label="Mentorlukların" icon={<ViewListIcon/>} onClick={() => this.setState({
                         navValue: "Mentorlukların",
-                    })}/>
+                    })}/>}
+
+                    {this.state.navValue === "Menteeliklerin" &&
+                    <BottomNavigationAction label="Menteeliklerin" icon={<AssignmentIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Menteeliklerin",
+                                            })}/>}
+                    {this.state.navValue !== "Menteeliklerin" &&
                     <BottomNavigationAction label="Menteeliklerin" icon={<AssignmentIcon/>}
                                             onClick={() => this.setState({
                                                 navValue: "Menteeliklerin",
-                                            })}/>
+                                            })}/>}
+                    {this.state.navValue === "Menteeliğe Başvur" &&
+                    <BottomNavigationAction label="Menteeliğe Başvur" icon={<AddCircleOutlineIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Menteeliğe Başvur",
+                                            })}/>}
+                    {this.state.navValue !== "Menteeliğe Başvur" &&
                     <BottomNavigationAction label="Menteeliğe Başvur" icon={<AddCircleOutlineIcon/>}
                                             onClick={() => this.setState({
                                                 navValue: "Menteeliğe Başvur",
-                                            })}/>
+                                            })}/>}
+                    {this.state.navValue === "Mentorluğa Başvur" &&
+                    <BottomNavigationAction label="Mentorluğa Başvur" icon={<AddCircleIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Mentorluğa Başvur",
+                                            })}/>}
+                    {this.state.navValue !== "Mentorluğa Başvur" &&
                     <BottomNavigationAction label="Mentorluğa Başvur" icon={<AddCircleIcon/>}
                                             onClick={() => this.setState({
                                                 navValue: "Mentorluğa Başvur",
-                                            })}/>
+                                            })}/>}
                 </BottomNavigation>
 
                 <TableContainer component={Paper}>
@@ -232,17 +283,34 @@ export default class UserDashboard extends Component {
                                     return <TableRow key={index}>
                                         <TableCell align="center">{p.program_id}</TableCell>
                                         <TableCell align="center">{p.mentee_username}</TableCell>
-                                        <TableCell align="center">{p.subject_name} : {p.subsubject_name}</TableCell>
+                                        <TableCell align="center"><b>{p.subject_name}</b> : {p.subsubject_name}
+                                        </TableCell>
                                         <TableCell align="center">{p.status}</TableCell>
                                         <TableCell align="center">
-                                            <Link to={"/program/"+p.program_id}>link</Link>
-
+                                            <Button
+                                                onClick={() => this.setState({
+                                                    openProgramDialog: true,
+                                                    program_id: p.program_id
+                                                })}
+                                                color={"secondary"}>detaylar</Button>
                                         </TableCell>
-
+                                        {this.state.program_id === p.program_id && <ProgramDialog
+                                            program_id={p.program_id}
+                                            subject_name={p.subject_name}
+                                            subsubject_name={p.subsubject_name}
+                                            open={this.state.openProgramDialog}
+                                            whoOpened={this.state.navValue.substring(0,6)}
+                                            onClose={() => this.setState({openProgramDialog: false})}
+                                            handleAddMentorExperience={this.handleAddMentorExperience}
+                                            handleAddMentorPoint={this.handleAddMentorPoint}
+                                            handleAddPhase={this.handleAddPhase}
+                                            handleNextPhase={this.handleNextPhase}
+                                        />}
                                     </TableRow>
                                 })
                             }
                         </TableBody>
+
                         <CustomizedSnackbars open={this.state.openToast}
                                              onClick={() => this.setState({openToast: true})}
                                              handleCloseToast={() => this.setState({openToast: false})}
@@ -250,55 +318,53 @@ export default class UserDashboard extends Component {
                                              messageType={this.state.toastMessageType}/>
                     </Table>}
                     {this.state.navValue === "Menteeliklerin" && <Table stickyHeader aria-label="sticky table">
-
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">Konu numarası</TableCell>
-                                <TableCell align="center">Konu adı : Altkonu adı</TableCell>
-                                <TableCell align="center"></TableCell>
+                                <TableCell align="center"><h3><b>Mentor</b></h3></TableCell>
+                                <TableCell align="center"><h3><b>Konu : Altkonu</b></h3></TableCell>
+                                <TableCell align="center"><h3><b>Durum</b></h3></TableCell>
+                                <TableCell align="center"><h3><b>Detaylı İşlemler</b></h3></TableCell>
 
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {
-                                this.state.SubjectData.map((p, index) => {
+                                this.state.programData.map((p, index) => {
                                     return <TableRow key={index}>
-                                        <TableCell align="center">{p.subject_id}</TableCell>
-                                        <TableCell align="center">{p.subject_name} : {p.subsubject_name}</TableCell>
-                                        <TableCell align="center">
-
-                                            <Button align="center" color="secondary"
-                                                    startIcon={<DeleteIcon/>} onClick={() => this.setState({
-                                                isDeleteDialogOpen: true,
-                                                subject_id: p.subject_id
-                                            })}>
-                                                Sil
-                                            </Button>
+                                        <TableCell align="center">{p.mentee_username}</TableCell>
+                                        <TableCell align="center"><b>{p.subject_name}</b> : {p.subsubject_name}
                                         </TableCell>
-                                        {/*
-                                        <DeleteDialog
-                                            subject_id={this.state.subject_id}
-                                            handleCloseDeleteDialog={() => this.setState({isDeleteDialogOpen: false})}
-                                            handleDeleteSubject={this.handleDeleteSubject}
-                                            open={this.state.isDeleteDialogOpen}
-                                        />
-                                        <AddSubjectDialog
-                                            open={this.state.openUserDialog}
-                                            onClose={() => this.setState({openUserDialog: false})}
-                                            onSubmit={this.handleAddSubjectDialog}
-                                            fields={this.state.subjectDialogFields}/>
-                                            */}
+                                        <TableCell align="center">{p.status}</TableCell>
+                                        <TableCell align="center">
+                                            <Button
+                                                onClick={() => this.setState({
+                                                    openProgramDialog: true,
+                                                    program_id: p.program_id
+                                                })}
+                                                color={"secondary"}>detaylar</Button>
+                                        </TableCell>
+                                        {this.state.program_id === p.program_id && <ProgramDialog
+                                            program_id={p.program_id}
+                                            subject_name={p.subject_name}
+                                            subsubject_name={p.subsubject_name}
+                                            open={this.state.openProgramDialog}
+                                            onClose={() => this.setState({openProgramDialog: false})}
+                                            handleAddMentorExperience={this.handleAddMentorExperience}
+                                            handleAddMentorPoint={this.handleAddMentorPoint}
+                                            handleAddPhase={this.handleAddPhase}
+                                            handleNextPhase={this.handleNextPhase}
+                                        />}
                                     </TableRow>
                                 })
                             }
                         </TableBody>
+
                         <CustomizedSnackbars open={this.state.openToast}
                                              onClick={() => this.setState({openToast: true})}
                                              handleCloseToast={() => this.setState({openToast: false})}
                                              message={this.state.toastMessage}
                                              messageType={this.state.toastMessageType}/>
                     </Table>}
-                    {this.state.navValue === "Mentor Arama"}
                     {this.state.navValue === "Menteeliğe Başvur" && <ApplyMenteeTable/>}
                     {this.state.navValue === "Mentorluğa Başvur" && <ApplyMentorTable/>}
                 </TableContainer>

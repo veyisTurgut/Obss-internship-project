@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,5 +75,12 @@ public class SubjectService {
     public List<Subject> getApplicationsOfAUser(String username) {
         return applicationRepository.findByUsername(username).stream().
                 filter(x -> x.getApplicant().getUsername().equals(username)).map(x -> x.getSubject()).collect(Collectors.toList());
+    }
+
+    public List<Subject> getAllSubjectsExceptAUser(String username) {
+        Set<Subject> applied = getApplicationsOfAUser(username).stream().collect(Collectors.toSet());
+        Set<Subject> all = subjectRepository.findAll().stream().collect(Collectors.toSet());
+        all.removeAll(applied);
+        return all.stream().collect(Collectors.toList());
     }
 }

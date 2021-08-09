@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -126,4 +127,14 @@ public class ApplicationService {
         applicationRepository.delete(application);
         return new MessageResponse("Silindi!", MessageType.SUCCESS);
     }
+/*
+    public List<MentorshipApplication> findApplicationsUserCanApply(String mentee) {
+        Set<Subject> users = programRepository.findProgramByMentee(mentee)
+                .stream().filter(x -> !x.getStatus().equals("ended")).
+                        map(x -> x.getSubject()).collect(Collectors.toSet());
+        Set<MentorshipApplication> approved = findApprovedApplications().stream().collect(Collectors.toSet());
+        approved.stream().filter(x -> users.contains(x.getSubject()));
+        return approved.stream().collect(Collectors.toList());
+    }
+*/
 }

@@ -31,7 +31,7 @@ public class PhaseMapperImpl implements PhaseMapper {
             Date end_date = phase.getEnd_date();
             Date start_date = phase.getStart_date();
             Long phase_id = phase.getId().getPhase_id();
-            PhaseDTO phaseDTO = new PhaseDTO(program_id, phase_id, mentee_experience, mentor_experience, end_date, start_date, mentor_point, mentee_point);
+            PhaseDTO phaseDTO = new PhaseDTO(program_id, phase_id, mentee_experience, mentor_experience, start_date, end_date, mentor_point, mentee_point);
             return phaseDTO;
         }
     }
@@ -84,7 +84,7 @@ public class PhaseMapperImpl implements PhaseMapper {
 
             while (var3.hasNext()) {
                 PhaseDTO phaseDTO = (PhaseDTO) var3.next();
-                list.add(this.mapToEntity(phaseDTO,program));
+                list.add(this.mapToEntity(phaseDTO, program));
             }
 
             return list;

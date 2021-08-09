@@ -33,4 +33,8 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     */
 
     List<Program> findProgramByMentorEqualsAndSubjectEquals(Users mentor, Subject subject);
+
+
+    @Query(value = "SELECT * FROM program WHERE mentee_username = ?1", nativeQuery = true)
+    List<Program> findProgramByMentee(String mentee);
 }

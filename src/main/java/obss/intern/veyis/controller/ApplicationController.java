@@ -53,7 +53,7 @@ public class ApplicationController {
         return applicationMapper.mapToDto(applicationService.findAllApplications());
     }
 
-    @GetMapping("/approved")//user(mentee)-admin
+    @GetMapping("/approved")//admin
     public List<ApplicationDTO> approvedApplications() {
         return applicationMapper.mapToDto(applicationService.findApprovedApplications());
     }
@@ -62,6 +62,11 @@ public class ApplicationController {
     public List<ApplicationDTO> openApplications() {
         return applicationMapper.mapToDto(applicationService.findOpenApplications());
     }
+    /*
+    @GetMapping("/{username}/can")//user
+    public List<ApplicationDTO> applicationsUserCanApply(@PathVariable String username) {
+        return applicationMapper.mapToDto(applicationService.findApplicationsUserCanApply(username));
+    }*/
 
     @PutMapping("/reject")//admin
     //may change this such that I would only get application_id rather than DTO. will decide after frontend

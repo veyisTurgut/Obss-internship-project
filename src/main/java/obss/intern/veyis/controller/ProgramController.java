@@ -49,6 +49,7 @@ public class ProgramController {
 
     @GetMapping("/{program_id}")//admin-user
     public ProgramDTO getAProgramById(@PathVariable Long program_id) {
+        System.out.println(programMapper.mapToDto(programService.getById(program_id)));
         return programMapper.mapToDto(programService.getById(program_id));
     }
 
@@ -63,6 +64,7 @@ public class ProgramController {
         if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
         return programService.updatePhase(phaseMapper.mapToEntity(phaseDTO, program));
     }
+
     @PostMapping("/")//user - this is called by mentee to enroll.
     public MessageResponse addProgram(@RequestBody @Validated ProgramDTO programDTO) {
 
@@ -79,7 +81,7 @@ public class ProgramController {
         Program program = programMapper.mapToEntity(programDTO, mentor, mentee, subject);
         return programService.addProgram(program);
     }
-
+/*
     @PostMapping("/{program_id}/phases")//user
     public MessageResponse addPhases(@PathVariable Long program_id, @RequestBody @Validated List<PhaseDTO> phaseDTOList) {
         Program program = programService.getById(program_id);
@@ -87,17 +89,26 @@ public class ProgramController {
         Set<Phase> phases = phaseMapper.mapToEntity(phaseDTOList, program).stream().collect(Collectors.toSet());
         return programService.addPhases(program, phases);
     }
+    *///TODO
+    @PostMapping("/{program_id}/phases/{phase_count}")//user
+    public MessageResponse addPhases(@PathVariable Long program_id, @PathVariable String phase_count) {
+        Program program = programService.getById(program_id);
+        if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
+        //return programService.addPhases(program, phase_count);
+        return null;
+    }
 
+    /*
     @PutMapping("/{program_id}/startPhase1")
     public MessageResponse startPhase1(@PathVariable Long program_id) {
         Program program = programService.getById(program_id);
         if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
         return programService.startPhase1(program);
     }
-
+*/
     //TODO: fazı almaya gerek yok. açık olan ilk fazı kapa devam et işte.
-    @PutMapping("/{program_id}/closePhase")//user
-    public MessageResponse closePhase(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
+    @PutMapping("/{program_id}/nextPhase")//user
+    public MessageResponse nextPhase(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
         Program program = programService.getById(program_id);
         if (program == null) return new MessageResponse("Böyle bir program yok.", MessageType.ERROR);
         return programService.closePhase(program_id, phaseMapper.mapToEntity(phaseDTO, program));

@@ -31,6 +31,7 @@ export default class ApplyMenteeTable extends Component {
 
     componentDidMount() {
         //TODO: kullanıcının zaten kayıtlı olduğu programı tekrar ona gösterme!
+//        axios.get('http://localhost:8080/applications/' + Cookie.get("Username") + '/can', {
         axios.get('http://localhost:8080/applications/approved', {
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -44,8 +45,8 @@ export default class ApplyMenteeTable extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-
-        if (this.state !== prevState) {
+        // TODO ?? this if statement may be troublesome
+        if (this.state !== prevState && prevState.SubjectData !== this.state.SubjectData) {
             if (!this.state.didSearch) {
                 axios.get('http://localhost:8080/applications/approved', {
                     headers: {
@@ -147,12 +148,13 @@ export default class ApplyMenteeTable extends Component {
     render() {
         return (
             <div>
+                <div align={"right"}>
                 <Button align="center" color="primary"
                         startIcon={<SearchIcon/>} onClick={() => this.setState({
                     isSearchDialogOpen: true,
                 })}>
                     Mentor arama
-                </Button>
+                </Button></div>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>

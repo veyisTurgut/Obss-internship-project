@@ -12,12 +12,19 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteApplicationMentorDialog from "./DeleteApplicationMentorDialog";
 import EnrollDialog from "./EnrollDialog";
+import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import ViewListIcon from "@material-ui/icons/ViewList";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import BottomNavigation from "@material-ui/core/BottomNavigation";
 
 
 export default class ApplyMentorTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            navValue: "",
             SubjectData: [],
             appliedSubjectData: [],
             isDeleteDialogOpen: false,
@@ -29,8 +36,8 @@ export default class ApplyMentorTable extends Component {
     }
 
     componentDidMount() {
-        //TODO: kullanıcının zaten kayıtlı olduğu programı tekrar ona gösterme!
-        axios.get('http://localhost:8080/subjects/all', {
+
+        /*axios.get('http://localhost:8080/subjects/all', {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -39,7 +46,7 @@ export default class ApplyMentorTable extends Component {
             this.setState({
                 SubjectData: response.data
             });
-        });
+        });*/
 
         axios.get('http://localhost:8080/subjects/' + Cookie.get("Username"), {
             headers: {
@@ -56,17 +63,31 @@ export default class ApplyMentorTable extends Component {
     async componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (this.state !== prevState) {
-            axios.get('http://localhost:8080/subjects/all', {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Authorization': Cookie.get("Authorization")
-                }
-            }).then(response => {
-                this.setState({
-                    SubjectData: response.data
+            if (this.state.navValue === "old" && prevState.navValue !== this.state.navValue) {
+                console.log("old")
+                axios.get('http://localhost:8080/subjects/' + Cookie.get("Username"), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Authorization': Cookie.get("Authorization")
+                    }
+                }).then(response => {
+                    this.setState({
+                        SubjectData: response.data
+                    });
                 });
-            });
-
+            } else if (this.state.navValue === "new" && prevState.navValue !== this.state.navValue) {
+                console.log("new")
+                axios.get('http://localhost:8080/subjects/except/' + Cookie.get("Username"), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Authorization': Cookie.get("Authorization")
+                    }
+                }).then(response => {
+                    this.setState({
+                        SubjectData: response.data
+                    });
+                });
+            }
         }
     }
 
@@ -156,24 +177,48 @@ export default class ApplyMentorTable extends Component {
 
     render() {
         return (
-            <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center">Konu adı</TableCell>
-                        <TableCell align="center">Altkonu adı</TableCell>
-                        <TableCell align="center"></TableCell>
+            <div>
+                <BottomNavigation showLabels>
+                    {this.state.navValue === "old" &&
+                    <BottomNavigationAction label="Geçmiş Başvurular" icon={<ViewListIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "old",
+                                            })}/>}
+                    {this.state.navValue !== "old" &&
+                    <BottomNavigationAction label="Geçmiş Başvurular" icon={<ViewListIcon/>}
+                                            onClick={() => this.setState({
+                                                navValue: "old",
+                                            })}/>}
+                    {this.state.navValue === "new" &&
+                    <BottomNavigationAction label="Yeni Başvuru" icon={<AssignmentIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "new",
+                                            })}/>}
+                    {this.state.navValue !== "new" &&
+                    <BottomNavigationAction label="Yeni Başvuru" icon={<AssignmentIcon/>}
+                                            onClick={() => this.setState({
+                                                navValue: "new",
+                                            })}/>}
 
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        this.state.SubjectData.map((p, index) => {
+                </BottomNavigation>
+
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Konu adı</TableCell>
+                            <TableCell align="center">Altkonu adı</TableCell>
+                            <TableCell align="center"></TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.state.SubjectData.map((p, index) => {
                             return <TableRow key={index}>
                                 <TableCell align="center">{p.subject_name}</TableCell>
                                 <TableCell align="center">{p.subsubject_name}</TableCell>
                                 <TableCell align="center">
 
-                                    {!this.state.appliedSubjectData.some(v => (v.subject_name === p.subject_name && v.subsubject_name === p.subsubject_name)) &&
+                                    {this.state.navValue === "new" &&
                                     <Button align="center" color="primary"
                                             startIcon={<AddIcon/>}
                                             onClick={() => this.setState({
@@ -184,7 +229,7 @@ export default class ApplyMentorTable extends Component {
                                         Başvur
                                     </Button>}
 
-                                    {this.state.appliedSubjectData.some(v => (v.subject_name === p.subject_name && v.subsubject_name === p.subsubject_name)) &&
+                                    {this.state.navValue === "old" &&
                                     <Button align="center" color="secondary"
                                             startIcon={<DeleteIcon/>}
                                             onClick={() => this.setState({
@@ -218,15 +263,15 @@ export default class ApplyMentorTable extends Component {
                                 />
                             </TableRow>
                         })
-                    }
-                </TableBody>
-                <CustomizedSnackbars open={this.state.openToast}
-                                     onClick={() => this.setState({openToast: true})}
-                                     handleCloseToast={() => this.setState({openToast: false})}
-                                     message={this.state.toastMessage}
-                                     messageType={this.state.toastMessageType}/>
-            </Table>
-        );
+                        }
+                    </TableBody>
+                    <CustomizedSnackbars open={this.state.openToast}
+                                         onClick={() => this.setState({openToast: true})}
+                                         handleCloseToast={() => this.setState({openToast: false})}
+                                         message={this.state.toastMessage}
+                                         messageType={this.state.toastMessageType}/>
+                </Table>
+            </div>);
     }
 
 }

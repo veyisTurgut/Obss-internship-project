@@ -30,6 +30,11 @@ public class SubjectController {
         return subjectMapper.mapToDto(subjectService.getApplicationsOfAUser(username));
     }
 
+    @GetMapping("/except/{username}")//admin-user
+    public List<SubjectDTO> getAllSubjectsExceptAUSer(@PathVariable String username) {
+        return subjectMapper.mapToDto(subjectService.getAllSubjectsExceptAUser(username));
+    }
+
 
     @PostMapping("/")//admin
     public MessageResponse addSubject(@RequestBody @Validated SubjectDTO subjectDTO) {

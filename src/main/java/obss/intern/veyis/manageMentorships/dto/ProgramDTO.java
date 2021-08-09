@@ -75,7 +75,7 @@ public class ProgramDTO {
         this.subsubject_name = subsubject_name;
         this.phases = phases;
         this.mentor_comment = mentor_comment;
-        this.mentor_comment = mentor_comment;
+        this.mentee_comment = mentee_comment;
         this.subject_name = subject_name;
     }
 }

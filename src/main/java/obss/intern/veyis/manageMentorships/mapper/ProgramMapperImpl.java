@@ -46,7 +46,7 @@ public class ProgramMapperImpl implements ProgramMapper {
             String mentor_comment = program.getMentor_comment();
 
             ProgramDTO programDTO = new ProgramDTO(program_id, (Date) end_date, (Date) start_date, (String) status, (String) mentee_username,
-                    (String) mentor_username, (String) subject_name, (String) subsubject_name, (Set) phases, mentor_comment, mentee_comment);
+                    (String) mentor_username,  (String) subsubject_name, (String) subject_name,(Set) phases, mentor_comment, mentee_comment);
             return programDTO;
         }
     }

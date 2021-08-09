@@ -65,6 +65,7 @@ export default class SearchDialog extends Component {
     render() {
         return (
             <Dialog
+                fullWidth
                 open={this.props.open}
                 TransitionComponent={Transition}
                 keepMounted
