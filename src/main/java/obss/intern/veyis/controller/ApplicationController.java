@@ -62,11 +62,11 @@ public class ApplicationController {
     public List<ApplicationDTO> openApplications() {
         return applicationMapper.mapToDto(applicationService.findOpenApplications());
     }
-    /*
+
     @GetMapping("/{username}/can")//user
     public List<ApplicationDTO> applicationsUserCanApply(@PathVariable String username) {
-        return applicationMapper.mapToDto(applicationService.findApplicationsUserCanApply(username));
-    }*/
+        return applicationMapper.mapToDto(applicationService.findSubjectsUserCanApply(username));
+    }
 
     @PutMapping("/reject")//admin
     //may change this such that I would only get application_id rather than DTO. will decide after frontend

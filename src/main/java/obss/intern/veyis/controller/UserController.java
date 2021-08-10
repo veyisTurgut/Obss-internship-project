@@ -57,7 +57,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{username}/programsmenteed")//user-admin
+    @GetMapping("/{username}/programsMenteed")//user-admin
     public List<ProgramDTO> getProgramsMenteed(@PathVariable String username) {
         //TODO: check id is valid.
         System.out.println(username);

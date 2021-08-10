@@ -16,10 +16,8 @@ import obss.intern.veyis.manageMentorships.repository.ProgramRepository;
 import obss.intern.veyis.manageMentorships.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,20 +29,6 @@ public class ProgramService {
     private final UserRepository userRepository;
     private final ApplicationRepository applicationRepository;
 
-    public MessageResponse updatePhase(Phase phase) {
-        //TODO: actually i dont need to map dto to entity in controller, i could directly send dto to this function
-        //TODO: check edge cases: whether phase exists, who sent the request?, etc
-        Phase phase_from_db = phaseRepository.getPhaseById(phase.getId().getPhase_id(), phase.getId().getProgram_id().getProgram_id());
-        if (phase.getMentor_point() == null) {
-            phase_from_db.setMentee_experience(phase.getMentee_experience());
-            phase_from_db.setMentee_point(phase.getMentee_point());
-        } else if (phase.getMentee_point() == null) {
-            phase_from_db.setMentor_experience(phase.getMentor_experience());
-            phase_from_db.setMentor_point(phase.getMentor_point());
-        }
-        phaseRepository.save(phase_from_db);
-        return new MessageResponse("", MessageType.ERROR);
-    }
 
     public MessageResponse addProgram(Program program) {//TODO further checks
         if (program.getMentee() == null || program.getMentor() == null || program.getSubject() == null) {
@@ -82,45 +66,60 @@ public class ProgramService {
         return programRepository.findAll();
     }
 
-    public MessageResponse closePhase(Long program_id, Phase phase) {
-        //TODO: zaen kapalı olan fazı tekrar kapama!
-        Program program = programRepository.getProgramById(program_id);
+    public MessageResponse nextPhase(Program program, PhaseDTO phaseDTO) {
         List<Phase> phases = program.getPhases().stream().collect(Collectors.toList());
         if (phases.size() == 0) {
             return new MessageResponse("Henüz hiç faz yok!", MessageType.ERROR);
         }
         Collections.sort(phases);
-        Phase phase_from_db = phaseRepository.getPhaseById(phase.getId().getPhase_id(), program_id);
-
-        if (phase.getMentor_point() == null) {
-            //mentee updated first
-            phase_from_db.setMentee_point(phase.getMentee_point());
-            phase_from_db.setMentee_experience(phase.getMentee_experience());
-        } else {
-            phase_from_db.setMentor_point(phase.getMentor_point());
-            phase_from_db.setMentor_experience(phase.getMentor_experience());
-        }
-        phase_from_db.setEnd_date(new Date(System.currentTimeMillis()));
-        phaseRepository.save(phase_from_db);
-
-        Phase next_phase = phaseRepository.getPhaseById(phase.getId().getPhase_id() + 1, program_id);
-        if (next_phase == null) {// program is finished
-            program.setEnd_date(new Date(System.currentTimeMillis()));
-            program.setStatus("Ended");
-            program.setIs_active(false);
+        if (phaseDTO.getPhase_id() == 0) {//Starting phase 1
+            phases.get(0).setStart_date(new Date(System.currentTimeMillis()));
+            phaseRepository.save(phases.get(0));
+            program.setStatus("faz 1");
             programRepository.save(program);
-            return new MessageResponse("Program bitti.", MessageType.SUCCESS);
-        } else {
-            next_phase.setStart_date(new Date(System.currentTimeMillis()));
-            phaseRepository.save(next_phase);
-            return new MessageResponse("Faz " + phase.getId().getPhase_id() + " tamamlandı.", MessageType.SUCCESS);
+
+            return new MessageResponse("", MessageType.SUCCESS);
         }
+        if (phaseDTO.getMentor_point() == null) {
+            phases.get(phaseDTO.getPhase_id().intValue() - 1).setMentee_point(phaseDTO.getMentee_point());
+            phases.get(phaseDTO.getPhase_id().intValue() - 1).setMentee_experience(phaseDTO.getMentee_experience());
+        } else {
+            phases.get(phaseDTO.getPhase_id().intValue() - 1).setMentor_experience(phaseDTO.getMentor_experience());
+            phases.get(phaseDTO.getPhase_id().intValue() - 1).setMentor_point(phaseDTO.getMentor_point());
+        }
+        phases.get(phaseDTO.getPhase_id().intValue() - 1).setEnd_date(new Date(System.currentTimeMillis()));
+        if (phases.size() == phaseDTO.getPhase_id().intValue()) {//this was the last phase
+            program.setEnd_date(new Date(System.currentTimeMillis()));
+            program.setStatus("Bitti");
+        } else {
+            phases.get(phaseDTO.getPhase_id().intValue()).setStart_date(new Date(System.currentTimeMillis()));
+            program.setStatus("faz " + Integer.valueOf(phaseDTO.getPhase_id().intValue() + 1));
+        }
+        programRepository.save(program);
+        phaseRepository.saveAll(phases);
+
+        return new MessageResponse("Başarılı", MessageType.SUCCESS);
     }
 
-    public MessageResponse addPhases(Program program, Set<Phase> phases) {
-        phaseRepository.saveAll(phases);
-        program.setPhases(phases);
-        programRepository.save(program);
+    public MessageResponse updatePhase(PhaseDTO phasedto) {
+        Phase phase_from_db = phaseRepository.getPhaseById(phasedto.getPhase_id(), phasedto.getProgram_id());
+        if (phase_from_db == null) return new MessageResponse("Böyle bir faz yok.", MessageType.ERROR);
+
+        if (phasedto.getMentor_point() == null) {
+            phase_from_db.setMentee_experience(phasedto.getMentee_experience());
+            phase_from_db.setMentee_point(phasedto.getMentee_point());
+        } else if (phasedto.getMentee_point() == null) {
+            phase_from_db.setMentor_experience(phasedto.getMentor_experience());
+            phase_from_db.setMentor_point(phasedto.getMentor_point());
+        }
+        phaseRepository.save(phase_from_db);
+        return new MessageResponse("Başarıyla eklendi.", MessageType.SUCCESS);
+    }
+
+    public MessageResponse addPhases(Long program_id, Integer phaseCount) {
+        for (int i = 1; i < phaseCount; i++) {
+            phaseRepository.addByIds(program_id, i);
+        }
         return new MessageResponse("Başarılı sanırım, hatayı nasıl yakalıycam bilemedim burda.", MessageType.SUCCESS);
     }
 
@@ -136,6 +135,16 @@ public class ProgramService {
         program.setPhases(phases.stream().collect(Collectors.toSet()));
         phaseRepository.save(phases.get(0));
         return new MessageResponse("todo", MessageType.SUCCESS);
+    }
+
+    public MessageResponse updateProgram(Long program_id, ProgramDTO programDTO) {
+        Program program = programRepository.getProgramById(program_id);
+        if (programDTO.getMentee_comment() != null)
+            program.setMentee_comment(programDTO.getMentee_comment());
+        if (programDTO.getMentor_comment() != null)
+            program.setMentor_comment(programDTO.getMentor_comment());
+        programRepository.save(program);
+        return new MessageResponse("Yorum eklendi!", MessageType.SUCCESS);
     }
     /*
     public List<Program> getActivePrograms() {

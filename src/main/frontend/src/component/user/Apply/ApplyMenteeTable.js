@@ -4,7 +4,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Button from "@material-ui/core/Button";
-import CustomizedSnackbars from "../Toast";
+import CustomizedSnackbars from "../../Toast";
 import React, {Component} from "react";
 import axios from "axios";
 import Cookie from "js-cookie";
@@ -12,7 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EnrollDialog from "./EnrollDialog";
 import SearchDialog from "./SearchDialog";
 import SearchIcon from '@material-ui/icons/Search';
-
+import ReplayOutlinedIcon from '@material-ui/icons/ReplayOutlined';
 
 export default class ApplyMenteeTable extends Component {
     constructor(props) {
@@ -30,9 +30,9 @@ export default class ApplyMenteeTable extends Component {
     }
 
     componentDidMount() {
-        //TODO: kullanıcının zaten kayıtlı olduğu programı tekrar ona gösterme!
-//        axios.get('http://localhost:8080/applications/' + Cookie.get("Username") + '/can', {
-        axios.get('http://localhost:8080/applications/approved', {
+        //(TO)DONE: kullanıcının zaten kayıtlı olduğu programı tekrar ona gösterme!
+        axios.get('http://localhost:8080/applications/' + Cookie.get("Username") + '/can', {
+            //        axios.get('http://localhost:8080/applications/approved', {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -46,20 +46,22 @@ export default class ApplyMenteeTable extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         // TODO ?? this if statement may be troublesome
-        if (this.state !== prevState && prevState.SubjectData !== this.state.SubjectData) {
-            if (!this.state.didSearch) {
-                axios.get('http://localhost:8080/applications/approved', {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Authorization': Cookie.get("Authorization")
-                    }
-                }).then(response => {
-                    this.setState({
-                        SubjectData: response.data
-                    });
+        if (this.props !== prevProps ||
+            this.state.isEnrollDialogOpen !== prevState.isEnrollDialogOpen ||
+            this.state.didSearch !== prevState.didSearch ||
+            this.state.isSearchDialogOpen !== prevState.isSearchDialogOpen) {
+            axios.get('http://localhost:8080/applications/' + Cookie.get("Username") + '/can', {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': Cookie.get("Authorization")
+                }
+            }).then(response => {
+                this.setState({
+                    SubjectData: response.data
                 });
-            }
+            });
         }
+
     }
 
     handleEnrollProgram = (subject_name, subsubject_name, mentor_username) => {
@@ -128,13 +130,14 @@ export default class ApplyMenteeTable extends Component {
                 this.setState({
                     openToast: true,
                     toastMessage: "İsteğinize uygun sonuç bulunamadı!",
-                    toastMessageType: "WARNING"
+                    toastMessageType: "WARNING",
+                });
+            } else {
+                console.log(response.data)
+                this.setState({
+                    SubjectData: response.data
                 });
             }
-            console.log(response.data)
-            this.setState({
-                SubjectData: response.data
-            });
         }).catch(reason => {
             this.setState({
                 openToast: true,
@@ -149,12 +152,21 @@ export default class ApplyMenteeTable extends Component {
         return (
             <div>
                 <div align={"right"}>
-                <Button align="center" color="primary"
-                        startIcon={<SearchIcon/>} onClick={() => this.setState({
-                    isSearchDialogOpen: true,
-                })}>
-                    Mentor arama
-                </Button></div>
+                    {this.state.didSearch &&
+                    <Button align="center" color="primary"
+                            startIcon={<ReplayOutlinedIcon/>}
+                            onClick={() => this.setState({
+                                didSearch: false,
+                            })}>
+                        Aramayı Sıfırla
+                    </Button>}
+                    <Button align="center" color="primary"
+                            startIcon={<SearchIcon/>}
+                            onClick={() => this.setState({
+                                isSearchDialogOpen: true,
+                            })}>
+                        Mentor arama
+                    </Button></div>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>

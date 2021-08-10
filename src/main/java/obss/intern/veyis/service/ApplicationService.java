@@ -127,14 +127,34 @@ public class ApplicationService {
         applicationRepository.delete(application);
         return new MessageResponse("Silindi!", MessageType.SUCCESS);
     }
-/*
-    public List<MentorshipApplication> findApplicationsUserCanApply(String mentee) {
-        Set<Subject> users = programRepository.findProgramByMentee(mentee)
-                .stream().filter(x -> !x.getStatus().equals("ended")).
-                        map(x -> x.getSubject()).collect(Collectors.toSet());
+
+    public List<MentorshipApplication> findSubjectsUserCanApply(String mentee) {
+        List<Program> users = programRepository.findProgramByMentee(mentee);
+        if (users.size() == 0) {
+            return null;
+        }
+        List<Subject> subjects = users.stream().filter(x -> !x.getStatus().equals("ended")).
+                map(x -> x.getSubject()).collect(Collectors.toList());
+
         Set<MentorshipApplication> approved = findApprovedApplications().stream().collect(Collectors.toSet());
-        approved.stream().filter(x -> users.contains(x.getSubject()));
+/*
+        System.out.println();
+        System.out.println();
+        for (Subject subject : subjects) {
+            System.out.println(subject);
+        }
+        System.out.println();
+        System.out.println();
+        for (MentorshipApplication a : approved) {
+            System.out.println(a.getSubject());
+        }
+        System.out.println();
+        System.out.println();*/
+        approved = approved.stream().filter(x -> !subjects.contains(x.getSubject())).collect(Collectors.toSet());
+        /*for (MentorshipApplication a : approved) {
+            System.out.println(a.getSubject());
+        }*/
         return approved.stream().collect(Collectors.toList());
     }
-*/
+
 }

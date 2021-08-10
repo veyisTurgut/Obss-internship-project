@@ -46,7 +46,7 @@ public class ProgramMapperImpl implements ProgramMapper {
             String mentor_comment = program.getMentor_comment();
 
             ProgramDTO programDTO = new ProgramDTO(program_id, (Date) end_date, (Date) start_date, (String) status, (String) mentee_username,
-                    (String) mentor_username,  (String) subsubject_name, (String) subject_name,(Set) phases, mentor_comment, mentee_comment);
+                    (String) mentor_username, (String) subsubject_name, (String) subject_name, (Set) phases, mentor_comment, mentee_comment);
             return programDTO;
         }
     }
@@ -61,7 +61,7 @@ public class ProgramMapperImpl implements ProgramMapper {
             id.setProgram_id(programDTO.getProgram_id());
             program.setProgram_id(id);
             /**/
-            program.setEnd_date(programDTO.getEnddate());
+            program.setEnd_date(programDTO.getEnd_date());
             program.setMentee(Mentee);
             program.setMentor(Mentor);
             program.setStart_date(new Date(System.currentTimeMillis()));
@@ -69,6 +69,7 @@ public class ProgramMapperImpl implements ProgramMapper {
             program.setMentor_comment(programDTO.getMentor_comment());
             program.setSubject(subject);
             program.setIs_active(true);
+            program.setStatus("Başlamadı");
             return program;
 
         }

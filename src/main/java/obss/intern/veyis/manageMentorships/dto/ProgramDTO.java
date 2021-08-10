@@ -16,11 +16,11 @@ public class ProgramDTO {
     @JsonProperty("program_id")
     private Long program_id;
 
-    @JsonProperty("enddate")
-    private Date enddate;
+    @JsonProperty("end_date")
+    private Date end_date;
 
-    @JsonProperty("startdate")
-    private Date startdate;
+    @JsonProperty("start_date")
+    private Date start_date;
 
     @JsonProperty("status")
     private String status;
@@ -53,8 +53,8 @@ public class ProgramDTO {
 
     @JsonCreator
     public ProgramDTO(@JsonProperty("program_id") Long program_id,
-                      @JsonProperty("enddate") Date enddate,
-                      @JsonProperty("startdate") Date startdate,
+                      @JsonProperty("end_date") Date end_date,
+                      @JsonProperty("start_date") Date start_date,
                       @JsonProperty("status") String status,
                       @JsonProperty("mentee_username") String mentee_username,
                       @JsonProperty("mentor_username") String mentor_username,
@@ -67,8 +67,8 @@ public class ProgramDTO {
 
     ) {
         this.program_id = program_id;
-        this.enddate = enddate;
-        this.startdate = startdate;
+        this.end_date = end_date;
+        this.start_date = start_date;
         this.status = status;
         this.mentee_username = mentee_username;
         this.mentor_username = mentor_username;

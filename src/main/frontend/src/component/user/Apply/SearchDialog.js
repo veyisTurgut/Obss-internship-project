@@ -47,25 +47,24 @@ export default class SearchDialog extends Component {
 
     }
 
-
-    componentDidMount() {
-        for (let field in this.props.applicationData) {
-            console.log(field.subject_name)
-        }
-
-    }
-
     /*
-        componentDidUpdate(prevProps, prevState, snapshot) {
-            if (this.state !== prevState) {
-                console.log(this.state.subjects)
+        componentDidMount() {
+            for (let field in this.props.applicationData) {
+                console.log(field.subject_name)
             }
         }
-    */
+
+
+            componentDidUpdate(prevProps, prevState, snapshot) {
+                if (this.state !== prevState) {
+                    console.log(this.state.subjects)
+                }
+            }
+        */
     render() {
         return (
             <Dialog
-                fullWidth
+                fullWidthstatus
                 open={this.props.open}
                 TransitionComponent={Transition}
                 keepMounted
@@ -112,7 +111,7 @@ export default class SearchDialog extends Component {
                     </Button>
                     <Button onClick={() => this.props.onSubmit(this.state.inputData, this.state.checked)}
                             color="primary">
-                        Kaydol
+                        Ara
                     </Button>
                 </DialogActions>
             </Dialog>

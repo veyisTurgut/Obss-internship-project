@@ -4,7 +4,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Button from "@material-ui/core/Button";
-import CustomizedSnackbars from "../Toast";
+import CustomizedSnackbars from "../../Toast";
 import React, {Component} from "react";
 import axios from "axios";
 import Cookie from "js-cookie";

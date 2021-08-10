@@ -22,9 +22,9 @@ public class Program {
     private ProgramId program_id;
     @Column(name = "STATUS")
     private String status;
-    @Column(name = "STARTDATE")
+    @Column(name = "START_DATE")
     private Date start_date;
-    @Column(name = "ENDDATE")
+    @Column(name = "END_DATE")
     private Date end_date;
     @Column(name = "IS_ACTIVE")
     private Boolean is_active;

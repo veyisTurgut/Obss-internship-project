@@ -20,9 +20,9 @@ public class Phase implements Comparable<Phase> {
     @EmbeddedId
     PhaseKey id;
 
-    @Column(name = "STARTDATE")
+    @Column(name = "START_DATE")
     private Date start_date;
-    @Column(name = "ENDDATE")
+    @Column(name = "END_DATE")
     private Date end_date;
     @Column(name = "MENTOR_POINT")
     private Integer mentor_point;

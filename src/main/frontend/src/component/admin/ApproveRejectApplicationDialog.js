@@ -33,8 +33,7 @@ export default class ApproveRejectApplicationDialog extends Component {
                         Reddet
                     </Button>
                     <Button
-                        onClick={() => this.props.handleApplicationApprovalRejection(this.props.applicant_username, this.props.subject_name, this.props.subsubject_name, "approve")}
-                        color="primary">
+                        statuscolor="primary">
                         Onayla
                     </Button>
                 </DialogActions>
