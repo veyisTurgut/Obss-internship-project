@@ -17,6 +17,7 @@ import obss.intern.veyis.service.ProgramService;
 import obss.intern.veyis.service.SubjectService;
 import obss.intern.veyis.service.UserService;
 import org.elasticsearch.common.recycler.Recycler;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public class ProgramController {
         return programMapper.mapToDto(programService.getAllPrograms());
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINS','ROLE_USERS')")
     @GetMapping("/{program_id}")//admin-user
     public ProgramDTO getAProgramById(@PathVariable Long program_id) {
         System.out.println(programMapper.mapToDto(programService.getById(program_id)));
@@ -52,11 +54,13 @@ public class ProgramController {
         return programMapper.mapToDto(programService.getByKeys(mentee_username, mentor_username, subject_name, subsubject_name));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINS','ROLE_USERS')")
     @PutMapping("/{program_id}")//admin-user
     public MessageResponse updateProgram(@PathVariable Long program_id, @RequestBody @Validated ProgramDTO programDTO) {
         return programService.updateProgram(program_id, programDTO);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @PutMapping("/{program_id}/updatePhase")//user
     public MessageResponse updatePhases(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
         Program program = programService.getById(program_id);
@@ -64,6 +68,7 @@ public class ProgramController {
         return programService.updatePhase(phaseDTO);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @PostMapping("/")//user - this is called by mentee to enroll.
     public MessageResponse addProgram(@RequestBody @Validated ProgramDTO programDTO) {
 
@@ -82,6 +87,7 @@ public class ProgramController {
     }
 
     //TODO
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @PutMapping("/{program_id}/phases/{phase_count}")//user
     public MessageResponse addPhases(@PathVariable String program_id, @PathVariable String phase_count) {
         Program program = programService.getById(Long.valueOf(program_id));
@@ -90,6 +96,7 @@ public class ProgramController {
     }
 
     //TODO: fazı almaya gerek yok. açık olan ilk fazı kapa devam et işte.
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @PutMapping("/{program_id}/nextPhase")//user
     public MessageResponse nextPhase(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
         Program program = programService.getById(program_id);

@@ -15,8 +15,6 @@ import EnrollDialog from "./EnrollDialog";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 
 
@@ -24,7 +22,7 @@ export default class ApplyMentorTable extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            navValue: "",
+            navValue: "new",
             SubjectData: [],
             appliedSubjectData: [],
             isDeleteDialogOpen: false,
@@ -37,7 +35,7 @@ export default class ApplyMentorTable extends Component {
 
     componentDidMount() {
 
-        /*axios.get('http://localhost:8080/subjects/all', {
+        axios.get('http://localhost:8080/subjects/except/' + Cookie.get("Username"), {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -46,7 +44,7 @@ export default class ApplyMentorTable extends Component {
             this.setState({
                 SubjectData: response.data
             });
-        });*/
+        });
 
         axios.get('http://localhost:8080/subjects/' + Cookie.get("Username"), {
             headers: {
@@ -199,7 +197,6 @@ export default class ApplyMentorTable extends Component {
                                             onClick={() => this.setState({
                                                 navValue: "new",
                                             })}/>}
-
                 </BottomNavigation>
 
                 <Table stickyHeader aria-label="sticky table">
@@ -208,16 +205,14 @@ export default class ApplyMentorTable extends Component {
                             <TableCell align="center">Konu adı</TableCell>
                             <TableCell align="center">Altkonu adı</TableCell>
                             <TableCell align="center"></TableCell>
-
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.SubjectData.map((p, index) => {
+                        {this.state.SubjectData.sort((a, b) => a.subject_name > b.subject_name ? 1 : -1).map((p, index) => {
                             return <TableRow key={index}>
                                 <TableCell align="center">{p.subject_name}</TableCell>
                                 <TableCell align="center">{p.subsubject_name}</TableCell>
                                 <TableCell align="center">
-
                                     {this.state.navValue === "new" &&
                                     <Button align="center" color="primary"
                                             startIcon={<AddIcon/>}
@@ -228,7 +223,6 @@ export default class ApplyMentorTable extends Component {
                                             })}>
                                         Başvur
                                     </Button>}
-
                                     {this.state.navValue === "old" &&
                                     <Button align="center" color="secondary"
                                             startIcon={<DeleteIcon/>}
@@ -237,12 +231,9 @@ export default class ApplyMentorTable extends Component {
                                                 subject_name: p.subject_name,
                                                 subsubject_name: p.subsubject_name
                                             })}>
-
                                         Başvuruyu Geri Çek
                                     </Button>}
                                 </TableCell>
-
-
                                 <EnrollDialog
                                     who={"Mentor"}
                                     subject_name={this.state.subject_name}
@@ -251,9 +242,7 @@ export default class ApplyMentorTable extends Component {
                                     onClose={() => this.setState({isEnrollDialogOpen: false})}
                                     handleEnrollProgram={this.handleApplyToBeAMentor}
                                     open={this.state.isEnrollDialogOpen}
-
                                 />
-
                                 <DeleteApplicationMentorDialog
                                     subject_name={this.state.subject_name}
                                     subsubject_name={this.state.subsubject_name}
@@ -273,5 +262,4 @@ export default class ApplyMentorTable extends Component {
                 </Table>
             </div>);
     }
-
 }

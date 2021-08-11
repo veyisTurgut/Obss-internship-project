@@ -47,6 +47,10 @@ export default class LoginDialog extends Component {
         });
     }
 
+    componentDidMount() {
+        // window.location.reload();
+    }
+
     onSubmit(inputData, userType) {
 
         axios.post("http://localhost:8080/login", inputData,
@@ -64,7 +68,7 @@ export default class LoginDialog extends Component {
                     });
                 } else {
                     console.log(userType)
-                    console.log( value.data.message.toString().substring(0, 4))
+                    console.log(value.data.message.toString().substring(0, 4))
                     if (userType === value.data.message.toString().substring(0, 4)) {
                         //to set a cookie
                         Cookie.set("Authorization", "Basic " + value.data.message.toString().substring(5));
@@ -102,14 +106,17 @@ export default class LoginDialog extends Component {
                         <DialogContentText>
                             Kullanıcı tipinizi seçip bilgilerinizi giriniz.
                         </DialogContentText>
-                        <Button variant="contained" color="default" onClick={() => this.setState({userType: "ADMI"})}>
+                        <Button variant="contained" color="default"
+                                onClick={() => this.setState({userType: "ADMI"})}>
                             Admin
                         </Button>
-                        <Button variant="contained" color="primary" onClick={() => this.setState({userType: "USER"})}>
+                        <Button variant="contained" color="primary"
+                                onClick={() => this.setState({userType: "USER"})}>
                             Kullanıcı
                         </Button>
                         {/*TODO: link to external */}
-                        <Button variant="contained" color="secondary" target="_blank" rel="noopener noreferrer" href="http:localhost:8080/login/oauth2/code/">
+                        <Button variant="contained" color="secondary" target="_blank" rel="noopener noreferrer"
+                                href="http:localhost:8080/login/oauth2/code/">
                             Google ile Giriş
                         </Button>
                         {this.state.adminDialogFields.map(field => (
@@ -127,7 +134,10 @@ export default class LoginDialog extends Component {
                         ))}
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.onSubmit(this.state.inputData, this.state.userType)}
+
+                        <Button onClick={() => {
+                            this.onSubmit(this.state.inputData, this.state.userType)
+                        }}
                                 color="primary">
                             Giriş Yap
                         </Button>
@@ -137,6 +147,7 @@ export default class LoginDialog extends Component {
                         {this.state.showLink && this.state.userType === "USER" &&
                         <Link to={"/user"} onClick={() => this.setState({showDialog: false})}>
                             Sayfaya gitmek için tıklayın</Link>}
+
                     </DialogActions>
                     <CustomizedSnackbars open={this.state.openToast}
                                          onClick={() => this.setState({openToast: true})}

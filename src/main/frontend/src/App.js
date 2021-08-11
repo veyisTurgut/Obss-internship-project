@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {Component, useState} from 'react';
 //import ActivityTable from "./component/user/ActivityTable";
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+import {Switch, BrowserRouter as Router, Link, Route} from "react-router-dom";
 import LoginDialog from "./component/login/LoginDialog";
 import AdminDashboard from "./component/admin/AdminDashboard";
 import UserDashboard from "./component/user/UserDashboard";
+import Home from "./component/login/Home";
 
 function login() {
     return <LoginDialog/>
@@ -17,15 +18,26 @@ function user() {
     return <UserDashboard/>
 }
 
-function App() {
+function home() {
+    return <Home/>
+}
 
-    return (
-        <Router>
-            <Route path="/user" exact component={user}/>
-            <Route path="/login" component={login}/>
-            <Route path="/admin" component={admin}/>
-        </Router>
-    );
+class App extends Component {
+    render() {
+        return (
+
+            <Router>
+                <Switch>
+                    <Route exact path="/" exact component={home}
+                    />
+                    <Route path="/user" exact component={user}/>
+                    <Route path="/login" component={login}/>
+                    <Route path="/admin" component={admin}/>
+                </Switch>
+            </Router>
+        )
+            ;
+    }
 }
 
 export default App;

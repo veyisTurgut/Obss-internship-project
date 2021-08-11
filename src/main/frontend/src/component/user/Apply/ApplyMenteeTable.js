@@ -61,7 +61,6 @@ export default class ApplyMenteeTable extends Component {
                 });
             });
         }
-
     }
 
     handleEnrollProgram = (subject_name, subsubject_name, mentor_username) => {
@@ -175,19 +174,17 @@ export default class ApplyMenteeTable extends Component {
                             <TableCell align="center">Altkonu adı</TableCell>
                             <TableCell align="center">Mentor Tecrübeleri</TableCell>
                             <TableCell align="center"></TableCell>
-
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
-                            this.state.SubjectData.map((p, index) => {
+                            this.state.SubjectData.sort((a, b) => a.mentor_experience > b.mentor_experience ? 1 : -1).map((p, index) => {
                                 return <TableRow key={index}>
                                     <TableCell align="center">{p.applicant_username}</TableCell>
                                     <TableCell align="center">{p.subject_name}</TableCell>
                                     <TableCell align="center">{p.subsubject_name}</TableCell>
                                     <TableCell align="center">{p.experience}</TableCell>
                                     <TableCell align="center">
-
                                         <Button align="center" color="primary"
                                                 startIcon={<AddIcon/>} onClick={() => this.setState({
                                             isEnrollDialogOpen: true,
@@ -198,7 +195,6 @@ export default class ApplyMenteeTable extends Component {
                                             Başvur
                                         </Button>
                                     </TableCell>
-
                                     <EnrollDialog
                                         who={"Mentee"}
                                         applicant_username={this.state.applicant_username}
@@ -229,5 +225,4 @@ export default class ApplyMenteeTable extends Component {
             </div>
         );
     }
-
 }

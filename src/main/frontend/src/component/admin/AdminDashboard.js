@@ -71,30 +71,31 @@ export default class AdminDashboard extends Component {
 
     }
 
-    async componentDidUpdate(prevProps,prevState,snapshot) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (this.state !== prevState) {
             axios.get('http://localhost:8080/subjects/all', {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': Cookie.get("Authorization")
-            }
-        }).then(response => {
-            this.setState({
-                SubjectData: response.data
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': Cookie.get("Authorization")
+                }
+            }).then(response => {
+                this.setState({
+                    SubjectData: response.data
+                });
             });
-        });
 
-        axios.get('http://localhost:8080/applications/open', {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': Cookie.get("Authorization")
-            }
-        }).then(response => {
-            this.setState({
-                ApplicationData: response.data
+            axios.get('http://localhost:8080/applications/open', {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Authorization': Cookie.get("Authorization")
+                }
+            }).then(response => {
+                this.setState({
+                    ApplicationData: response.data
+                });
             });
-        });}
+        }
     }
 
     handleAddSubjectDialog = (inputData) => {
@@ -201,21 +202,36 @@ export default class AdminDashboard extends Component {
     render() {
         return (
             <div>
-                <BottomNavigation showLabels>
+                <BottomNavigation showLabels> <BottomNavigationAction/>
+                    <BottomNavigationAction/>
+                    <BottomNavigationAction />
+
                     <BottomNavigationAction label="Başvurular" icon={<ReceiptIcon/>} onClick={() => this.setState({
                         navValue: "Başvurular",
                     })}/>
                     <BottomNavigationAction label="Konular" icon={<SubjectIcon/>} onClick={() => this.setState({
                         navValue: "Konular",
                     })}/>
+                    <BottomNavigationAction/> <BottomNavigationAction/>
+
+                    <h3>
+                        <a href={"/"}
+                           onClick={() => {
+                               Cookie.set("Authorization", "")
+                           }}
+                        >
+                            Çıkış Yap
+                        </a>
+                    </h3>
                 </BottomNavigation>
                 {this.state.navValue === "Konular" &&
-                <Button align="center" color="primary"
-                        startIcon={<AddIcon/>} onClick={() => this.setState({
-                    openUserDialog: true
-                })}>
-                    Ekle
-                </Button>}
+                <div align={"right"}>
+                    <Button color="primary"
+                            startIcon={<AddIcon/>} onClick={() => this.setState({
+                        openUserDialog: true
+                    })}>
+                        Ekle
+                    </Button></div>}
                 <TableContainer component={Paper}>
                     {this.state.navValue === "Başvurular" && <Table stickyHeader aria-label="sticky table">
                         <TableHead>
@@ -240,10 +256,11 @@ export default class AdminDashboard extends Component {
                                         <TableCell align="center">
 
                                             <Button align="center" color="default"
-                                                    startIcon={<ThumbUpIcon/>} endIcon={<ThumbDownIcon/>} onClick={() => this.setState({
-                                                isApproveRejectDialogOpen: true,
-                                                subject_id: p.subject_id,
-                                            })}>
+                                                    startIcon={<ThumbUpIcon/>} endIcon={<ThumbDownIcon/>}
+                                                    onClick={() => this.setState({
+                                                        isApproveRejectDialogOpen: true,
+                                                        subject_id: p.subject_id,
+                                                    })}>
                                                 Onayla/Reddet
                                             </Button>
 

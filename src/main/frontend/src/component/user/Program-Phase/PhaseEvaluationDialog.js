@@ -19,7 +19,7 @@ export default class PhaseEvaluationDialog extends Component {
 
     state = {
         experience: "",
-        point: 0
+        point: 3
     }
 
     handleInputChange = (event) => {
@@ -79,6 +79,7 @@ export default class PhaseEvaluationDialog extends Component {
                             id="point"
                             value={this.state.point}
                             onChange={this.handlePointChange}
+                            required
                         >
                             <MenuItem value={1}>1</MenuItem>
                             <MenuItem value={2}>2</MenuItem>

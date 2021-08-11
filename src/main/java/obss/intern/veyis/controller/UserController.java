@@ -49,6 +49,7 @@ public class UserController {
         return context.getAuthentication().toString();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @GetMapping("/all")//admin
     public List<UserDTO> getAllUsers() {
         List<Users> users = userService.getAllUsers();
@@ -57,6 +58,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINS','ROLE_USERS')")
     @GetMapping("/{username}/programsMenteed")//user-admin
     public List<ProgramDTO> getProgramsMenteed(@PathVariable String username) {
         //TODO: check id is valid.
@@ -67,11 +69,13 @@ public class UserController {
         return programMapper.mapToDto(programs);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINS','ROLE_USERS')")
     @GetMapping("/{username}/programsMentored")//user-admin
     public List<ProgramDTO> getProgramsMentored(@PathVariable String username) {
         return programMapper.mapToDto(userService.getProgramsMentored(username));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINS','ROLE_USERS')")
     @GetMapping("/{username}/applications")//user-admin
     public List<ApplicationDTO> getMentorshipApplications(@PathVariable String username) {
         /*

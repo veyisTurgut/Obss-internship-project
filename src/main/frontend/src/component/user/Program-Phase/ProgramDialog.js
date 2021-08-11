@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -160,45 +159,28 @@ export default class ProgramDialog extends Component {
         this.setState({isCommentDialogOpen: false})
         console.log(program_id, phase_id, comment, who, subject_name, subsubject_name, mentor, mentee)
         let body = {}
-        let url = ""
-        if (phase_id === null) {
-            if (who === "Mentor") {
-                url = "http://localhost:8080/programs/" + program_id
-                body = {
-                    "program_id": program_id,
-                    "subject_name": subject_name,
-                    "subsubject_name": subsubject_name,
-                    "mentee_username": mentee,
-                    "mentor_username": mentor,
-                    "mentor_comment": comment
-                }
-            } else {
-                body = {
-                    "program_id": program_id,
-                    "subject_name": subject_name,
-                    "subsubject_name": subsubject_name,
-                    "mentee_username": mentee,
-                    "mentor_username": mentor,
-                    "mentee_comment": comment
-                }
+
+        if (who === "Mentor") {
+            body = {
+                "program_id": program_id,
+                "subject_name": subject_name,
+                "subsubject_name": subsubject_name,
+                "mentee_username": mentee,
+                "mentor_username": mentor,
+                "mentor_comment": comment
             }
         } else {
-            url = "http://localhost:8080/programs/" + program_id + "/updatePhase"
-            if (who === "Mentor") {
-                body = {
-                    "program_id": program_id,
-                    "mentor_experience": comment,
-                    "phase_id": phase_id
-                }
-            } else {
-                body = {
-                    "program_id": program_id,
-                    "mentee_experience": comment,
-                    "phase_id": phase_id
-                }
+            body = {
+                "program_id": program_id,
+                "subject_name": subject_name,
+                "subsubject_name": subsubject_name,
+                "mentee_username": mentee,
+                "mentor_username": mentor,
+                "mentee_comment": comment
             }
         }
-        axios.put(url, body, {
+
+        axios.put("http://localhost:8080/programs/" + program_id, body, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     "Access-Control-Allow-Methods": "PUT",
@@ -216,7 +198,7 @@ export default class ProgramDialog extends Component {
             } else {
                 this.setState({
                     openToast: true,
-                    toastMessage: " value.data.message value.data.message",
+                    toastMessage: value.data.message,
                     toastMessageType: value.data.messageType
                 });
             }

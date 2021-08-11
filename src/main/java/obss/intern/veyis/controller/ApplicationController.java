@@ -12,6 +12,7 @@ import obss.intern.veyis.manageMentorships.mapper.SubjectMapperImpl;
 import obss.intern.veyis.service.ApplicationService;
 import obss.intern.veyis.service.SubjectService;
 import obss.intern.veyis.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class ApplicationController {
     private final ApplicationMapperImpl applicationMapper;
     private final SubjectMapperImpl subjectMapper;
 
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @PostMapping("/")//user
     public MessageResponse applyForMentorship(@RequestBody @Validated ApplicationDTO applicationDTO) {
         Subject subject = subjectService.getByKeys(applicationDTO.getSubject_name(), applicationDTO.getSubsubject_name());
@@ -38,6 +40,7 @@ public class ApplicationController {
         return applicationService.addMentorshipApplication(applicationMapper.mapToEntity(applicationDTO, subject, mentor_applicant));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @DeleteMapping("/")//user
     public MessageResponse deleteMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         Subject subject = subjectService.getByKeys(applicationDTO.getSubject_name(), applicationDTO.getSubsubject_name());
@@ -48,44 +51,52 @@ public class ApplicationController {
     }
 
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @GetMapping("/all")//admin
     public List<ApplicationDTO> allApplications() {
         return applicationMapper.mapToDto(applicationService.findAllApplications());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @GetMapping("/approved")//admin
     public List<ApplicationDTO> approvedApplications() {
         return applicationMapper.mapToDto(applicationService.findApprovedApplications());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @GetMapping("/open")//admin
     public List<ApplicationDTO> openApplications() {
         return applicationMapper.mapToDto(applicationService.findOpenApplications());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @GetMapping("/{username}/can")//user
     public List<ApplicationDTO> applicationsUserCanApply(@PathVariable String username) {
         return applicationMapper.mapToDto(applicationService.findSubjectsUserCanApply(username));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @PutMapping("/reject")//admin
     //may change this such that I would only get application_id rather than DTO. will decide after frontend
     public MessageResponse rejectMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.rejectMentorshipApplication(applicationDTO);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @PutMapping("/update")//user(mentor)
     //may change this such that I would only get application_id rather than DTO. will decide after frontend
     public MessageResponse updateMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.updateMentorshipApplication(applicationDTO);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
     @PutMapping("/approve")//admin
     //may change this such that I would only get application_id rather than DTO. will decide after frontend
     public MessageResponse approveMentorshipApplication(@RequestBody @Validated ApplicationDTO applicationDTO) {
         return applicationService.approveMentorshipApplication(applicationDTO);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @PostMapping("/search/{keyword}")
     public List<ApplicationDTO> findByKeyword(@PathVariable String keyword, @RequestBody List<SubjectDTO> subjects) {
         return applicationMapper.mapToDto(applicationService.findByKeyword(keyword, subjects));
