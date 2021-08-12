@@ -23,7 +23,7 @@ public class UserMapperImpl implements UserMapper {
         if (user == null) {
             return null;
         } else {
-            UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
+            UserDTO userDTO = new UserDTO(user.getUsername(), user.getGmail());
             return userDTO;
         }
     }

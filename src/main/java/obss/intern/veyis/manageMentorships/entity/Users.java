@@ -21,8 +21,9 @@ public class Users {
     private String username;
     @Column(name = "PASSWORD")
     private String password;
-    @Column(name = "EMAIl")
-    private String email;
+
+    @Column(name = "GMAIl", unique = true)
+    private String gmail;
     @JsonIgnoreProperties({"mentor"})
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<Program> programsMentored;

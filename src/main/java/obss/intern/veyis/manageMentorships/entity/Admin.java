@@ -11,6 +11,8 @@ public class Admin  {
     @Id
     @Column(name = "USERNAME",unique = true)
     private String username;
+    @Column(name = "GMAIL",unique = true)
+    private String gmail;
     @Column(name = "PASSWORD")
     private String password;
 

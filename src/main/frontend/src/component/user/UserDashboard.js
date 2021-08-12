@@ -217,7 +217,7 @@ export default class UserDashboard extends Component {
                     <BottomNavigationAction/>
 
                     <h3>
-                        <a href={"/"}
+                        <a href={"/login"}
                            onClick={() => {
                                Cookie.set("Authorization", "")
                            }}

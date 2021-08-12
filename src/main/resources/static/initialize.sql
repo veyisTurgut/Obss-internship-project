@@ -1,16 +1,19 @@
-INSERT INTO admin (username, password)
-VALUES ('admin1', '$2a$10$/es0qNYiyEfN25DiArPAPerGg/UAAJ2sOF39Cq4Zj7S4JHc3JIDoO'),
-       ('admin2', '$2a$10$DiCiFafymzmdqaOfhlwxQu.yA79T25hwuCGL08HGwOFEneeWnRr3q')
+INSERT INTO admin (username, password, gmail)
+VALUES ('admin1', '$2a$10$/es0qNYiyEfN25DiArPAPerGg/UAAJ2sOF39Cq4Zj7S4JHc3JIDoO', ''),
+       ('admin2', '$2a$10$DiCiFafymzmdqaOfhlwxQu.yA79T25hwuCGL08HGwOFEneeWnRr3q', ''),
+       ('Veyis Turgut', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86', 'vturgut68@gmail.com')
+
 ON CONFLICT DO NOTHING;
 
 
-INSERT INTO users (username, password)
-VALUES ('user1', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86'),
-       ('user2', '$2a$10$Z329QvVPCViUzQnlK5l/qOO3qc25YrlORlyJhc0xdruFurvzp8v0i'),
-       ('user3', '$2a$10$gyZagwu.9vysY39jsEA0BeDwc8TDh.P8cHWkJQQe2oSvNZq/DO2Ou'),
-       ('user4', '$2a$10$WSay9HiCLpFipIpoTY7ZNubzuKr5ljZ8ir24t8o3ZRm6IfY0YPAdm'),
-       ('user5', '$2a$10$jhSeFixdHrZjuER4AXPkgu4OSTso0uciEX1MgLSrWYBN6QUdOGcfO'),
-       ('user6', '$2a$10$egmzlCh/TfWQwmkqN3y.cOU6C6jkW6mYnMrmtIOIp1BUgT76sJIZa')
+INSERT INTO users (username, password, gmail)
+VALUES ('user1', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86', ''),
+       ('user2', '$2a$10$Z329QvVPCViUzQnlK5l/qOO3qc25YrlORlyJhc0xdruFurvzp8v0i', ''),
+       ('user3', '$2a$10$gyZagwu.9vysY39jsEA0BeDwc8TDh.P8cHWkJQQe2oSvNZq/DO2Ou', ''),
+       ('user4', '$2a$10$WSay9HiCLpFipIpoTY7ZNubzuKr5ljZ8ir24t8o3ZRm6IfY0YPAdm', ''),
+       ('user5', '$2a$10$jhSeFixdHrZjuER4AXPkgu4OSTso0uciEX1MgLSrWYBN6QUdOGcfO', ''),
+       ('user6', '$2a$10$egmzlCh/TfWQwmkqN3y.cOU6C6jkW6mYnMrmtIOIp1BUgT76sJIZa', ''),
+       ('Veyis Turgut', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86', 'vturgut68@gmail.com')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO Subject (subject_id, subject_name, subsubject_name)
@@ -36,7 +39,8 @@ VALUES ('user1', 21, 'user 1 experiences for subject 2,a', 'open'),
        ('user5', 24, 'user 5 experiences for subject 3,c', 'open')
 ON CONFLICT DO NOTHING;
 
-INSERT INTO program(program_id, start_date, end_date, status, is_active, mentee_comment, mentor_comment, mentor_username,
+INSERT INTO program(program_id, start_date, end_date, status, is_active, mentee_comment, mentor_comment,
+                    mentor_username,
                     mentee_username, subject_id)
 VALUES (7, '1996-12-02', '1997-12-02', 'ended', false, 'mentee_commentxo', 'mentor_commentxo', 'user5', 'user3', 23),
        (8, '2006-10-03', '2008-02-22', 'ended', false, 'mentee_commentxo', 'mentor_commentxo', 'user5', 'user2', 24),

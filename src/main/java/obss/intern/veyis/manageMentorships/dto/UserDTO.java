@@ -18,13 +18,14 @@ public class UserDTO {
     @NotBlank(message = "Kullanıcı adı boş olamaz!")
     private String username;
 
-    @JsonProperty("email")
-    private String email;
+    @JsonProperty("gmail")
+    @Email
+    private String gmail;
 
 
     @JsonCreator
-    public UserDTO(@JsonProperty("username") String username, @JsonProperty("email") String email) {
+    public UserDTO(@JsonProperty("username") String username, @JsonProperty("gmail") String gmail) {
         this.username = username;
-        this.email = email;
+        this.gmail = gmail;
     }
 }

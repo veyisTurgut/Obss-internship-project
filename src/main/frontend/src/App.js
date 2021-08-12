@@ -4,7 +4,6 @@ import {Switch, BrowserRouter as Router, Link, Route} from "react-router-dom";
 import LoginDialog from "./component/login/LoginDialog";
 import AdminDashboard from "./component/admin/AdminDashboard";
 import UserDashboard from "./component/user/UserDashboard";
-import Home from "./component/login/Home";
 
 function login() {
     return <LoginDialog/>
@@ -18,17 +17,13 @@ function user() {
     return <UserDashboard/>
 }
 
-function home() {
-    return <Home/>
-}
-
 class App extends Component {
     render() {
         return (
 
             <Router>
                 <Switch>
-                    <Route exact path="/" exact component={home}
+                    <Route exact path="/" exact component={login}
                     />
                     <Route path="/user" exact component={user}/>
                     <Route path="/login" component={login}/>

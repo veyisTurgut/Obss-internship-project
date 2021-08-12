@@ -14,6 +14,8 @@ public interface UserRepository extends JpaRepository<Users, Long> {
 
     List<Users> findAll();
 
+    @Query(value = "SELECT * FROM users WHERE username = ?1 AND gmail = ?2", nativeQuery = true)
+    Users findByNameAndMail(String username, String gmail);
 
-
+    Users findUsersByUsernameEqualsAndGmailEquals(String username, String gmail);
 }

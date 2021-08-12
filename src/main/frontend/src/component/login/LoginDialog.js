@@ -12,6 +12,8 @@ import Cookie from "js-cookie"
 import CustomizedSnackbars from "../Toast";
 import AdminDashboard from "../admin/AdminDashboard";
 import UserDashboard from "../user/UserDashboard";
+import GoogleLogin from "react-google-login"
+
 
 function admin() {
     return <AdminDashboard/>
@@ -95,6 +97,31 @@ export default class LoginDialog extends Component {
             });
     }
 
+    responseGoogle = (response) => {
+        Cookie.set("Username", response.profileObj.name);
+        let body = {
+            "name": response.profileObj.name,
+            "gmail": response.profileObj.email,
+        }
+        axios.post("http://localhost:8080/login/google", body,
+            {
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(value => {
+                this.setState({showLink: true, userType: "USER"});
+                console.log(value)
+            })
+            .catch(value => {
+                console.log(value);
+                this.setState({
+                    openToast: true,
+                    toastMessage: "Hatalı",
+                    toastMessageType: "ERROR"
+                });
+            });
+    }
 
     render() {
         return (
@@ -114,11 +141,27 @@ export default class LoginDialog extends Component {
                                 onClick={() => this.setState({userType: "USER"})}>
                             Kullanıcı
                         </Button>
-                        {/*TODO: link to external */}
+                        {/*TODO: link to external
                         <Button variant="contained" color="secondary" target="_blank" rel="noopener noreferrer"
                                 href="http:localhost:8080/login/oauth2/code/">
                             Google ile Giriş
-                        </Button>
+                        </Button> */}
+
+                        <a className="btn btn-block social-btn google"
+                           href={"http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/"}>
+                            Log in with Google
+                        </a>
+                        <a className="btn btn-block social-btn google"
+                           href={"http://localhost:8080/oauth2/authorization/google"}>
+                            Log in with Googlea
+                        </a>
+
+                        <GoogleLogin
+                            clientId={"270274380163-497s6h2fvf124dm0bs9lq50qrp7kgd8p.apps.googleusercontent.com"}
+                            buttonText={"login"}
+                            onSuccess={this.responseGoogle}
+                            onFailure={this.responseGoogle}
+                        />
                         {this.state.adminDialogFields.map(field => (
                             <TextField
                                 autoFocus
@@ -147,6 +190,7 @@ export default class LoginDialog extends Component {
                         {this.state.showLink && this.state.userType === "USER" &&
                         <Link to={"/user"} onClick={() => this.setState({showDialog: false})}>
                             Sayfaya gitmek için tıklayın</Link>}
+
 
                     </DialogActions>
                     <CustomizedSnackbars open={this.state.openToast}

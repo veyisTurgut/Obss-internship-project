@@ -204,7 +204,7 @@ export default class AdminDashboard extends Component {
             <div>
                 <BottomNavigation showLabels> <BottomNavigationAction/>
                     <BottomNavigationAction/>
-                    <BottomNavigationAction />
+                    <BottomNavigationAction/>
 
                     <BottomNavigationAction label="Başvurular" icon={<ReceiptIcon/>} onClick={() => this.setState({
                         navValue: "Başvurular",
@@ -215,7 +215,7 @@ export default class AdminDashboard extends Component {
                     <BottomNavigationAction/> <BottomNavigationAction/>
 
                     <h3>
-                        <a href={"/"}
+                        <a href={"/login"}
                            onClick={() => {
                                Cookie.set("Authorization", "")
                            }}

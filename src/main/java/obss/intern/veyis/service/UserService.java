@@ -45,6 +45,10 @@ public class UserService {
     }
 
     public void addUser(Users user) {
+        userRepository.save(user);
+    }
 
+    public Users findByNameAndMail(String username, String gmail) {
+        return userRepository.findUsersByUsernameEqualsAndGmailEquals(username, gmail);
     }
 }
