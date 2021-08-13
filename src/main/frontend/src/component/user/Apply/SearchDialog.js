@@ -38,20 +38,6 @@ export default class SearchDialog extends Component {
 
     }
 
-    /*
-        componentDidMount() {
-            for (let field in this.props.applicationData) {
-                console.log(field.subject_name)
-            }
-        }
-
-
-            componentDidUpdate(prevProps, prevState, snapshot) {
-                if (this.state !== prevState) {
-                    console.log(this.state.subjects)
-                }
-            }
-        */
     render() {
         return (
             <Dialog

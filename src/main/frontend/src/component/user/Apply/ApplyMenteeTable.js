@@ -110,18 +110,20 @@ export default class ApplyMenteeTable extends Component {
             if (checked[i])
                 wanted_subjects.push(
                     {
+                        "subject_id": this.state.SubjectData[i].subject_id,
                         "subject_name": this.state.SubjectData[i].subject_name,
                         "subsubject_name": this.state.SubjectData[i].subsubject_name
                     }
                 )
         }
         this.setState({isSearchDialogOpen: false, didSearch: true});
-        axios.post("http://localhost:8080/applications/search/" + inputData.keyword, wanted_subjects
+        axios.post("http://localhost:9200/dto/_search/", {" { \"query\": { \"bool\": { \"must\": [ { \"wildcard\" : { \"experience\" : \"*for*\" } }, { \"term\" : { \"status\" : \"open\" } }, { \"term\" : { \"subject_id\" : \"21\" } } ] } } }": ""}
             , {
                 headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    "Access-Control-Allow-Methods": "POST",
-                    'Authorization': Cookie.get("Authorization")
+                    "Content-Type": "application/json"
+                    //  'Access-Control-Allow-Origin': '*',
+                    // "Access-Control-Allow-Methods": "POST",
+                    // 'Authorization': Cookie.get("Authorization")
                 }
             }
         ).then(response => {
