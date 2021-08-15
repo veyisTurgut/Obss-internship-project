@@ -35,17 +35,17 @@ public class Program {
 
 
     @JsonIgnoreProperties({"activePrograms"})
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id")
     Subject subject;
 
     @JsonIgnoreProperties({"programsMentored"})
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinColumn(name = "mentor_username")
     Users mentor;
 
     @JsonIgnoreProperties({"programsMenteed"})
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinColumn(name = "mentee_username")
     Users mentee;
 

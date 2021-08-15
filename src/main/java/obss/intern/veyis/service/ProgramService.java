@@ -14,6 +14,9 @@ import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
 import obss.intern.veyis.manageMentorships.repository.PhaseRepository;
 import obss.intern.veyis.manageMentorships.repository.ProgramRepository;
 import obss.intern.veyis.manageMentorships.repository.UserRepository;
+import obss.intern.veyis.util.EmailSender;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -112,9 +115,14 @@ public class ProgramService {
             phase_from_db.setMentor_point(phasedto.getMentor_point());
         }
         if (phasedto.getExpected_end_date() != null) {
+            String cron_date = "0 " + phasedto.getExpected_end_date().getMinutes() + " " + (phasedto.getExpected_end_date().getHours() - 4) + " " +
+                    phasedto.getExpected_end_date().getDate() + " " + (phasedto.getExpected_end_date().getMonth() + 1) + " *";
             phase_from_db.setExpected_end_date(phasedto.getExpected_end_date());
+            ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+            taskScheduler.initialize();
+            taskScheduler.schedule(new EmailSender(phase_from_db), new CronTrigger(cron_date));
+            taskScheduler.getScheduledThreadPoolExecutor().shutdown();
         }
-
         phaseRepository.save(phase_from_db);
         return new MessageResponse("Başarıyla güncellendi.", MessageType.SUCCESS);
     }

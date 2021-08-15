@@ -33,12 +33,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--> google <!-->
+		<!--> google
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 			<version>2.3.3.RELEASE</version>
-		</dependency>
+		</dependency><!-->
 		<!--> ldap <!-->
 		<dependency>
 			<groupId>com.unboundid</groupId>
@@ -53,13 +53,19 @@
 			<artifactId>spring-security-ldap</artifactId>
 		</dependency>
 		<!--> <!-->
-		<!--> <!-->
+		<!-->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-elasticsearch</artifactId>
 			<version>4.0.0.RELEASE</version>
+		</dependency><!-->
+		<!--> mail<!-->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
 		</dependency>
-		<!--> <!-->
+		<!--> mail<!-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
