@@ -30,6 +30,11 @@ public class MentorshipApplication {
     @JsonIgnoreProperties({"applicationSet"})
     private Subject subject;
 
+    @Column(name = "subject_name")
+    private String subject_name;
+
+    @Column(name = "subsubject_name")
+    private String subsubject_name;
 
     @Column(name = "EXPERIENCE")
     private String experience;

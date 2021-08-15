@@ -322,7 +322,7 @@ export default class UserDashboard extends Component {
                                             open={this.state.openProgramDialog}
                                             whoOpened={String(this.state.navValue).substring(0, 6)}
                                             onClose={() => this.setState({openProgramDialog: false})}
-                                            handleUpdatePhasePoint={this.handleUpdatePhasePoint}
+                                            //handleUpdatePhasePoint={this.handleUpdatePhasePoint}
                                             // handleUpdatePhaseComment={this.handleUpdatePhaseComment}
                                             // handleUpdateProgramComment={this.handleUpdateProgramComment}
                                             handleAddPhase={this.handleAddPhase}
@@ -357,7 +357,7 @@ export default class UserDashboard extends Component {
                                             open={this.state.openProgramDialog}
                                             whoOpened={String(this.state.navValue).substring(0, 6)}
                                             onClose={() => this.setState({openProgramDialog: false})}
-                                            handleUpdatePhasePoint={this.handleUpdatePhasePoint}
+                                            //handleUpdatePhasePoint={this.handleUpdatePhasePoint}
                                             // handleUpdatePhaseComment={this.handleUpdatePhaseComment}
                                             // handleUpdateProgramComment={this.handleUpdateProgramComment}
                                             handleAddPhase={this.handleAddPhase}

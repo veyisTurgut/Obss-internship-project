@@ -104,7 +104,6 @@ public class ProgramService {
     public MessageResponse updatePhase(PhaseDTO phasedto) {
         Phase phase_from_db = phaseRepository.getPhaseById(phasedto.getPhase_id(), phasedto.getProgram_id());
         if (phase_from_db == null) return new MessageResponse("Böyle bir faz yok.", MessageType.ERROR);
-
         if (phasedto.getMentor_point() == null) {
             phase_from_db.setMentee_experience(phasedto.getMentee_experience());
             phase_from_db.setMentee_point(phasedto.getMentee_point());
@@ -112,15 +111,19 @@ public class ProgramService {
             phase_from_db.setMentor_experience(phasedto.getMentor_experience());
             phase_from_db.setMentor_point(phasedto.getMentor_point());
         }
+        if (phasedto.getExpected_end_date() != null) {
+            phase_from_db.setExpected_end_date(phasedto.getExpected_end_date());
+        }
+
         phaseRepository.save(phase_from_db);
-        return new MessageResponse("Başarıyla eklendi.", MessageType.SUCCESS);
+        return new MessageResponse("Başarıyla güncellendi.", MessageType.SUCCESS);
     }
 
     public MessageResponse addPhases(Long program_id, Integer phaseCount) {
         for (int i = 1; i < phaseCount; i++) {
             phaseRepository.addByIds(program_id, i);
         }
-        return new MessageResponse("Başarılı sanırım, hatayı nasıl yakalıycam bilemedim burda.", MessageType.SUCCESS);
+        return new MessageResponse("Başarılı.", MessageType.SUCCESS);
     }
 
     public Long getMax() {

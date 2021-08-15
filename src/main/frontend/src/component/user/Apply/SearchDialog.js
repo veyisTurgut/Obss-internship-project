@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import TextField from "@material-ui/core/TextField";
 import Checkbox from '@material-ui/core/Checkbox';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -16,6 +17,12 @@ export default class SearchDialog extends Component {
     state = {
         inputData: {},
         checked: {}
+    }
+
+    componentDidMount() {
+        console.log(this.props.applicationData.reduce((unique, item) => {
+            return unique.includes(String(item[0] + "xxx" + item[1] + "xxx" + item[2])) ? unique : [...unique, String(item[0] + "xxx" + item[1] + "xxx" + item[2])]
+        }, []).map(x => x.split("xxx")))
     }
 
 
@@ -29,7 +36,6 @@ export default class SearchDialog extends Component {
     }
 
     handleCheckboxChange = event => {
-
         let copyChecked = {...this.state.checked}; //create a new copy
 
         copyChecked[event.target.id] = !copyChecked[event.target.id]     //change the value of bar
@@ -61,9 +67,8 @@ export default class SearchDialog extends Component {
                                 checked={this.state.checked[i]}
                                 onChange={this.handleCheckboxChange}
                                 id={i}
-
                             />
-                            <span>{field.subject_name + " / " + field.subsubject_name}</span>
+                            <span>{field[1] + " / " + field[2]}</span>
                         </label>
                     ))}
 
@@ -86,7 +91,7 @@ export default class SearchDialog extends Component {
                     <Button onClick={this.props.onClose} color="default">
                         Vazgeç
                     </Button>
-                    <Button onClick={() => this.props.onSubmit(this.state.inputData, this.state.checked)}
+                    <Button onClick={() => this.props.onSubmit(this.state.inputData, this.state.checked,this.props.applicationData)}
                             color="primary">
                         Ara
                     </Button>
@@ -94,4 +99,5 @@ export default class SearchDialog extends Component {
             </Dialog>
         );
     }
+
 }

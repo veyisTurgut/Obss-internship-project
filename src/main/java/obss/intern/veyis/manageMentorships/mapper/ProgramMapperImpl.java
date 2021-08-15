@@ -27,7 +27,6 @@ public class ProgramMapperImpl implements ProgramMapper {
             Date end_date = program.getEnd_date();
             Date start_date = program.getStart_date();
             String status = program.getStatus();
-
             /*
             Users mentee = program.getMentee();
             String mentee_username = (mentee == null) ? null : mentee.getUsername();
@@ -38,8 +37,8 @@ public class ProgramMapperImpl implements ProgramMapper {
 
             String mentee_username = (program.getMentee() == null) ? null : program.getMentee().getUsername();
             String mentor_username = program.getMentor().getUsername();
-            Set<PhaseDTO> phases = (program.getPhases() == null) ? null : phaseMapper.mapToDto(program.getPhases().stream().collect(Collectors.toList()))
-                    .stream().collect(Collectors.toSet());
+            Set<PhaseDTO> phases = (program.getPhases() == null) ? null : phaseMapper.mapToDto(program.getPhases()
+                    .stream().collect(Collectors.toList())).stream().collect(Collectors.toSet());
             String subject_name = program.getSubject().getSubject_name();
             String subsubject_name = program.getSubject().getSubsubject_name();
             String mentee_comment = program.getMentee_comment();

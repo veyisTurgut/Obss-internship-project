@@ -23,6 +23,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import PhaseEvaluationDialog from "./PhaseEvaluationDialog";
+import TextField from '@material-ui/core/TextField';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -34,6 +35,7 @@ export default class ProgramDialog extends Component {
         programData: {},
         phases: [],
         inputNumber: "",
+        inputDate: "2021-08-19T12:00",
         experience: "",
         point: [],
         current_phase_id: "",
@@ -74,8 +76,17 @@ export default class ProgramDialog extends Component {
         });
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
+    handleDateChange = (event) => {
+        event.persist();
+        this.setState(prevState => {
+            let inputDate = {...prevState.inputDate};
+            inputDate = event.target.value;
+            return {inputDate};
+        });
+    }
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state.inputDate)
         if (prevProps !== this.props
             || this.state.isCommentDialogOpen !== prevState.isCommentDialogOpen
             || this.state.isPointDialogOpen !== prevState.isPointDialogOpen
@@ -181,6 +192,45 @@ export default class ProgramDialog extends Component {
         }
 
         axios.put("http://localhost:8080/programs/" + program_id, body, {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    "Access-Control-Allow-Methods": "PUT",
+                    'Authorization': Cookie.get("Authorization")
+                }
+            }
+        ).then(value => {
+            console.log(value)
+            if (value.data.messageType === "SUCCESS") {
+                this.setState({
+                    openToast: true,
+                    toastMessage: value.data.message,
+                    toastMessageType: value.data.messageType
+                });
+            } else {
+                this.setState({
+                    openToast: true,
+                    toastMessage: value.data.message,
+                    toastMessageType: value.data.messageType
+                });
+            }
+        }).catch(reason => {
+            console.log(reason)
+            this.setState({
+                openToast: true,
+                toastMessage: "İstek başarısız!",
+                toastMessageType: "ERROR"
+            });
+        })
+    }
+
+    handleExpectedDate(phase_id) {
+        console.log(phase_id, this.state.inputDate)
+        axios.put("http://localhost:8080/programs/" + this.state.programData.program_id + "/updatePhase",
+            {
+                "program_id": this.state.programData.program_id,
+                "phase_id": phase_id,
+                "expected_end_date": this.state.inputDate
+            }, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     "Access-Control-Allow-Methods": "PUT",
@@ -327,6 +377,7 @@ export default class ProgramDialog extends Component {
                                             align="center"><b>Faz Numarası: </b></TableCell>
                                         <TableCell align="center"><b>Başlangıç Tarihi:</b></TableCell>
                                         <TableCell align="center"><b>Bitiş Tarihi:</b></TableCell>
+                                        <TableCell align="center"><b> Tahmini Bitiş Tarihi:</b></TableCell>
                                         <TableCell align="center"><b>Mentor Yorumu: </b></TableCell>
                                         <TableCell align="center"><b>Mentee Yorumu: </b></TableCell>
                                         <TableCell align="center"><b>Mentor Puanı: </b></TableCell>
@@ -341,11 +392,40 @@ export default class ProgramDialog extends Component {
 
                                             <TableCell
                                                 align="center">{row.start_date !== null ? String(row.start_date).substring(0, 10) +
-                                                " " + String(row.start_date).substring(11, 16) : String("")}</TableCell>
+                                                " " + String(row.start_date).substring(11, 16) : String("")}
+                                            </TableCell>
 
                                             <TableCell
                                                 align="center">{row.end_date !== null ? String(row.end_date).substring(0, 10) +
-                                                " " + String(row.end_date).substring(11, 16) : String("")}</TableCell>
+                                                " " + String(row.end_date).substring(11, 16) : String("")}
+                                            </TableCell>
+
+                                            <TableCell align="center">
+
+                                                {row.expected_end_date === null ?
+                                                    <div>
+                                                        <form noValidate>
+                                                            <TextField
+                                                                id="datetime-local"
+                                                                label="Ayarla"
+                                                                type="datetime-local"
+                                                                defaultValue="2021-08-19T12:00"
+                                                                onChange={this.handleDateChange}
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                            />
+                                                        </form>
+                                                        <Button color={"secondary"}
+                                                                onClick={() => this.handleExpectedDate(row.phase_id)}>Onayla</Button>
+                                                    </div>
+                                                    :
+                                                    String(row.expected_end_date).substring(0, 10) + " " +
+                                                    String(row.expected_end_date).substring(11, 16)
+                                                }
+
+
+                                            </TableCell>
 
                                             <TableCell align="center">
                                                 {row.mentor_experience === null ?
@@ -371,8 +451,8 @@ export default class ProgramDialog extends Component {
                                                         </DialogContentText>
                                                     </DialogContent>
                                                 </Dialog>
-
                                             </TableCell>
+
                                             <TableCell align="center">
                                                 {row.mentee_experience === null ?
                                                     ""
@@ -539,4 +619,5 @@ export default class ProgramDialog extends Component {
             </div>
         );
     }
+
 }

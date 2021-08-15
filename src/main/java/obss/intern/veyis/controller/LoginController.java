@@ -41,7 +41,7 @@ public class LoginController {
     public MessageResponse googleLogin(@RequestBody Admin admin) {
         Admin admin_from_db = adminService.findByNameAndMail(admin.getUsername(), admin.getGmail());
         Users user_from_db = userService.findByNameAndMail(admin.getUsername(), admin.getGmail());
-
+        System.out.println(admin.getUsername()+" "+ admin.getGmail());
         if (admin_from_db == null && user_from_db == null) {//new user
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             Users new_user = new Users();
@@ -84,8 +84,14 @@ public class LoginController {
         }
 
         System.out.println(Base64.getEncoder().encodeToString((admin.getUsername() + ":" + admin.getPassword()).getBytes()));
-        return new MessageResponse(auth.getAuthorities().toString().substring(0, 4) + " " + Base64.getEncoder().encodeToString((admin.getUsername() + ":" + admin.getPassword()).getBytes()), MessageType.SUCCESS);
+        return new MessageResponse(user_type + " " + Base64.getEncoder().encodeToString((admin.getUsername() + ":" + admin.getPassword()).getBytes()), MessageType.SUCCESS);
     }
 
+    @GetMapping("")
+    public String lo(){
+
+
+        return "zdd";
+    }
 
 }

@@ -47,7 +47,6 @@ public class ProgramDTO {
     @NotNull(message = "Alt konu başlığı olmak zorunda!")
     private String subsubject_name;
 
-
     @JsonProperty("phases")
     private Set<PhaseDTO> phases;
 
@@ -63,8 +62,6 @@ public class ProgramDTO {
                       @JsonProperty("phases") Set<PhaseDTO> phases,
                       @JsonProperty("mentor_comment") String mentor_comment,
                       @JsonProperty("mentee_comment") String mentee_comment
-
-
     ) {
         this.program_id = program_id;
         this.end_date = end_date;

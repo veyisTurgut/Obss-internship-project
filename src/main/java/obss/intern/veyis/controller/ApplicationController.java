@@ -72,6 +72,8 @@ public class ApplicationController {
     @PreAuthorize("hasAuthority('ROLE_USERS')")
     @GetMapping("/{username}/can")//user
     public List<ApplicationDTO> applicationsUserCanApply(@PathVariable String username) {
+        System.out.println(username);
+        System.out.println(applicationMapper.mapToDto(applicationService.findSubjectsUserCanApply(username)));
         return applicationMapper.mapToDto(applicationService.findSubjectsUserCanApply(username));
     }
 

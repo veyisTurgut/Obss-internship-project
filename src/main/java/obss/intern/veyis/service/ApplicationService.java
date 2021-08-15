@@ -130,13 +130,13 @@ public class ApplicationService {
 
     public List<MentorshipApplication> findSubjectsUserCanApply(String mentee) {
         List<Program> users = programRepository.findProgramByMentee(mentee);
+        Set<MentorshipApplication> approved = findApprovedApplications().stream().collect(Collectors.toSet());
         if (users.size() == 0) {
-            return null;
+           approved.stream().collect(Collectors.toList());
         }
         List<Subject> subjects = users.stream().filter(x -> !x.getStatus().equals("ended")).
                 map(x -> x.getSubject()).collect(Collectors.toList());
 
-        Set<MentorshipApplication> approved = findApprovedApplications().stream().collect(Collectors.toSet());
 /*
         System.out.println();
         System.out.println();

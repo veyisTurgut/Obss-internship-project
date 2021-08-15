@@ -32,7 +32,8 @@ public class Phase implements Comparable<Phase> {
     private String mentor_experience;
     @Column(name = "MENTEE_EXPERIENCE")
     private String mentee_experience;
-
+    @Column(name = "EXPECTED_END_DATE")
+    private Date expected_end_date;
 
     @ManyToOne
     @MapsId("program_id")

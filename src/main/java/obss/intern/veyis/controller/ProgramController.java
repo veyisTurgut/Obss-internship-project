@@ -60,7 +60,7 @@ public class ProgramController {
         return programService.updateProgram(program_id, programDTO);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @PutMapping("/{program_id}/updatePhase")//user
     public MessageResponse updatePhases(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
         Program program = programService.getById(program_id);
@@ -68,7 +68,7 @@ public class ProgramController {
         return programService.updatePhase(phaseDTO);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @PostMapping("/")//user - this is called by mentee to enroll.
     public MessageResponse addProgram(@RequestBody @Validated ProgramDTO programDTO) {
 
@@ -87,7 +87,7 @@ public class ProgramController {
     }
 
     //TODO
-    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @PutMapping("/{program_id}/phases/{phase_count}")//user
     public MessageResponse addPhases(@PathVariable String program_id, @PathVariable String phase_count) {
         Program program = programService.getById(Long.valueOf(program_id));
@@ -96,7 +96,7 @@ public class ProgramController {
     }
 
     //TODO: fazı almaya gerek yok. açık olan ilk fazı kapa devam et işte.
-    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
+    @PreAuthorize("hasAuthority('ROLE_USERS')")
     @PutMapping("/{program_id}/nextPhase")//user
     public MessageResponse nextPhase(@PathVariable Long program_id, @RequestBody @Validated PhaseDTO phaseDTO) {
         Program program = programService.getById(program_id);

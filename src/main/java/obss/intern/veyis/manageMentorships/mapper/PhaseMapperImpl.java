@@ -29,9 +29,10 @@ public class PhaseMapperImpl implements PhaseMapper {
             Integer mentor_point = phase.getMentor_point();
             Long program_id = phase.getId().getProgram_id().getProgram_id();
             Date end_date = phase.getEnd_date();
+            Date expected_end_date = phase.getExpected_end_date();
             Date start_date = phase.getStart_date();
             Long phase_id = phase.getId().getPhase_id();
-            PhaseDTO phaseDTO = new PhaseDTO(program_id, phase_id, mentee_experience, mentor_experience, start_date, end_date, mentor_point, mentee_point);
+            PhaseDTO phaseDTO = new PhaseDTO(program_id, phase_id, expected_end_date, mentee_experience, mentor_experience, start_date, end_date, mentor_point, mentee_point);
             return phaseDTO;
         }
     }
@@ -51,6 +52,7 @@ public class PhaseMapperImpl implements PhaseMapper {
 
             phase.setStart_date(phaseDTO.getStart_date());
             phase.setEnd_date(phaseDTO.getEnd_date());
+            phase.setExpected_end_date(phaseDTO.getExpected_end_date());
             phase.setMentee_experience(phaseDTO.getMentee_experience());
             phase.setMentor_experience(phaseDTO.getMentor_experience());
             phase.setMentee_point(phaseDTO.getMentee_point());

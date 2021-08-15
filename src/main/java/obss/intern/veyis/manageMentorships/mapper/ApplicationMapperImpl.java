@@ -20,9 +20,9 @@ public class ApplicationMapperImpl implements ApplicationMapper {
         } else {
             ApplicationDTO applicationDTO = new ApplicationDTO(
                     mentorshipApplication.getApplicant().getUsername(),
-                    /*
+
                     mentorshipApplication.getSubject().getSubject_id(),
-                     */
+
                     mentorshipApplication.getSubject().getSubject_name(),
                     mentorshipApplication.getSubject().getSubsubject_name(),
                     mentorshipApplication.getExperience()
@@ -42,6 +42,8 @@ public class ApplicationMapperImpl implements ApplicationMapper {
             application.setApplicant(mentor_applicant);
             application.setExperience(applicationDTO.getExperience());
             application.setSubject(subject);
+            application.setSubject_name(subject.getSubject_name());
+            application.setSubsubject_name(subject.getSubsubject_name());
             application.setStatus("open");
             return application;
         }

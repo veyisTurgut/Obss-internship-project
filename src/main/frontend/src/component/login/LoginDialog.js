@@ -100,7 +100,7 @@ export default class LoginDialog extends Component {
     responseGoogle = (response) => {
         Cookie.set("Username", response.profileObj.name);
         let body = {
-            "name": response.profileObj.name,
+            "username": response.profileObj.name,
             "gmail": response.profileObj.email,
         }
         axios.post("http://localhost:8080/login/google", body,
@@ -141,24 +141,10 @@ export default class LoginDialog extends Component {
                                 onClick={() => this.setState({userType: "USER"})}>
                             Kullanıcı
                         </Button>
-                        {/*TODO: link to external
-                        <Button variant="contained" color="secondary" target="_blank" rel="noopener noreferrer"
-                                href="http:localhost:8080/login/oauth2/code/">
-                            Google ile Giriş
-                        </Button> */}
-
-                        <a className="btn btn-block social-btn google"
-                           href={"http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/"}>
-                            Log in with Google
-                        </a>
-                        <a className="btn btn-block social-btn google"
-                           href={"http://localhost:8080/oauth2/authorization/google"}>
-                            Log in with Googlea
-                        </a>
 
                         <GoogleLogin
                             clientId={"270274380163-497s6h2fvf124dm0bs9lq50qrp7kgd8p.apps.googleusercontent.com"}
-                            buttonText={"login"}
+                            buttonText={"Google ile Giriş yap"}
                             onSuccess={this.responseGoogle}
                             onFailure={this.responseGoogle}
                         />

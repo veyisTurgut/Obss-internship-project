@@ -40,6 +40,9 @@ public class PhaseDTO {
     @JsonProperty("end_date")
     private Date end_date;
 
+    @JsonProperty("expected_end_date")
+    private Date expected_end_date;
+
     @JsonProperty("start_date")
     private Date start_date;
 
@@ -47,6 +50,7 @@ public class PhaseDTO {
     public PhaseDTO(
             @JsonProperty("program_id") Long program_id,
             @JsonProperty("phase_id") Long phase_id,
+            @JsonProperty("expected_end_date") Date expected_end_date,
             @JsonProperty("mentee_experience") String mentee_experience,
             @JsonProperty("mentor_experience") String mentor_experience,
             @JsonProperty("start_date") Date start_date,
@@ -56,6 +60,7 @@ public class PhaseDTO {
     ) {
         this.program_id = program_id;
         this.phase_id = phase_id;
+        this.expected_end_date = expected_end_date;
         this.mentee_experience = mentee_experience;
         this.mentor_experience = mentor_experience;
         this.mentor_point = mentor_point;
