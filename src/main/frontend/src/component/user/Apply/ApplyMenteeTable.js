@@ -194,7 +194,8 @@ export default class ApplyMenteeTable extends Component {
                     </TableHead>
                     <TableBody>
                         {
-                            this.state.SubjectData.sort((a, b) => a.mentor_experience > b.mentor_experience ? 1 : -1).map((p, index) => {
+                            this.state.SubjectData.sort((a, b) => a.mentor_experience > b.mentor_experience ? 1 : -1)
+                                .filter(x => x.applicant_username !== Cookie.get("Username")).map((p, index) => {
                                 return <TableRow key={index}>
                                     <TableCell align="center">{p.applicant_username}</TableCell>
                                     <TableCell align="center">{p.subject_name}</TableCell>

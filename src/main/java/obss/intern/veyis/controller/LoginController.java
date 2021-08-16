@@ -3,24 +3,15 @@ package obss.intern.veyis.controller;
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
-//import obss.intern.veyis.config.security.SessionManager;
-import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.Admin;
-import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Users;
-import obss.intern.veyis.manageMentorships.mapper.UserMapperImpl;
 import obss.intern.veyis.service.AdminService;
 import obss.intern.veyis.service.UserService;
-import obss.intern.veyis.util.EmailSender;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.Collections;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Validated

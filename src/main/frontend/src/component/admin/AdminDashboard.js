@@ -21,6 +21,7 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
+import ViewListIcon from "@material-ui/icons/ViewList";
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ export default class AdminDashboard extends Component {
             SubjectData: [],
             ApplicationData: [],
             navValue: "Başvurular",
-            openUserDialog: false,
+            openSubjectDialog: false,
             openAdminDialog: false,
             openToast: false,
             toastMessage: '',
@@ -48,7 +49,7 @@ export default class AdminDashboard extends Component {
         this.setState({
             navValue: "Başvurular"
         });
-        axios.get('http://localhost:8080/applications/open', {
+        axios.get('http://localhost:8080/applications/?status=open', {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -58,22 +59,12 @@ export default class AdminDashboard extends Component {
                 ApplicationData: response.data
             });
         });
-        axios.get('http://localhost:8080/subjects/all', {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': Cookie.get("Authorization")
-            }
-        }).then(response => {
-            this.setState({
-                SubjectData: response.data
-            });
-        });
-
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-
-        if (this.state !== prevState) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if ((this.state.navValue !== prevState.navValue && this.state.navValue === "Konular") ||
+            this.state.openSubjectDialog !== prevState.openSubjectDialog ||
+            this.state.isDeleteDialogOpen !== prevState.isDeleteDialogOpen) {
             axios.get('http://localhost:8080/subjects/all', {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -85,7 +76,10 @@ export default class AdminDashboard extends Component {
                 });
             });
 
-            axios.get('http://localhost:8080/applications/open', {
+        }
+        if ((this.state.navValue !== prevState.navValue && this.state.navValue === "Başvurular") ||
+            this.state.openAdminDialog !== prevState.openAdminDialog || this.state.isApproveRejectDialogOpen !== prevState.isApproveRejectDialogOpen) {
+            axios.get('http://localhost:8080/applications/?status=open', {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Authorization': Cookie.get("Authorization")
@@ -99,7 +93,7 @@ export default class AdminDashboard extends Component {
     }
 
     handleAddSubjectDialog = (inputData) => {
-        this.setState({openUserDialog: false});
+        this.setState({openSubjectDialog: false});
         axios.post("http://localhost:8080/subjects/", inputData
             , {
                 headers: {
@@ -205,13 +199,28 @@ export default class AdminDashboard extends Component {
                 <BottomNavigation showLabels> <BottomNavigationAction/>
                     <BottomNavigationAction/>
                     <BottomNavigationAction/>
+                    {this.state.navValue === "Başvurular" &&
+                    <BottomNavigationAction label="Başvurular" icon={<ReceiptIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Başvurular",
+                                            })}/>}
+                    {this.state.navValue !== "Başvurular" &&
+                    <BottomNavigationAction label="Başvurular" icon={<ReceiptIcon/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Başvurular",
+                                            })}/>}
 
-                    <BottomNavigationAction label="Başvurular" icon={<ReceiptIcon/>} onClick={() => this.setState({
-                        navValue: "Başvurular",
-                    })}/>
-                    <BottomNavigationAction label="Konular" icon={<SubjectIcon/>} onClick={() => this.setState({
-                        navValue: "Konular",
-                    })}/>
+                    {this.state.navValue === "Konular" &&
+                    <BottomNavigationAction label="Konular" icon={<ReceiptIcon color={"secondary"}/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Konular",
+                                            })}/>}
+                    {this.state.navValue !== "Konular" &&
+                    <BottomNavigationAction label="Konular" icon={<ReceiptIcon/>}
+                                            onClick={() => this.setState({
+                                                navValue: "Konular",
+                                            })}/>}
+
                     <BottomNavigationAction/> <BottomNavigationAction/>
 
                     <h3>
@@ -228,7 +237,7 @@ export default class AdminDashboard extends Component {
                 <div align={"right"}>
                     <Button color="primary"
                             startIcon={<AddIcon/>} onClick={() => this.setState({
-                        openUserDialog: true
+                        openSubjectDialog: true
                     })}>
                         Ekle
                     </Button></div>}
@@ -320,8 +329,8 @@ export default class AdminDashboard extends Component {
                                             open={this.state.isDeleteDialogOpen}
                                         />
                                         <AddSubjectDialog
-                                            open={this.state.openUserDialog}
-                                            onClose={() => this.setState({openUserDialog: false})}
+                                            open={this.state.openSubjectDialog}
+                                            onClose={() => this.setState({openSubjectDialog: false})}
                                             onSubmit={this.handleAddSubjectDialog}
                                             fields={this.state.subjectDialogFields}/>
                                     </TableRow>
@@ -343,5 +352,4 @@ export default class AdminDashboard extends Component {
 
         );
     }
-
 }

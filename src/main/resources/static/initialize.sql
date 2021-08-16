@@ -5,15 +5,17 @@ VALUES ('admin1', '$2a$10$/es0qNYiyEfN25DiArPAPerGg/UAAJ2sOF39Cq4Zj7S4JHc3JIDoO'
 
 ON CONFLICT DO NOTHING;
 
-
-INSERT INTO users (username, password, gmail)
-VALUES ('user1', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86', ''),
-       ('user2', '$2a$10$Z329QvVPCViUzQnlK5l/qOO3qc25YrlORlyJhc0xdruFurvzp8v0i', ''),
-       ('user3', '$2a$10$gyZagwu.9vysY39jsEA0BeDwc8TDh.P8cHWkJQQe2oSvNZq/DO2Ou', ''),
-       ('user4', '$2a$10$WSay9HiCLpFipIpoTY7ZNubzuKr5ljZ8ir24t8o3ZRm6IfY0YPAdm', ''),
-       ('user5', '$2a$10$jhSeFixdHrZjuER4AXPkgu4OSTso0uciEX1MgLSrWYBN6QUdOGcfO', ''),
-       ('user6', '$2a$10$egmzlCh/TfWQwmkqN3y.cOU6C6jkW6mYnMrmtIOIp1BUgT76sJIZa', ''),
-       ('Veyis Turgut', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86', 'vturgut68@gmail.com')
+insert into users (username, gmail, password) values ('jpeche0', 'hrossbrooke0@gmail.com', 'yLmUIJ');
+insert into users (username, gmail, password) values ('dallanson1', 'mmercey1@gmail.com', 'ehDp2FKL');
+insert into users (username, gmail, password) values ('mhankard2', 'cdiperaus2@gmail.com', '8lv8YyXK0');
+insert into users (username, gmail, password) values ('mhumbles3', 'sespino3@gmail.com', 'A4kVwA4Ek0XS');
+insert into users (username, gmail, password) values ('skillcross4', 'ggrebert4@gmail.com', '4KsI3RYRmdZ');
+insert into users (username, gmail, password) values ('jmeneely5', 'dmantha5@gmail.com', 'KtmcZCmEjO');
+insert into users (username, gmail, password) values ('gyukhnevich6', 'sfeatherby6@gmail.com', 'YFRjRXt');
+insert into users (username, gmail, password) values ('ewarboy7', 'bmachostie7@gmail.com', 'm0SkrZW11L');
+insert into users (username, gmail, password) values ('jmiddleditch8', 'ekordas8@gmail.com', 'uLyaZzvANBj');
+insert into users (username, gmail, password) values ('ugrindle9', 'toxe9@gmail.com', 'W1dtEIo7Mo');
+INSERT INTO users (username, password, gmail) VALUES ('veyisTurgut', '$2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86', 'vturgut68@gmail.com')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO Subject (subject_id, subject_name, subsubject_name)

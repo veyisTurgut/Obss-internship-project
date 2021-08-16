@@ -208,50 +208,51 @@ export default class ApplyMentorTable extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.SubjectData.sort((a, b) => a.subject_name > b.subject_name ? 1 : -1).map((p, index) => {
-                            return <TableRow key={index}>
-                                <TableCell align="center">{p.subject_name}</TableCell>
-                                <TableCell align="center">{p.subsubject_name}</TableCell>
-                                <TableCell align="center">
-                                    {this.state.navValue === "new" &&
-                                    <Button align="center" color="primary"
-                                            startIcon={<AddIcon/>}
-                                            onClick={() => this.setState({
-                                                isEnrollDialogOpen: true,
-                                                subject_name: p.subject_name,
-                                                subsubject_name: p.subsubject_name
-                                            })}>
-                                        Başvur
-                                    </Button>}
-                                    {this.state.navValue === "old" &&
-                                    <Button align="center" color="secondary"
-                                            startIcon={<DeleteIcon/>}
-                                            onClick={() => this.setState({
-                                                isDeleteDialogOpen: true,
-                                                subject_name: p.subject_name,
-                                                subsubject_name: p.subsubject_name
-                                            })}>
-                                        Başvuruyu Geri Çek
-                                    </Button>}
-                                </TableCell>
-                                <EnrollDialog
-                                    who={"Mentor"}
-                                    subject_name={this.state.subject_name}
-                                    subsubject_name={this.state.subsubject_name}
-                                    experience=""
-                                    onClose={() => this.setState({isEnrollDialogOpen: false})}
-                                    handleEnrollProgram={this.handleApplyToBeAMentor}
-                                    open={this.state.isEnrollDialogOpen}
-                                />
-                                <DeleteApplicationMentorDialog
-                                    subject_name={this.state.subject_name}
-                                    subsubject_name={this.state.subsubject_name}
-                                    onClose={() => this.setState({isDeleteDialogOpen: false})}
-                                    handleDeleteApplicationProgram={this.deleteApplication}
-                                    open={this.state.isDeleteDialogOpen}
-                                />
-                            </TableRow>
-                        })
+                        {this.state.SubjectData.sort((a, b) => a.subject_name > b.subject_name ? 1 : -1)
+                            .filter(x => x.applicant_username !== Cookie.get("Username")).map((p, index) => {
+                                return <TableRow key={index}>
+                                    <TableCell align="center">{p.subject_name}</TableCell>
+                                    <TableCell align="center">{p.subsubject_name}</TableCell>
+                                    <TableCell align="center">
+                                        {this.state.navValue === "new" &&
+                                        <Button align="center" color="primary"
+                                                startIcon={<AddIcon/>}
+                                                onClick={() => this.setState({
+                                                    isEnrollDialogOpen: true,
+                                                    subject_name: p.subject_name,
+                                                    subsubject_name: p.subsubject_name
+                                                })}>
+                                            Başvur
+                                        </Button>}
+                                        {this.state.navValue === "old" &&
+                                        <Button align="center" color="secondary"
+                                                startIcon={<DeleteIcon/>}
+                                                onClick={() => this.setState({
+                                                    isDeleteDialogOpen: true,
+                                                    subject_name: p.subject_name,
+                                                    subsubject_name: p.subsubject_name
+                                                })}>
+                                            Başvuruyu Geri Çek
+                                        </Button>}
+                                    </TableCell>
+                                    <EnrollDialog
+                                        who={"Mentor"}
+                                        subject_name={this.state.subject_name}
+                                        subsubject_name={this.state.subsubject_name}
+                                        experience=""
+                                        onClose={() => this.setState({isEnrollDialogOpen: false})}
+                                        handleEnrollProgram={this.handleApplyToBeAMentor}
+                                        open={this.state.isEnrollDialogOpen}
+                                    />
+                                    <DeleteApplicationMentorDialog
+                                        subject_name={this.state.subject_name}
+                                        subsubject_name={this.state.subsubject_name}
+                                        onClose={() => this.setState({isDeleteDialogOpen: false})}
+                                        handleDeleteApplicationProgram={this.deleteApplication}
+                                        open={this.state.isDeleteDialogOpen}
+                                    />
+                                </TableRow>
+                            })
                         }
                     </TableBody>
                     <CustomizedSnackbars open={this.state.openToast}

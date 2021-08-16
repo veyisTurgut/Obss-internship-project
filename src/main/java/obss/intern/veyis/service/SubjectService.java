@@ -22,19 +22,61 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final ApplicationRepository applicationRepository;
 
-
+/*
     public Subject getById(Long id) {
         return subjectRepository.getById(id);
     }
+*/
 
+    /**
+     * <h1> Get All Subjects -- Service</h1>
+     * This function fetches all the subjects in the system via repository class.
+     *
+     * @return List<Subject>: List of subjects.
+     * @see Subject
+     */
     public List<Subject> getAllSubjects() {
         return subjectRepository.findAllSorted();
     }
 
-    public Subject getByKeys(String subject_name, String subsubject_name) {
-        return subjectRepository.findSubject(subject_name, subsubject_name);
+    /**
+     * <h1> Get Subjects Of the Applications Of Given User Applied -- Service</h1>
+     * This function fetches all the subjects of the applications of a user in the system via repository class.
+     *
+     * @param username: username of the user
+     * @return List<Subject>: List of subjects.
+     * @see Subject
+     */
+    public List<Subject> getSubjectsThatAUserApplied(String username) {
+        return applicationRepository.findByUsername(username).stream()
+                //  .filter(x -> x.getApplicant().getUsername().equals(username))
+                .map(x -> x.getSubject()).collect(Collectors.toList());
     }
 
+    /**
+     * <h1> Get Subjects Of the Applications Of Given User Not Applied  -- Service</h1>
+     * This function fetches all the subjects of the applications of a user and all of
+     * the subjects in the system via repository class. Then it takes the set difference.
+     *
+     * @param username: username of the user
+     * @return List<Subject>: List of subjects.
+     * @see Subject
+     */
+    public List<Subject> getAllSubjectsExceptAUser(String username) {
+        Set<Subject> applied = getSubjectsThatAUserApplied(username).stream().collect(Collectors.toSet());
+        Set<Subject> all = subjectRepository.findAll().stream().collect(Collectors.toSet());
+        all.removeAll(applied);
+        return all.stream().collect(Collectors.toList());
+    }
+
+
+    /**
+     * <h1> Create a Subject  -- Service</h1>
+     * This function adds a subject record to the database if same is not already there.
+     *
+     * @param subject: Contents of the subject.
+     * @return MessageResponse: SUCCESS upon successful operation, ERROR with an explanation otherwise.
+     */
     public MessageResponse addSubject(Subject subject) {
         if (subjectRepository.findSubject(subject.getSubject_name(), subject.getSubsubject_name()) != null) {
             return new MessageResponse("Konu özgün olmalı!", MessageType.ERROR);
@@ -43,44 +85,29 @@ public class SubjectService {
         return new MessageResponse("Konu eklendi!", MessageType.SUCCESS);
     }
 
-    public MessageResponse deleteSubject(SubjectDTO subjectDTO) {
-        Subject subject = subjectRepository.findSubject(subjectDTO.getSubject_name(), subjectDTO.getSubsubject_name());
-        if (subject == null) {
-            return new MessageResponse("Zaten yok!", MessageType.ERROR);
-        }
-        //subjectRepository.delete(subject);
-        subjectRepository.deleteSubject(subject.getSubject_id());
-        return new MessageResponse("Silindi", MessageType.SUCCESS);
-    }
-
+    /**
+     * <h1> Delete a Subject By ID  -- Service</h1>
+     * This function deletes a subject record from the database. It's not a problem if subject does not exist.
+     *
+     * @param subject_id: ID of the subject.
+     * @return MessageResponse: SUCCESS upon successful operation, ERROR with an explanation otherwise.
+     */
     public MessageResponse deleteSubjectById(Long subject_id) {
-        Subject subject = subjectRepository.getById(subject_id);
-        if (subject == null) {
-            return new MessageResponse("Zaten yok!", MessageType.ERROR);
-        }
-        //subjectRepository.delete(subject);
-        subjectRepository.deleteSubject(subject.getSubject_id());
+        subjectRepository.deleteSubject(subject_id);
         return new MessageResponse("Silindi", MessageType.SUCCESS);
     }
 
-
-    public Subject addSubject(String subject_name, String subsubject_name) {
-        Subject subject = new Subject();
-        subject.setSubject_name(subject_name);
-        subject.setSubsubject_name(subsubject_name);
-        subjectRepository.save(subject);
-        return subject;
+    /**
+     * <h1> Get a Subject By Keys -- Service</h1>
+     * This function fetches the subject meeting given requirements in parameter .
+     *
+     * @param subject_name    Subject name.
+     * @param subsubject_name Subsubject name.
+     * @return List<Subject>: List of subjects.
+     * @see Subject
+     */
+    public Subject getByKeys(String subject_name, String subsubject_name) {
+        return subjectRepository.findSubject(subject_name, subsubject_name);
     }
 
-    public List<Subject> getApplicationsOfAUser(String username) {
-        return applicationRepository.findByUsername(username).stream().
-                filter(x -> x.getApplicant().getUsername().equals(username)).map(x -> x.getSubject()).collect(Collectors.toList());
-    }
-
-    public List<Subject> getAllSubjectsExceptAUser(String username) {
-        Set<Subject> applied = getApplicationsOfAUser(username).stream().collect(Collectors.toSet());
-        Set<Subject> all = subjectRepository.findAll().stream().collect(Collectors.toSet());
-        all.removeAll(applied);
-        return all.stream().collect(Collectors.toList());
-    }
 }

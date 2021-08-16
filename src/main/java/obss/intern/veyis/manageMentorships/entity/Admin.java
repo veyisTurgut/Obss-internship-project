@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+
 public class Admin  {
     @Id
     @Column(name = "USERNAME",unique = true)
@@ -15,5 +16,4 @@ public class Admin  {
     private String gmail;
     @Column(name = "PASSWORD")
     private String password;
-
 }

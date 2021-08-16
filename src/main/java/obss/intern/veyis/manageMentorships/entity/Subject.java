@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class Subject {
 
     @Id
@@ -25,14 +25,14 @@ public class Subject {
 
 
     @Column(name = "SUBJECT_NAME")
-    private String  subject_name;
+    private String subject_name;
 
     @JsonIgnoreProperties({"subject"})
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<MentorshipApplication> applicationSet;
 
     @JsonIgnoreProperties({"subject"})
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subject", /*this may be deleted*/cascade = CascadeType.ALL,/**/ fetch = FetchType.LAZY)
     Set<Program> programsSet;
 
 }
