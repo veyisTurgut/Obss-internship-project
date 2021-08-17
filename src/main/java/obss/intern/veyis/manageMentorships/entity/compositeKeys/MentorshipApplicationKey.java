@@ -5,13 +5,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import obss.intern.veyis.manageMentorships.entity.Subject;
-import obss.intern.veyis.manageMentorships.entity.Users;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+
+/**
+ * Composite key of Mentorship Application consisting of a Subject and a User.
+ * @see obss.intern.veyis.manageMentorships.entity.MentorshipApplication
+ */
 @Embeddable
 @EqualsAndHashCode(of = "id")
 @Setter

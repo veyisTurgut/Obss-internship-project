@@ -9,6 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+/**
+ * Since each phase belongs to only one program and their phase_id may be same, I created this composite key.
+ */
 @Embeddable
 @Getter
 @Setter

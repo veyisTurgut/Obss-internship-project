@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.PhaseKey;
-import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

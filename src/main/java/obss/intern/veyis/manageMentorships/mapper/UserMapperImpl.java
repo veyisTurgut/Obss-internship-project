@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package obss.intern.veyis.manageMentorships.mapper;
 
 import obss.intern.veyis.manageMentorships.dto.UserDTO;
@@ -14,6 +9,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * @see ApplicationMapperImpl
+ */
 @Component
 public class UserMapperImpl implements UserMapper {
     public UserMapperImpl() {

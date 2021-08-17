@@ -2,9 +2,7 @@ package obss.intern.veyis.controller;
 
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
-import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
 import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
-import obss.intern.veyis.manageMentorships.mapper.SubjectMapper;
 import obss.intern.veyis.manageMentorships.mapper.SubjectMapperImpl;
 import obss.intern.veyis.service.SubjectService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -89,11 +87,4 @@ public class SubjectController {
         return subjectService.deleteSubjectById(subject_id);
     }
 
-    /*
-    @PreAuthorize("hasAuthority('ROLE_ADMINS')")
-    @DeleteMapping("/")//admin
-    public MessageResponse deleteSubject(@RequestBody @Validated SubjectDTO subjectDTO) {
-        return subjectService.deleteSubject(subjectDTO);
-    }
-*/
 }

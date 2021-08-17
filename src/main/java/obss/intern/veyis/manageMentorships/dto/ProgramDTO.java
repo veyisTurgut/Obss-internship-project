@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;

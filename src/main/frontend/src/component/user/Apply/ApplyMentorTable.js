@@ -208,7 +208,7 @@ export default class ApplyMentorTable extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.SubjectData.sort((a, b) => a.subject_name > b.subject_name ? 1 : -1)
+                        {this.state.SubjectData.sort((a, b) => (a.subject_name > b.subject_name || a.subsubject_name > b.subsubject_name) ? 1 : -1)
                             .filter(x => x.applicant_username !== Cookie.get("Username")).map((p, index) => {
                                 return <TableRow key={index}>
                                     <TableCell align="center">{p.subject_name}</TableCell>

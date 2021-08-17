@@ -19,6 +19,11 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ApplyMenteeTable from "./Apply/ApplyMenteeTable";
 import ApplyMentorTable from "./Apply/ApplyMentorTable";
 import ProgramDialog from "./Program-Phase/ProgramDialog";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import SaveIcon from "@material-ui/icons/Save";
 
 export default class UserDashboard extends Component {
     constructor(props) {
@@ -63,7 +68,6 @@ export default class UserDashboard extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state.navValue, this.state.subNavValue)
         if (this.state !== prevState) {
             if ((this.state.navValue === "Menteeliklerin" && prevState.navValue !== "Menteeliklerin")
                 || (this.state.navValue === "Menteeliklerin" && this.state.subNavValue !== prevState.subNavValue)) {
@@ -78,7 +82,6 @@ export default class UserDashboard extends Component {
                     });
                 });
             }
-
 
             if ((this.state.navValue === "Mentorlukların" && prevState.navValue !== "Mentorlukların")
                 || (this.state.navValue === "Mentorlukların" && this.state.subNavValue !== prevState.subNavValue)) {
@@ -164,9 +167,10 @@ export default class UserDashboard extends Component {
 
     render() {
         return (
+
             <div>
                 <BottomNavigation showLabels>
-                    <BottomNavigationAction/>                    <BottomNavigationAction/>
+                    <BottomNavigationAction/> <BottomNavigationAction/>
                     <BottomNavigationAction/>
 
                     <BottomNavigationAction/>
@@ -213,9 +217,7 @@ export default class UserDashboard extends Component {
                                                 onClick={() => this.setState({
                                                     navValue: "Mentorluğa Başvur",
                                                 })}/>}
-                    <BottomNavigationAction/>                    <BottomNavigationAction/>
-                    <BottomNavigationAction/>
-
+                    <BottomNavigationAction/> <BottomNavigationAction/>
                     <h3>
                         <a href={"/login"}
                            onClick={() => {
@@ -224,7 +226,9 @@ export default class UserDashboard extends Component {
                         >
                             Çıkış Yap
                         </a>
-                    </h3>
+                    </h3> <BottomNavigationAction/>
+
+
                 </BottomNavigation>
 
 

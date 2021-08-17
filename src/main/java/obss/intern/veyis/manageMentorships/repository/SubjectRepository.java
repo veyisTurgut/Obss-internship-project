@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * @see ApplicationRepository
+ */
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     @Query(value = "SELECT * FROM SUBJECT WHERE subject_name = ?1 AND subsubject_name=?2", nativeQuery = true)

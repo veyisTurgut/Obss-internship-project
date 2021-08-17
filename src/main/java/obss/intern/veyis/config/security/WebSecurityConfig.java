@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -26,6 +25,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         prePostEnabled = true
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+
+    private final CustomAuthenticationProvider customAuthProvider;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -42,24 +43,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .and()
                 .csrf().disable()
                 .exceptionHandling()
-                // .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/authenticate", "/login", "/user/me", "/", "/login/google", "/callback/", "/auth/**", "/oauth2/**").permitAll()
-                //.antMatchers("/user/add").hasRole(ADMIN.name())
+                .antMatchers("/login", "/login/google").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic()
-                //.failureHandler(authenticationFailureHandler())
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login")
-        ;
+                .httpBasic();
 
     }
 
@@ -67,8 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        auth
-                .ldapAuthentication()
+        auth.authenticationProvider(customAuthProvider);//to authenticate people that logged in using Google
+
+        auth.ldapAuthentication()
                 .userDnPatterns("uid={0},ou=people")
                 .groupSearchBase("ou=groups")
                 .contextSource()
@@ -77,16 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .passwordCompare()
                 .passwordEncoder(encoder)
                 .passwordAttribute("userPassword");
-        /*
-        System.out.println(encoder.encode("admin1234"));
-        System.out.println(encoder.encode("admin2345"));
-        System.out.println(encoder.encode("user1234"));
-        System.out.println(encoder.encode("user2345"));
-        System.out.println(encoder.encode("user3456"));
-        System.out.println(encoder.encode("user4567"));
-        System.out.println(encoder.encode("user5678"));
-        System.out.println(encoder.encode("user6789"));
-        */
     }
 
     @Bean

@@ -1,16 +1,14 @@
 package obss.intern.veyis.service;
 
-import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
-import obss.intern.veyis.manageMentorships.repository.ProgramRepository;
 import obss.intern.veyis.manageMentorships.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,18 +17,11 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ProgramRepository programRepository;
     private final ApplicationRepository applicationRepository;
 
     public Users getUser(String username) {
         return userRepository.findByUsername(username);
     }
-
-    /*
-    public List<Users> getAllUsers() {
-        return userRepository.findAll();
-    }
-     */
 
 
     /**
@@ -67,7 +58,7 @@ public class UserService {
      */
     public List<MentorshipApplication> getMentorshipApplications(String username) {
         Users user = userRepository.findByUsername(username);
-        if (user == null) return new ArrayList<>();
+        if (user == null) return Collections.emptyList();
         return applicationRepository.findMentorshipApplicationsByApplicant(user);
     }
 

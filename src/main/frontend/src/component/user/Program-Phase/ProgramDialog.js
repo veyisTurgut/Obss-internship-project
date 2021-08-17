@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import SaveIcon from '@material-ui/icons/Save';
 import Slide from '@material-ui/core/Slide';
 import axios from "axios";
 import Cookie from "js-cookie";
@@ -86,15 +87,15 @@ export default class ProgramDialog extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state.inputDate)
+        //not working, this method is bullshit
         if (prevProps !== this.props
-            || this.state.isCommentDialogOpen !== prevState.isCommentDialogOpen
-            || this.state.isPointDialogOpen !== prevState.isPointDialogOpen
-            || this.state.isLongTextDialogForMenteeCommentOpen !== prevState.isLongTextDialogForMenteeCommentOpen
-            || this.state.isLongTextDialogForMentorCommentOpen !== prevState.isLongTextDialogForMentorCommentOpen
-            || this.state.isLongTextDialogOfPhaseForMentorCommentOpen !== prevState.isLongTextDialogOfPhaseForMentorCommentOpen
-            || this.state.isLongTextDialogOfPhaseForMenteeCommentOpen !== prevState.isLongTextDialogOfPhaseForMenteeCommentOpen
-            || this.state.isPhaseEvaluationDialogOpen !== prevState.isPhaseEvaluationDialogOpen
+            || (this.state.isCommentDialogOpen !== prevState.isCommentDialogOpen && !this.state.isCommentDialogOpen)
+            || (this.state.isPointDialogOpen !== prevState.isPointDialogOpen && !this.state.isPointDialogOpen)
+            /* || this.state.isLongTextDialogForMenteeCommentOpen !== prevState.isLongTextDialogForMenteeCommentOpen
+             || this.state.isLongTextDialogForMentorCommentOpen !== prevState.isLongTextDialogForMentorCommentOpen
+             || this.state.isLongTextDialogOfPhaseForMentorCommentOpen !== prevState.isLongTextDialogOfPhaseForMentorCommentOpen
+             || this.state.isLongTextDialogOfPhaseForMenteeCommentOpen !== prevState.isLongTextDialogOfPhaseForMenteeCommentOpen
+             */ || (this.state.isPhaseEvaluationDialogOpen !== prevState.isPhaseEvaluationDialogOpen && prevState.isPhaseEvaluationDialogOpen)
         ) {
             axios.get('http://localhost:8080/programs/' + this.props.program_id, {
                     headers: {
@@ -263,6 +264,8 @@ export default class ProgramDialog extends Component {
     }
 
     render() {
+
+
         return (
             <div>
                 <Dialog fullScreen
@@ -276,8 +279,8 @@ export default class ProgramDialog extends Component {
                                 <CloseIcon/>
                             </IconButton>
 
-                            <Button autoFocus color="inherit" onClick={this.props.onClose}>
-                                save
+                            <Button autoFocus color="inherit" onClick={() => this.componentDidMount()}>
+                                <SaveIcon/>
                             </Button>
                         </Toolbar>
                     </AppBar>
@@ -377,7 +380,7 @@ export default class ProgramDialog extends Component {
                                             align="center"><b>Faz Numarası: </b></TableCell>
                                         <TableCell align="center"><b>Başlangıç Tarihi:</b></TableCell>
                                         <TableCell align="center"><b>Bitiş Tarihi:</b></TableCell>
-                                        <TableCell align="center"><b> Tahmini Bitiş Tarihi:</b></TableCell>
+                                        <TableCell align="center"><b>Tahmini Bitiş Tarihi:</b></TableCell>
                                         <TableCell align="center"><b>Mentor Yorumu: </b></TableCell>
                                         <TableCell align="center"><b>Mentee Yorumu: </b></TableCell>
                                         <TableCell align="center"><b>Mentor Puanı: </b></TableCell>
@@ -401,27 +404,30 @@ export default class ProgramDialog extends Component {
                                             </TableCell>
 
                                             <TableCell align="center">
-
-                                                {row.expected_end_date === null ?
-                                                    <div>
-                                                        <form noValidate>
-                                                            <TextField
-                                                                id="datetime-local"
-                                                                label="Ayarla"
-                                                                type="datetime-local"
-                                                                defaultValue="2021-08-19T12:00"
-                                                                onChange={this.handleDateChange}
-                                                                InputLabelProps={{
-                                                                    shrink: true,
-                                                                }}
-                                                            />
-                                                        </form>
-                                                        <Button color={"secondary"}
-                                                                onClick={() => this.handleExpectedDate(row.phase_id)}>Onayla</Button>
-                                                    </div>
-                                                    :
-                                                    String(row.expected_end_date).substring(0, 10) + " " +
-                                                    String(row.expected_end_date).substring(11, 16)
+                                                {
+                                                    row.expected_end_date === null ?
+                                                        row.end_date === null ?
+                                                            <div>
+                                                                <form noValidate>
+                                                                    <TextField
+                                                                        id="datetime-local"
+                                                                        label="Ayarla"
+                                                                        type="datetime-local"
+                                                                        defaultValue="2021-08-19T12:00"
+                                                                        onChange={this.handleDateChange}
+                                                                        InputLabelProps={{
+                                                                            shrink: true,
+                                                                        }}
+                                                                    />
+                                                                </form>
+                                                                <Button color={"secondary"}
+                                                                        onClick={() => this.handleExpectedDate(row.phase_id)}>Onayla</Button>
+                                                            </div>
+                                                            :
+                                                            "Çoktan bitti."
+                                                        :
+                                                        String(row.expected_end_date).substring(0, 10) + " " +
+                                                        String(row.expected_end_date).substring(11, 16)
                                                 }
 
 

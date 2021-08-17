@@ -5,7 +5,9 @@ import obss.intern.veyis.manageMentorships.entity.Users;
 
 import java.util.List;
 
-
+/**
+ * @see ApplicationMapper
+ */
 public interface UserMapper {
 
     UserDTO mapToDto(Users users);

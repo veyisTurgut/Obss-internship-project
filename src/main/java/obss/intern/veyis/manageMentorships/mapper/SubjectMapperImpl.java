@@ -1,15 +1,15 @@
 package obss.intern.veyis.manageMentorships.mapper;
 
 import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
-import obss.intern.veyis.manageMentorships.dto.UserDTO;
 import obss.intern.veyis.manageMentorships.entity.Subject;
-import obss.intern.veyis.manageMentorships.entity.Users;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * @see ApplicationMapperImpl
+ */
 @Component
 public class SubjectMapperImpl implements SubjectMapper {
     @Override

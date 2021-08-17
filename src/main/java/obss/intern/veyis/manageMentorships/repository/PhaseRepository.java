@@ -5,8 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import javax.transaction.Transactional;
 
+/**
+ * @see ApplicationRepository
+ */
 public interface PhaseRepository extends JpaRepository<Phase, Long> {
 
     @Query(value = "SELECT phase_id, end_date,expected_end_date, mentee_experience, mentee_point, mentor_experience, mentor_point, start_date, program_id" +

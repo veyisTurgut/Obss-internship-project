@@ -112,6 +112,9 @@ export default class LoginDialog extends Component {
             .then(value => {
                 this.setState({showLink: true, userType: "USER"});
                 console.log(value)
+                Cookie.set("Username", response.profileObj.name);
+                Cookie.set("Authorization", "Basic " + value.data.message.toString().substring(5));
+
             })
             .catch(value => {
                 console.log(value);
@@ -131,23 +134,21 @@ export default class LoginDialog extends Component {
                     <DialogContent>
 
                         <DialogContentText>
-                            Kullanıcı tipinizi seçip bilgilerinizi giriniz.
+                            Kullanıcı tipinizi seçip bilgilerinizi giriniz. Ya da Google ile giriş yapın.
                         </DialogContentText>
-                        <Button variant="contained" color="default"
+                        <Button variant="contained" color="default" size={"large"}
                                 onClick={() => this.setState({userType: "ADMI"})}>
                             Admin
                         </Button>
-                        <Button variant="contained" color="primary"
+                        <Button variant="contained" color="primary" size={"large"}
                                 onClick={() => this.setState({userType: "USER"})}>
                             Kullanıcı
                         </Button>
-
                         <GoogleLogin
                             clientId={"270274380163-497s6h2fvf124dm0bs9lq50qrp7kgd8p.apps.googleusercontent.com"}
-                            buttonText={"Google ile Giriş yap"}
+                            buttonText={"GOOGLE"}
                             onSuccess={this.responseGoogle}
-                            onFailure={this.responseGoogle}
-                        />
+                            onFailure={this.responseGoogle}/>
                         {this.state.adminDialogFields.map(field => (
                             <TextField
                                 autoFocus
@@ -166,8 +167,8 @@ export default class LoginDialog extends Component {
 
                         <Button onClick={() => {
                             this.onSubmit(this.state.inputData, this.state.userType)
-                        }}
-                                color="primary">
+                        }} variant="contained" color="secondary"
+                        >
                             Giriş Yap
                         </Button>
                         {this.state.showLink && this.state.userType === "ADMI" &&

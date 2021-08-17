@@ -3,23 +3,19 @@ package obss.intern.veyis.service;
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
-import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
 import obss.intern.veyis.manageMentorships.dto.PhaseDTO;
 import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Phase;
 import obss.intern.veyis.manageMentorships.entity.Program;
-import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
 import obss.intern.veyis.manageMentorships.repository.PhaseRepository;
 import obss.intern.veyis.manageMentorships.repository.ProgramRepository;
-import obss.intern.veyis.manageMentorships.repository.UserRepository;
 import obss.intern.veyis.util.EmailSender;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +25,6 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final PhaseRepository phaseRepository;
-    private final UserRepository userRepository;
     private final ApplicationRepository applicationRepository;
 
     /**

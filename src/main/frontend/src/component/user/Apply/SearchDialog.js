@@ -37,11 +37,8 @@ export default class SearchDialog extends Component {
 
     handleCheckboxChange = event => {
         let copyChecked = {...this.state.checked}; //create a new copy
-
         copyChecked[event.target.id] = !copyChecked[event.target.id]     //change the value of bar
         this.setState({checked: copyChecked})//write it back to state
-        console.log(this.state.checked)
-
     }
 
     render() {
@@ -72,27 +69,26 @@ export default class SearchDialog extends Component {
                         </label>
                     ))}
 
+                    <TextField
+                        autoFocus
+                        variant="filled"
+                        margin="dense"
+                        id={this.props.fields.id}
+                        label={this.props.fields.label}
+                        type={this.props.fields.type}
+                        onChange={this.handleInputChange}
+                        fullWidth
+                        required
+                    />
 
-                    {this.props.fields.map(field => (
-                        <TextField
-                            autoFocus
-                            variant="filled"
-                            margin="dense"
-                            id={field.id}
-                            label={field.label}
-                            type={field.type}
-                            onChange={this.handleInputChange}
-                            fullWidth
-                            required
-                        />
-                    ))}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.onClose} color="default">
                         Vazgeç
                     </Button>
-                    <Button onClick={() => this.props.onSubmit(this.state.inputData, this.state.checked,this.props.applicationData)}
-                            color="primary">
+                    <Button
+                        onClick={() => this.props.onSubmit(this.state.inputData, this.state.checked, this.props.applicationData)}
+                        color="primary">
                         Ara
                     </Button>
                 </DialogActions>

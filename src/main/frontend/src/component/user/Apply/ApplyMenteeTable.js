@@ -25,7 +25,7 @@ export default class ApplyMenteeTable extends Component {
             toastMessageType: '',
             didSearch: false,
             isSearchDialogOpen: false,
-            subjectDialogFields: [{id: "keyword", label: "Anahtar kelimeler", type: "text"}]
+            subjectDialogFields: {id: "keyword", label: "Anahtar kelimeler", type: "text"}
         }
     }
 
@@ -49,8 +49,7 @@ export default class ApplyMenteeTable extends Component {
         // TODO ?? this if statement may be troublesome
         if (this.props !== prevProps ||
             this.state.isEnrollDialogOpen !== prevState.isEnrollDialogOpen ||
-            this.state.didSearch !== prevState.didSearch ||
-            this.state.isSearchDialogOpen !== prevState.isSearchDialogOpen) {
+            (this.state.didSearch !== prevState.didSearch && !this.state.didSearch)) {
             axios.get('http://localhost:8080/applications/' + Cookie.get("Username") + '/can', {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -150,8 +149,8 @@ export default class ApplyMenteeTable extends Component {
 
         axios(config)
             .then(response => {
-                //  console.log(response.data)
-                //  console.log(JSON.stringify(response.data.hits.hits.map(x => x._source)));
+                console.log(response.data)
+                console.log(JSON.stringify(response.data.hits.hits.map(x => x._source)));
 
                 this.setState({
                     SubjectData: response.data.hits.hits.map(x => x._source)
@@ -166,7 +165,7 @@ export default class ApplyMenteeTable extends Component {
     render() {
         return (
             <div>
-                <div align={"right"}>
+                <div align={"center"}>
                     {this.state.didSearch &&
                     <Button align="center" color="primary"
                             startIcon={<ReplayOutlinedIcon/>}
@@ -194,7 +193,7 @@ export default class ApplyMenteeTable extends Component {
                     </TableHead>
                     <TableBody>
                         {
-                            this.state.SubjectData.sort((a, b) => a.mentor_experience > b.mentor_experience ? 1 : -1)
+                            this.state.SubjectData.sort((a, b) => (a.experience > b.experience || a.subsubject_name > b.subsubject_name) ? 1 : -1)
                                 .filter(x => x.applicant_username !== Cookie.get("Username")).map((p, index) => {
                                 return <TableRow key={index}>
                                     <TableCell align="center">{p.applicant_username}</TableCell>

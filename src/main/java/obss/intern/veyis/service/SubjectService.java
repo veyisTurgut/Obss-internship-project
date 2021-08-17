@@ -3,12 +3,9 @@ package obss.intern.veyis.service;
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
-import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
-import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
 import obss.intern.veyis.manageMentorships.repository.SubjectRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +18,6 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
     private final ApplicationRepository applicationRepository;
-
-/*
-    public Subject getById(Long id) {
-        return subjectRepository.getById(id);
-    }
-*/
 
     /**
      * <h1> Get All Subjects -- Service</h1>

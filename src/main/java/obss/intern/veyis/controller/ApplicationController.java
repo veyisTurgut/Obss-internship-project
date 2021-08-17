@@ -2,9 +2,7 @@ package obss.intern.veyis.controller;
 
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
-import obss.intern.veyis.config.response.MessageType;
 import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
-import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.mapper.ApplicationMapperImpl;
@@ -16,8 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpHeaders;
-import java.util.Dictionary;
 import java.util.List;
 
 @RestController
@@ -164,11 +160,4 @@ public class ApplicationController {
         return applicationService.updateMentorshipApplication(applicationDTO);
     }
 
-/*
-    @PreAuthorize("hasAuthority('ROLE_USERS')")
-    @PostMapping("/search/{keyword}")
-    public List<ApplicationDTO> findByKeyword(@PathVariable String keyword, @RequestBody List<SubjectDTO> subjects) {
-        return applicationMapper.mapToDto(applicationService.findByKeyword(keyword, subjects));
-    }
-*/
 }

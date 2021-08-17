@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This is the physical class of the ApplicationMapper interface.
+ * It maps DTO and Entity to one another after sending/receiving data to/from client.
+ *
+ * @see ApplicationMapperImpl
+ */
 @Component
 public class ApplicationMapperImpl implements ApplicationMapper {
 
@@ -20,9 +26,7 @@ public class ApplicationMapperImpl implements ApplicationMapper {
         } else {
             ApplicationDTO applicationDTO = new ApplicationDTO(
                     mentorshipApplication.getApplicant().getUsername(),
-
                     mentorshipApplication.getSubject().getSubject_id(),
-
                     mentorshipApplication.getSubject().getSubject_name(),
                     mentorshipApplication.getSubject().getSubsubject_name(),
                     mentorshipApplication.getExperience()

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 import obss.intern.veyis.manageMentorships.dto.PhaseDTO;
 import obss.intern.veyis.manageMentorships.entity.Phase;
@@ -13,6 +12,9 @@ import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.PhaseKey;
 import org.springframework.stereotype.Component;
 
+/**
+ * @see ApplicationMapperImpl
+ */
 @Component
 public class PhaseMapperImpl implements PhaseMapper {
     public PhaseMapperImpl() {

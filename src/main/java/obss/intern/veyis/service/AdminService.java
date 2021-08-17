@@ -10,11 +10,25 @@ import org.springframework.stereotype.Service;
 public class AdminService {
     private final AdminRepository adminRepository;
 
-    public Admin findByUsername(String username) {
+
+    /**
+     * <h1> Find Admin Using username</h1>
+     *
+     * @param username
+     * @return Admin object
+     */
+    public Admin getAdmin(String username) {
         return adminRepository.findByUsername(username);
     }
 
-    public Admin findByNameAndMail(String username, String email){
-        return adminRepository.findAdminByUsernameEqualsAndGmailEquals(username,email);
+    /**
+     * <h1> Find Admin Using Credentials</h1>
+     *
+     * @param username
+     * @param email
+     * @return Admin object
+     */
+    public Admin findByNameAndMail(String username, String email) {
+        return adminRepository.findAdminByUsernameEqualsAndGmailEquals(username, email);
     }
 }

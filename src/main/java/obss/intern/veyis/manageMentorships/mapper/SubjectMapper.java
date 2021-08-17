@@ -2,11 +2,13 @@ package obss.intern.veyis.manageMentorships.mapper;
 
 import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
 import obss.intern.veyis.manageMentorships.entity.Subject;
-import org.mapstruct.Mapper;
 
 import java.util.List;
 
-//@Mapper(componentModel = "spring")
+/**
+ * @see ApplicationMapper
+ */
+//@Mapper(componentModel = "spring") // no more needed since I manually implemented mappers.
 public interface SubjectMapper {
 
     SubjectDTO mapToDto(Subject subject);

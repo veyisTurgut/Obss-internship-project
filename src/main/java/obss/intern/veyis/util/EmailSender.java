@@ -4,17 +4,16 @@ import lombok.SneakyThrows;
 import obss.intern.veyis.manageMentorships.entity.Phase;
 import obss.intern.veyis.manageMentorships.entity.Users;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
-import java.util.Date;
 
+/**
+ * This class is intended to be executed by a thread, so it implements Runnable interface.
+ */
 public class EmailSender implements Runnable {
 
     private Phase phase;
@@ -23,12 +22,17 @@ public class EmailSender implements Runnable {
         this.phase = phase;
     }
 
+
     @SneakyThrows
     @Override
     public void run() {
         emailSender(phase);
     }
 
+    /**
+     * This function sets the configurations of smtp server, calls "prepareMessage" function to create messages and sends
+     * mails to mentor and mentee.
+     */
     private static void emailSender(Phase phase) throws MessagingException {
         String myAccount = "obss.veyis.deneme@gmail.com";
         String password = "WM'*cR4)8m;JHd7}";
@@ -49,6 +53,9 @@ public class EmailSender implements Runnable {
         Transport.send(message2);
     }
 
+    /**
+     * This function creates the contents of the mail.
+     */
     private static Message prepareMessage(Session session, String myAccount, Phase phase, Users to) {
         try {
             Message message = new MimeMessage(session);
@@ -67,12 +74,6 @@ public class EmailSender implements Runnable {
             MimeMultipart multipart = new MimeMultipart("related");
             messageBodyPart.setContent(html, "text/html");
             multipart.addBodyPart(messageBodyPart);
-            //messageBodyPart = new MimeBodyPart();
-            //DataSource fds = new FileDataSource("C:\\Users\\**\\Desktop\\project\\src\\main\\reactapp\\src\\MyQRCode.png");
-            //messageBodyPart.setDataHandler(new DataHandler(fds));
-            //messageBodyPart.setHeader("Content-ID", "<image>");
-            //multipart.addBodyPart(messageBodyPart);
-            // put everything together
             message.setContent(multipart);
             return message;
         } catch (MessagingException e) {
@@ -80,6 +81,4 @@ public class EmailSender implements Runnable {
         }
         return null;
     }
-
-
 }

@@ -4,14 +4,14 @@ import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * @see ApplicationRepository
+ */
 public interface ProgramRepository extends JpaRepository<Program, Long> {
 
 
@@ -26,25 +26,18 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query(value = "SELECT * FROM program ORDER BY program_id DESC LIMIT 1", nativeQuery = true)
     Program getMaxId();
 
-    /*
-    // bir mentor aynı konuda 2 mentee ile çalışabilir.
-    @Query(value = "Select Program.* \n" +
-            "from \n" +
-            "\t(SELECT mentor_username,subject_id, count(*) FROM program group by(mentor_username,subject_id) having count(*) <2 ) S, Program \n" +
-            "WHERE program.mentor_username = S.mentor_username AND program.subject_id = S.subject_id;", nativeQuery = true)
-    List<Program> findAllActive();
-    */
-
     List<Program> findProgramByMentorEqualsAndSubjectEquals(Users mentor, Subject subject);
 
 
     @Query(value = "SELECT * FROM program WHERE mentee_username = ?1", nativeQuery = true)
     List<Program> findProgramByMentee(String mentee);
 
-
+/*
     @Query(value = "INSERT INTO program (program_id, end_date, is_active, mentee_comment, mentor_comment, start_date, status, mentee_username, mentor_username, subject_id) VALUES " +
             " (?1 , ?2 , ?3 , ?4 , ?5 , ?6 , ?7 , ?8 , ?9 ,?10)", nativeQuery = true)
     @Modifying
     @Transactional
     void saveProgram(Long program_id, Date end_date, Boolean is_active, String mentee_comment, String mentor_comment, Date start_date, String status, String mentee_username, String mentor_username, Long subject_id);
+*/
 }
+

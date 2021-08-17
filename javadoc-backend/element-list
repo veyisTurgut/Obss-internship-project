@@ -1,0 +1,11 @@
+obss.intern.veyis
+obss.intern.veyis.config.response
+obss.intern.veyis.config.security
+obss.intern.veyis.controller
+obss.intern.veyis.manageMentorships.dto
+obss.intern.veyis.manageMentorships.entity
+obss.intern.veyis.manageMentorships.entity.compositeKeys
+obss.intern.veyis.manageMentorships.mapper
+obss.intern.veyis.manageMentorships.repository
+obss.intern.veyis.service
+obss.intern.veyis.util
