@@ -35,7 +35,7 @@ export default class ApplyMentorTable extends Component {
 
     componentDidMount() {
 
-        axios.get('http://localhost:8080/subjects/except/' + Cookie.get("Username"), {
+        axios.get(process.env.REACT_APP_SERVER_URL + 'subjects/except/' + Cookie.get("Username"), {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -46,7 +46,7 @@ export default class ApplyMentorTable extends Component {
             });
         });
 
-        axios.get('http://localhost:8080/subjects/' + Cookie.get("Username"), {
+        axios.get(process.env.REACT_APP_SERVER_URL + 'subjects/' + Cookie.get("Username"), {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -62,8 +62,7 @@ export default class ApplyMentorTable extends Component {
 
         if (this.state !== prevState) {
             if (this.state.navValue === "old" && prevState.navValue !== this.state.navValue) {
-                console.log("old")
-                axios.get('http://localhost:8080/subjects/' + Cookie.get("Username"), {
+                axios.get(process.env.REACT_APP_SERVER_URL + 'subjects/' + Cookie.get("Username"), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Authorization': Cookie.get("Authorization")
@@ -74,8 +73,7 @@ export default class ApplyMentorTable extends Component {
                     });
                 });
             } else if (this.state.navValue === "new" && prevState.navValue !== this.state.navValue) {
-                console.log("new")
-                axios.get('http://localhost:8080/subjects/except/' + Cookie.get("Username"), {
+                axios.get(process.env.REACT_APP_SERVER_URL + 'subjects/except/' + Cookie.get("Username"), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Authorization': Cookie.get("Authorization")
@@ -99,9 +97,7 @@ export default class ApplyMentorTable extends Component {
             "experience": experience
         }
 
-        console.log(body)
-
-        axios.post("http://localhost:8080/applications/", body
+        axios.post(process.env.REACT_APP_SERVER_URL + "applications/", body
             , {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -141,7 +137,7 @@ export default class ApplyMentorTable extends Component {
         }
 
 
-        axios.delete("http://localhost:8080/applications/", {
+        axios.delete(process.env.REACT_APP_SERVER_URL + "applications/", {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     "Access-Control-Allow-Methods": "DELETE",
@@ -202,8 +198,8 @@ export default class ApplyMentorTable extends Component {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Konu adı</TableCell>
-                            <TableCell align="center">Altkonu adı</TableCell>
+                            <TableCell align="center"><h3><b>Konu adı</b></h3></TableCell>
+                            <TableCell align="center"><h3><b>Altkonu adı</b></h3></TableCell>
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>

@@ -8,6 +8,7 @@ import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Phase;
 import obss.intern.veyis.manageMentorships.entity.Program;
+import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
 import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
 import obss.intern.veyis.manageMentorships.repository.PhaseRepository;
 import obss.intern.veyis.manageMentorships.repository.ProgramRepository;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProgramService {
 
+    private static final Integer MAX_MENTEE_COUNT_PER_SUBJECT = 2;
     private final ProgramRepository programRepository;
     private final PhaseRepository phaseRepository;
     private final ApplicationRepository applicationRepository;
@@ -77,8 +79,9 @@ public class ProgramService {
             return new MessageResponse("Program zaten var!", MessageType.ERROR);
         }
         List<Program> programs_of_this_mentor = programRepository.findProgramByMentorEqualsAndSubjectEquals(program.getMentor(), program.getSubject());
-        //check whether this mentor already working with 2 mentees.
-        if (programs_of_this_mentor.size() >= 1) {
+
+        //check whether this mentor already working with 2 mentees, if so make application full.
+        if (programs_of_this_mentor.size() >= MAX_MENTEE_COUNT_PER_SUBJECT - 1) {
             MentorshipApplication application = applicationRepository.findApprovedByKeys(program.getMentor().getUsername(), program.getSubject().getSubject_id());
             if (application == null)
                 return new MessageResponse("Mentor zaten 2 kişi ile çalışıyor!", MessageType.ERROR);
@@ -129,6 +132,7 @@ public class ProgramService {
      * <br/>
      * First it checks whether phase exists.
      * Then, checks whether mentee or mentor updated and acts upon that.
+     * <br/>
      * Also, it updates expected end date of a phase if given in the phaseDTO and
      * schedules an e-mail to both mentee and mentor 1 hour before that expected date.
      * Finally saves the updated phase to database.
@@ -148,6 +152,19 @@ public class ProgramService {
             phase_from_db.setMentor_point(phaseDTO.getMentor_point());
         }
         if (phaseDTO.getExpected_end_date() != null) {
+            //expected end date of current phase cant be earlier than the previous one.
+            if (phaseDTO.getPhase_id() > 1) {
+                Date prev_phase_expected_end = phaseRepository.getPhaseById(phaseDTO.getPhase_id() - 1, phaseDTO.getProgram_id()).getExpected_end_date();
+                if (prev_phase_expected_end != null && prev_phase_expected_end.compareTo(phaseDTO.getExpected_end_date()) >= 0) {
+                    return new MessageResponse("Bu fazın bitişi önceki fazın tahmini bitiş tarihinden sonra olmalı.", MessageType.ERROR);
+                }
+            }
+            //expected end date of current phase cant be later than the next one.
+            Date next_phase_expected_end = phaseRepository.getPhaseById(phaseDTO.getPhase_id() + 1, phaseDTO.getProgram_id()).getExpected_end_date();
+            if (next_phase_expected_end != null && next_phase_expected_end.compareTo(phaseDTO.getExpected_end_date()) <= 0) {
+                return new MessageResponse("Bu fazın bitişi sonraki fazın tahmini bitiş tarihinden önce olmalı.", MessageType.ERROR);
+            }
+
             /* EXAMPLE:
                 given date: Mon Aug 16 16:58:44 TRT 2021
                 created cron: 0 58 12 16 8 *
@@ -219,14 +236,15 @@ public class ProgramService {
         programRepository.save(program);
         phaseRepository.saveAll(phases);
 
-        return new MessageResponse("Başarılı", MessageType.SUCCESS);
+        return new MessageResponse("Başarıyla kaydedildi.", MessageType.SUCCESS);
     }
 
     /**
      * This is a helper function to fetch the id of the last program.
      */
     public Long getMax() {
-        return programRepository.getMaxId().getProgram_id().getProgram_id();
+        Program max_id = programRepository.getMaxId();
+        return max_id == null ? 0 : max_id.getProgram_id().getProgram_id();
     }
 
 

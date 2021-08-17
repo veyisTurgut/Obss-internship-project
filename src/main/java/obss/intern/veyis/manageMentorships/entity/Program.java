@@ -28,9 +28,9 @@ public class Program {
     private Date end_date;
     @Column(name = "IS_ACTIVE")
     private Boolean is_active;
-    @Column(name = "MENTEE_COMMENT")
+    @Column(name = "MENTEE_COMMENT", length = 2048)
     private String mentee_comment;
-    @Column(name = "MENTOR_COMMENT")
+    @Column(name = "MENTOR_COMMENT", length = 2048)
     private String mentor_comment;
 
 

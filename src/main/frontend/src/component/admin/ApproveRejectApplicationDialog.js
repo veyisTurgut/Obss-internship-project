@@ -15,23 +15,27 @@ export default class ApproveRejectApplicationDialog extends Component {
                     Reddetme </font></DialogTitle>
                 <DialogContent>
 
-                    <font size="5"> Konu adı: <b>{this.props.subject_name}</b></font>
+                    <font size="5"> <i><u>Konu adı: </u></i> <b>{this.props.subject.subject_name}</b></font>
                     <br/>
-                    <font size="5">Altkonu adı:<b> {this.props.subsubject_name}</b></font>
+                    <font size="5"> <i><u>Altkonu adı:</u></i><b> {this.props.subject.subsubject_name}</b></font>
                     <br/>
-                    <font size="5"> Kullanıcı adı: <b>{this.props.applicant_username}</b></font>
+                    <font size="5"> <i><u>Kullanıcı adı:</u></i> <b>{this.props.subject.applicant_username}</b></font>
+                    <br/>
+                    <font size="5"> <i><u>Tecrübeleri: </u></i>{this.props.subject.experience}</font>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.onClose} color="default">
                         İptal
                     </Button>
                     <Button
-                        onClick={() => this.props.handleApplicationApprovalRejection(this.props.applicant_username, this.props.subject_name, this.props.subsubject_name, "reject")}
+                        onClick={() => this.props.handleApplicationApprovalRejection(this.props.subject.applicant_username,
+                            this.props.subject.subject_name, this.props.subject.subsubject_name, "reject")}
                         color="secondary">
                         Reddet
                     </Button>
                     <Button
-                        onClick={() => this.props.handleApplicationApprovalRejection(this.props.applicant_username, this.props.subject_name, this.props.subsubject_name, "approve")}
+                        onClick={() => this.props.handleApplicationApprovalRejection(this.props.subject.applicant_username,
+                            this.props.subject.subject_name, this.props.subject.subsubject_name, "approve")}
                         statuscolor="primary">
                         Onayla
                     </Button>

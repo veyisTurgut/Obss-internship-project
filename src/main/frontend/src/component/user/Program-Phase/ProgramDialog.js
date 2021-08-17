@@ -25,6 +25,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import PhaseEvaluationDialog from "./PhaseEvaluationDialog";
 import TextField from '@material-ui/core/TextField';
+import CustomizedSnackbars from "../../Toast";
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -40,6 +41,9 @@ export default class ProgramDialog extends Component {
         experience: "",
         point: [],
         current_phase_id: "",
+        openToast: false,
+        toastMessage: '',
+        toastMessageType: '',
         isCommentDialogOpen: false,
         isPointDialogOpen: false,
         isLongTextDialogForMenteeCommentOpen: false,
@@ -51,7 +55,7 @@ export default class ProgramDialog extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/programs/' + this.props.program_id, {
+        axios.get(process.env.REACT_APP_SERVER_URL + 'programs/' + this.props.program_id, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Authorization': Cookie.get("Authorization")
@@ -97,7 +101,7 @@ export default class ProgramDialog extends Component {
              || this.state.isLongTextDialogOfPhaseForMenteeCommentOpen !== prevState.isLongTextDialogOfPhaseForMenteeCommentOpen
              */ || (this.state.isPhaseEvaluationDialogOpen !== prevState.isPhaseEvaluationDialogOpen && prevState.isPhaseEvaluationDialogOpen)
         ) {
-            axios.get('http://localhost:8080/programs/' + this.props.program_id, {
+            axios.get(process.env.REACT_APP_SERVER_URL + 'programs/' + this.props.program_id, {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Authorization': Cookie.get("Authorization")
@@ -116,10 +120,9 @@ export default class ProgramDialog extends Component {
 
     handlePhaseEvaluation = (program_id, phase_id, who, comment, point) => {
         this.setState({isPhaseEvaluationDialogOpen: false})
-        console.log(program_id, phase_id, who, comment, point)
         let body = {}
-        let url = "http://localhost:8080/programs/" + program_id + "/nextPhase";
-        if (who == "Mentor") {
+        let url = process.env.REACT_APP_SERVER_URL + "programs/" + program_id + "/nextPhase";
+        if (who === "Mentor") {
             body = {
                 "program_id": program_id,
                 "phase_id": phase_id,
@@ -143,7 +146,6 @@ export default class ProgramDialog extends Component {
                 }
             }
         ).then(value => {
-            console.log(value)
             if (value.data.messageType === "SUCCESS") {
                 this.setState({
                     openToast: true,
@@ -153,7 +155,7 @@ export default class ProgramDialog extends Component {
             } else {
                 this.setState({
                     openToast: true,
-                    toastMessage: " value.data.message value.data.message",
+                    toastMessage: value.data.message,
                     toastMessageType: value.data.messageType
                 });
             }
@@ -169,7 +171,6 @@ export default class ProgramDialog extends Component {
 
     handleProgramComment = (program_id, phase_id, comment, who, subject_name, subsubject_name, mentor, mentee) => {
         this.setState({isCommentDialogOpen: false})
-        console.log(program_id, phase_id, comment, who, subject_name, subsubject_name, mentor, mentee)
         let body = {}
 
         if (who === "Mentor") {
@@ -192,7 +193,7 @@ export default class ProgramDialog extends Component {
             }
         }
 
-        axios.put("http://localhost:8080/programs/" + program_id, body, {
+        axios.put(process.env.REACT_APP_SERVER_URL + "programs/" + program_id, body, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     "Access-Control-Allow-Methods": "PUT",
@@ -200,7 +201,6 @@ export default class ProgramDialog extends Component {
                 }
             }
         ).then(value => {
-            console.log(value)
             if (value.data.messageType === "SUCCESS") {
                 this.setState({
                     openToast: true,
@@ -225,8 +225,7 @@ export default class ProgramDialog extends Component {
     }
 
     handleExpectedDate(phase_id) {
-        console.log(phase_id, this.state.inputDate)
-        axios.put("http://localhost:8080/programs/" + this.state.programData.program_id + "/updatePhase",
+        axios.put(process.env.REACT_APP_SERVER_URL + "programs/" + this.state.programData.program_id + "/updatePhase",
             {
                 "program_id": this.state.programData.program_id,
                 "phase_id": phase_id,
@@ -239,14 +238,14 @@ export default class ProgramDialog extends Component {
                 }
             }
         ).then(value => {
-            console.log(value)
             if (value.data.messageType === "SUCCESS") {
                 this.setState({
                     openToast: true,
-                    toastMessage: value.data.message,
+                    toastMessage: "Başarıyla güncellendi, eminseniz sol üstteki kaydet emojisi ile kesin olarak kaydedebilirsiniz.",
                     toastMessageType: value.data.messageType
                 });
             } else {
+                console.log(value.data)
                 this.setState({
                     openToast: true,
                     toastMessage: value.data.message,
@@ -264,8 +263,6 @@ export default class ProgramDialog extends Component {
     }
 
     render() {
-
-
         return (
             <div>
                 <Dialog fullScreen
@@ -293,7 +290,7 @@ export default class ProgramDialog extends Component {
                                     <TableCell
                                         align="center"><b>Konu: </b><br/>{this.props.subject_name}: {this.props.subsubject_name}
                                     </TableCell>
-                                    {this.props.whoOpened == "Mentor" ?
+                                    {this.props.whoOpened === "Mentor" ?
                                         <TableCell
                                             align="center"><b>Mentee: </b><br/>{this.state.programData.mentee_username}
                                         </TableCell>
@@ -621,6 +618,11 @@ export default class ProgramDialog extends Component {
                         handleComment={this.handleProgramComment}
                         open={this.state.isCommentDialogOpen}
                     />
+                    <CustomizedSnackbars open={this.state.openToast}
+                                         onClick={() => this.setState({openToast: true})}
+                                         handleCloseToast={() => this.setState({openToast: false})}
+                                         message={this.state.toastMessage}
+                                         messageType={this.state.toastMessageType}/>
                 </Dialog>
             </div>
         );

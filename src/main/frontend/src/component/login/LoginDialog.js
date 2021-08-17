@@ -55,7 +55,7 @@ export default class LoginDialog extends Component {
 
     onSubmit(inputData, userType) {
 
-        axios.post("http://localhost:8080/login", inputData,
+        axios.post(process.env.REACT_APP_SERVER_URL + "login", inputData,
             {
                 headers: {
                     'Access-Control-Allow-Origin': '*'
@@ -103,7 +103,7 @@ export default class LoginDialog extends Component {
             "username": response.profileObj.name,
             "gmail": response.profileObj.email,
         }
-        axios.post("http://localhost:8080/login/google", body,
+        axios.post(process.env.REACT_APP_SERVER_URL + "login/google", body,
             {
                 headers: {
                     'Access-Control-Allow-Origin': '*'

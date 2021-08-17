@@ -19,12 +19,6 @@ export default class SearchDialog extends Component {
         checked: {}
     }
 
-    componentDidMount() {
-        console.log(this.props.applicationData.reduce((unique, item) => {
-            return unique.includes(String(item[0] + "xxx" + item[1] + "xxx" + item[2])) ? unique : [...unique, String(item[0] + "xxx" + item[1] + "xxx" + item[2])]
-        }, []).map(x => x.split("xxx")))
-    }
-
 
     handleInputChange = (event) => {
         event.persist();

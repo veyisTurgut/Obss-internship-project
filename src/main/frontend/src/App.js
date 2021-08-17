@@ -1,6 +1,5 @@
-import React, {Component, useState} from 'react';
-//import ActivityTable from "./component/user/ActivityTable";
-import {Switch, BrowserRouter as Router, Link, Route} from "react-router-dom";
+import React, {Component} from 'react';
+import {Switch, BrowserRouter as Router, Route} from "react-router-dom";
 import LoginDialog from "./component/login/LoginDialog";
 import AdminDashboard from "./component/admin/AdminDashboard";
 import UserDashboard from "./component/user/UserDashboard";
@@ -23,15 +22,13 @@ class App extends Component {
 
             <Router>
                 <Switch>
-                    <Route exact path="/" exact component={login}
-                    />
+                    <Route exact path="/" exact component={login}/>
                     <Route path="/user" exact component={user}/>
                     <Route path="/login" component={login}/>
                     <Route path="/admin" component={admin}/>
                 </Switch>
             </Router>
-        )
-            ;
+        );
     }
 }
 

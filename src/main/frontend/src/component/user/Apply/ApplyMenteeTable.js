@@ -31,8 +31,7 @@ export default class ApplyMenteeTable extends Component {
 
     componentDidMount() {
         //(TO)DONE: kullanıcının zaten kayıtlı olduğu programı tekrar ona gösterme!
-        axios.get('http://localhost:8080/applications/' + Cookie.get("Username") + '/can', {
-            //        axios.get('http://localhost:8080/applications/approved', {
+        axios.get(process.env.REACT_APP_SERVER_URL + 'applications/' + Cookie.get("Username") + '/can', {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -42,7 +41,6 @@ export default class ApplyMenteeTable extends Component {
                 SubjectData: response.data
             });
         });
-        console.log(this.state.SubjectData)
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,7 +48,7 @@ export default class ApplyMenteeTable extends Component {
         if (this.props !== prevProps ||
             this.state.isEnrollDialogOpen !== prevState.isEnrollDialogOpen ||
             (this.state.didSearch !== prevState.didSearch && !this.state.didSearch)) {
-            axios.get('http://localhost:8080/applications/' + Cookie.get("Username") + '/can', {
+            axios.get(process.env.REACT_APP_SERVER_URL + 'applications/' + Cookie.get("Username") + '/can', {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Authorization': Cookie.get("Authorization")
@@ -71,7 +69,7 @@ export default class ApplyMenteeTable extends Component {
             "subject_name": subject_name,
             "subsubject_name": subsubject_name
         }
-        axios.post("http://localhost:8080/programs/", body
+        axios.post(process.env.REACT_APP_SERVER_URL + "programs/", body
             , {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -111,7 +109,6 @@ export default class ApplyMenteeTable extends Component {
         }
         this.setState({isSearchDialogOpen: false, didSearch: true});
 
-        console.log(inputData.keyword, checked, wanted_subjects)
 
         var axios = require('axios');
         var data = JSON.stringify({
@@ -140,7 +137,7 @@ export default class ApplyMenteeTable extends Component {
 
         var config = {
             method: 'post',
-            url: 'http://localhost:9200/applications/_search',
+            url: process.env.REACT_APP_ELASTIC_URL + 'applications/_search',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -149,9 +146,6 @@ export default class ApplyMenteeTable extends Component {
 
         axios(config)
             .then(response => {
-                console.log(response.data)
-                console.log(JSON.stringify(response.data.hits.hits.map(x => x._source)));
-
                 this.setState({
                     SubjectData: response.data.hits.hits.map(x => x._source)
                 });
@@ -184,16 +178,16 @@ export default class ApplyMenteeTable extends Component {
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Mentor adı</TableCell>
-                            <TableCell align="center">Konu adı</TableCell>
-                            <TableCell align="center">Altkonu adı</TableCell>
-                            <TableCell align="center">Mentor Tecrübeleri</TableCell>
+                            <TableCell align="center"><h3><b>Mentor adı</b></h3></TableCell>
+                            <TableCell align="center"><h3><b>Konu adı</b></h3></TableCell>
+                            <TableCell align="center"><h3><b>Altkonu adı</b></h3></TableCell>
+                            <TableCell align="center"><h3><b>Mentor Tecrübeleri</b></h3></TableCell>
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
-                            this.state.SubjectData.sort((a, b) => (a.experience > b.experience || a.subsubject_name > b.subsubject_name) ? 1 : -1)
+                            this.state.SubjectData.sort((a, b) => a.experience > b.experience ? 1 : -1)
                                 .filter(x => x.applicant_username !== Cookie.get("Username")).map((p, index) => {
                                 return <TableRow key={index}>
                                     <TableCell align="center">{p.applicant_username}</TableCell>

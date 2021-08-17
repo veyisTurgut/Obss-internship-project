@@ -31,80 +31,113 @@ objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Ben Alex
-sn: Alex
+cn: First Admin
+sn: Admin
 uid: admin1
 userPassword: $2a$10$/es0qNYiyEfN25DiArPAPerGg/UAAJ2sOF39Cq4Zj7S4JHc3JIDoO
 
-dn: uid=admin2,ou=people,dc=springframework,dc=org
+dn: uid=veyis_t_a,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Bob Hamilton
-sn: Hamilton
-uid: admin2
-userPassword: $2a$10$DiCiFafymzmdqaOfhlwxQu.yA79T25hwuCGL08HGwOFEneeWnRr3q
+cn: Veyis Turgut
+sn: Turgut
+uid: veyis_t_a
+userPassword: $2a$10$bjdxy8TCkwrNR6igYNeDgefl1MwV21hlYbf0Ic.LzQZjyeXUGJva.
 
-dn: uid=user1,ou=people,dc=springframework,dc=org
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-objectclass: inetOrgPerson
-cn: First User
-sn: First
-uid: user1
-userPassword: $2a$10$TtrQV4GbJMS.FIeuoS9B6eKnpiyeN4J/viNN.zCYNrtijs3PvrX86
 
-dn: uid=user2,ou=people,dc=springframework,dc=org
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-objectclass: inetOrgPerson
-cn: Second, User
-sn: Second
-uid: user2
-userPassword: $2a$10$Z329QvVPCViUzQnlK5l/qOO3qc25YrlORlyJhc0xdruFurvzp8v0i
 
-dn: uid=user3,ou=people,dc=springframework,dc=org
+dn: uid=ahmet_mert,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Third, User
-sn: Third
-uid: user3
-userPassword: $2a$10$gyZagwu.9vysY39jsEA0BeDwc8TDh.P8cHWkJQQe2oSvNZq/DO2Ou
+cn: Ahmet Mert
+sn: Mert
+uid: ahmet_mert
+userPassword: $2a$10$MtcdLqlk9z8lTv0gDp4Ws.BbDX4Q7xoNerN40bhztpXLB7qvYOx4.
 
-dn: uid=user4,ou=people,dc=springframework,dc=org
+dn: uid=volkan_yildiz,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Mouse, Jerry
-sn: Mouse
-uid: user4
-userPassword: $2a$10$WSay9HiCLpFipIpoTY7ZNubzuKr5ljZ8ir24t8o3ZRm6IfY0YPAdm
+cn: Volkan Yıldız
+sn: Yıldız
+uid: volkan_yildiz
+userPassword: $2a$10$XxZ67SPATv.a56PFxu3a9.SNBSTAN0S5CUygHEiueCBLib5vnRc5e
 
-dn: uid=user5,ou=people,dc=springframework,dc=org
+dn: uid=yasin_ser,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Mouse, Jerry
-sn: Mouse
-uid: user5
-userPassword: $2a$10$jhSeFixdHrZjuER4AXPkgu4OSTso0uciEX1MgLSrWYBN6QUdOGcfO
+cn: Seremet, Yasin
+sn: Seremet
+uid: yasin_ser
+userPassword: $2a$10$3OFPFEsp4AgqQLqZXYU6j.l2.1o5FROm0Lu01HtpVcqLlGdO8Jjla
 
-dn: uid=user6,ou=people,dc=springframework,dc=org
+dn: uid=gokhan_uys,ou=people,dc=springframework,dc=org
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
 objectclass: inetOrgPerson
-cn: Mouse, Jerry
-sn: Mouse
-uid: user6
-userPassword: $2a$10$egmzlCh/TfWQwmkqN3y.cOU6C6jkW6mYnMrmtIOIp1BUgT76sJIZa
+cn: Uysal, Gökhan
+sn: Uysal
+uid: gokhan_uys
+userPassword: $2a$10$tboMIHc/ZIa6BjdGxr3Vl.DZ4Cn.OAaHyDvYdS/5zjiNbR9FOjcsi
+
+dn: uid=aberoz,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Ozcan, Eren
+sn: Ozcan
+uid: aberoz
+userPassword: $2a$10$ps0KBBmyG5udWlnIROhL/Ogd000zBUIeK1nQofvk4mqM7OwkkT60S
+
+dn: uid=omer_erk,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Erkek, Omer
+sn: Erkek
+uid: omer_erk
+userPassword: $2a$10$EyPfVYnQTG6yOY6rNNXkwuqHAyqz9qACjxCLg.TlhjQvlyReLhZ/O
+
+dn: uid=ihsan_gokcul,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Gokcul, İhsan
+sn: Gokcul
+uid: ihsan_gokcul
+userPassword: $2a$10$NXAPpmQVUg6ZsNCsRbfl5.tLfmrpeFu6WzDIPku8ig8kdGu8jwgK2
+
+dn: uid=fiq,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Arslan, Ufuk
+sn: Arslan
+uid: fiq
+userPassword: $2a$10$jyts0aRSQqVaARRsz7BPyez9ZXJA3BU1mdXLzzHb4KEl5lxKAUGk.
+
+dn: uid=veyis_t,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Veyis Turgut
+sn: Turgut
+uid: veyis_t
+userPassword: $2a$10$bjdxy8TCkwrNR6igYNeDgefl1MwV21hlYbf0Ic.LzQZjyeXUGJva.
+
 
 
 
@@ -116,16 +149,19 @@ objectclass: groupOfUniqueNames
 cn: ADMINS
 ou: ADMIN
 uniqueMember: uid=admin1,ou=people,dc=springframework,dc=org
-uniqueMember: uid=admin2,ou=people,dc=springframework,dc=org
+uniqueMember: uid=veyis_t_a,ou=people,dc=springframework,dc=org
 
 dn: cn=USERS,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: groupOfUniqueNames
 cn: USERS
 ou: USER
-uniqueMember: uid=user1,ou=people,dc=springframework,dc=org
-uniqueMember: uid=user2,ou=people,dc=springframework,dc=org
-uniqueMember: uid=user3,ou=people,dc=springframework,dc=org
-uniqueMember: uid=user4,ou=people,dc=springframework,dc=org
-uniqueMember: uid=user5,ou=people,dc=springframework,dc=org
-uniqueMember: uid=user6,ou=people,dc=springframework,dc=org
+uniqueMember: uid=veyis_t,ou=people,dc=springframework,dc=org
+uniqueMember: uid=ahmet_mert,ou=people,dc=springframework,dc=org
+uniqueMember: uid=volkan_yildiz,ou=people,dc=springframework,dc=org
+uniqueMember: uid=yasin_ser,ou=people,dc=springframework,dc=org
+uniqueMember: uid=gokhan_uys,ou=people,dc=springframework,dc=org
+uniqueMember: uid=aberoz,ou=people,dc=springframework,dc=org
+uniqueMember: uid=omer_erk,ou=people,dc=springframework,dc=org
+uniqueMember: uid=ihsan_gokcul,ou=people,dc=springframework,dc=org
+uniqueMember: uid=fiq,ou=people,dc=springframework,dc=org

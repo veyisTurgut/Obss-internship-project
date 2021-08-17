@@ -50,7 +50,7 @@ public class ApplicationService {
         if (application_from_db != null) {
             return new MessageResponse("Başvuru zaten var.", MessageType.ERROR);
         }
-        applicationRepository.saveManually(application.getApplicant().getUsername(), application.getSubject().getSubject_id(), application.getExperience());
+        applicationRepository.saveManually(application.getApplicant().getUsername(), application.getSubject().getSubject_id(), application.getExperience(),application.getSubject().getSubject_name(),application.getSubject().getSubsubject_name());
         return new MessageResponse("Başarılı.", MessageType.SUCCESS);
     }
 

@@ -36,10 +36,11 @@ public interface ApplicationRepository extends JpaRepository<MentorshipApplicati
     @Query(value = "SELECT * FROM mentorship_application WHERE applicant_username = ?1 ", nativeQuery = true)
     List<MentorshipApplication> findByUsername(String username);
 
-    @Query(value = "INSERT INTO mentorship_application(applicant_username, subject_id, experience, status) VALUES (?1,?2,?3,'open')", nativeQuery = true)
+    @Query(value = "INSERT INTO mentorship_application(applicant_username, subject_id, experience, status,subject_name,subsubject_name)" +
+            " VALUES (?1,?2,?3,'open',?4,?5)", nativeQuery = true)
     @Transactional
     @Modifying
-    void saveManually(String username, Long subject_id, String experience);
+    void saveManually(String username, Long subject_id, String experience, String subject_name, String subsubject_name);
 }
 
 

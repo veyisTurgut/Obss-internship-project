@@ -14,10 +14,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function DeleteDialog(props) {
     const [open, setOpen] = React.useState(false);
 
-
     const handleClose = () => {
         setOpen(false);
     };
+
 
     return (
         <div>
@@ -32,14 +32,14 @@ export default function DeleteDialog(props) {
                 <DialogTitle id="alert-dialog-slide-title">{"Konu Silme Ekranı"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Konuyu gerçekten silmek istiyor musun?
+                       <b> { props.subject.subject_name} / {props.subject.subsubject_name} </b>konusunu gerçekten silmek istiyor musun?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.handleCloseDeleteDialog} color="default">
                         Vazgeç
                     </Button>
-                    <Button onClick={() => props.handleDeleteSubject(props.subject_id)} color="secondary">
+                    <Button onClick={() => props.handleDeleteSubject(props.subject.subject_id)} color="secondary">
                         Sil
                     </Button>
                 </DialogActions>

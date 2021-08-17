@@ -46,7 +46,7 @@ public class MentorshipApplication {
     ///////////
 
 
-    @Column(name = "EXPERIENCE")
+    @Column(name = "EXPERIENCE", length = 2048)
     private String experience;
 
     @Column(name = "STATUS")

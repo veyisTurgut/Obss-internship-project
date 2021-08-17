@@ -19,11 +19,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ApplyMenteeTable from "./Apply/ApplyMenteeTable";
 import ApplyMentorTable from "./Apply/ApplyMentorTable";
 import ProgramDialog from "./Program-Phase/ProgramDialog";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import SaveIcon from "@material-ui/icons/Save";
+
 
 export default class UserDashboard extends Component {
     constructor(props) {
@@ -55,7 +51,7 @@ export default class UserDashboard extends Component {
         this.setState({
             navValue: "Mentorlukların"
         });
-        axios.get('http://localhost:8080/users/' + Cookie.get("Username") + '/programsMentored', {
+        axios.get(process.env.REACT_APP_SERVER_URL + 'users/' + Cookie.get("Username") + '/programsMentored', {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Authorization': Cookie.get("Authorization")
@@ -71,7 +67,7 @@ export default class UserDashboard extends Component {
         if (this.state !== prevState) {
             if ((this.state.navValue === "Menteeliklerin" && prevState.navValue !== "Menteeliklerin")
                 || (this.state.navValue === "Menteeliklerin" && this.state.subNavValue !== prevState.subNavValue)) {
-                axios.get('http://localhost:8080/users/' + Cookie.get("Username") + '/programsMenteed', {
+                axios.get(process.env.REACT_APP_SERVER_URL + 'users/' + Cookie.get("Username") + '/programsMenteed', {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Authorization': Cookie.get("Authorization")
@@ -85,7 +81,7 @@ export default class UserDashboard extends Component {
 
             if ((this.state.navValue === "Mentorlukların" && prevState.navValue !== "Mentorlukların")
                 || (this.state.navValue === "Mentorlukların" && this.state.subNavValue !== prevState.subNavValue)) {
-                axios.get('http://localhost:8080/users/' + Cookie.get("Username") + '/programsMentored', {
+                axios.get(process.env.REACT_APP_SERVER_URL + 'users/' + Cookie.get("Username") + '/programsMentored', {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Authorization': Cookie.get("Authorization")
@@ -100,7 +96,7 @@ export default class UserDashboard extends Component {
     }
 
     handleAddPhase = (program_id, phase_count) => {
-        let url = "http://localhost:8080/programs/" + program_id + "/phases/" + phase_count
+        let url = process.env.REACT_APP_SERVER_URL + 'programs/' + program_id + "/phases/" + phase_count
         axios.put(url
             , {}, {
                 headers: {
@@ -134,7 +130,7 @@ export default class UserDashboard extends Component {
     }
 
     handleNextPhase = (program_id) => {
-        axios.put("http://localhost:8080/programs/" + program_id + "/nextPhase/"
+        axios.put(process.env.REACT_APP_SERVER_URL + "programs/" + program_id + "/nextPhase/"
             , {"program_id": program_id, "phase_id": 0}, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -326,9 +322,6 @@ export default class UserDashboard extends Component {
                                             open={this.state.openProgramDialog}
                                             whoOpened={String(this.state.navValue).substring(0, 6)}
                                             onClose={() => this.setState({openProgramDialog: false})}
-                                            //handleUpdatePhasePoint={this.handleUpdatePhasePoint}
-                                            // handleUpdatePhaseComment={this.handleUpdatePhaseComment}
-                                            // handleUpdateProgramComment={this.handleUpdateProgramComment}
                                             handleAddPhase={this.handleAddPhase}
                                             handleNextPhase={this.handleNextPhase}
                                         />}
@@ -372,12 +365,13 @@ export default class UserDashboard extends Component {
                                 }
                             </TableBody>
 
-                            <CustomizedSnackbars open={this.state.openToast}
-                                                 onClick={() => this.setState({openToast: true})}
-                                                 handleCloseToast={() => this.setState({openToast: false})}
-                                                 message={this.state.toastMessage}
-                                                 messageType={this.state.toastMessageType}/>
-                        </Table></div>}
+                        </Table>
+                        <CustomizedSnackbars open={this.state.openToast}
+                                             onClick={() => this.setState({openToast: true})}
+                                             handleCloseToast={() => this.setState({openToast: false})}
+                                             message={this.state.toastMessage}
+                                             messageType={this.state.toastMessageType}/>
+                    </div>}
                     {this.state.navValue === "Menteeliğe Başvur" && <ApplyMenteeTable/>}
                     {this.state.navValue === "Mentorluğa Başvur" && <ApplyMentorTable/>}
                 </TableContainer>
