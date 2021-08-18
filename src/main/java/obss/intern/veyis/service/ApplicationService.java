@@ -9,11 +9,12 @@ import obss.intern.veyis.manageMentorships.entity.Program;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.entity.Users;
 import obss.intern.veyis.manageMentorships.repository.*;
+import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class ApplicationService {
         if (application_from_db != null) {
             return new MessageResponse("Başvuru zaten var.", MessageType.ERROR);
         }
-        applicationRepository.saveManually(application.getApplicant().getUsername(), application.getSubject().getSubject_id(), application.getExperience(),application.getSubject().getSubject_name(),application.getSubject().getSubsubject_name());
+        applicationRepository.saveManually(application.getApplicant().getUsername(), application.getSubject().getSubject_id(), application.getExperience(), application.getSubject().getSubject_name(), application.getSubject().getSubsubject_name());
         return new MessageResponse("Başarılı.", MessageType.SUCCESS);
     }
 
@@ -102,8 +103,12 @@ public class ApplicationService {
      * <h1> List All Mentorship Applications a Mentee Can Enroll -- Service</h1>
      * Users can see all the subjects and their mentors they can enroll.
      * <p/>
-     * First we find the subjects that user already enrolled as mentee.
-     * Then we find all the approved applications. Set difference of these gives
+     * First we find the programs that user already enrolled as mentee.
+     * Then we find all the approved applications.
+     * Then we extract the < mentor-subject > mappings out of programs that users enrolled.
+     * Then we find suitable programs such that mentees can work with only one mentor per a subject.
+     * Finally we remove currently active programs.
+     * Set difference of these gives
      * us the applications that user can enroll as a mentee.
      *
      * @param mentee Username of the mentee.
@@ -111,16 +116,29 @@ public class ApplicationService {
      * @see ApplicationDTO
      */
     public List<MentorshipApplication> findSubjectsUserCanEnrollAsAMentee(String mentee) {
-        List<Program> users = programRepository.findProgramByMentee(mentee);
+        //find the programs that user already enrolled as mentee
+        List<Program> programs_of_this_user = programRepository.findProgramByMentee(mentee);
+        //find all the approved applications.
         Set<MentorshipApplication> approved = findApplicationsByStatus("approved").stream().collect(Collectors.toSet());
-        if (users.size() == 0) {
+        //if user doesnt have active program right now, then just return all approved applications.
+        if (programs_of_this_user.stream().filter(x -> !x.getStatus().equals("Bitti")).collect(Collectors.toList()).size() == 0)
             approved.stream().collect(Collectors.toList());
-        }
-        List<Subject> subjects = users.stream().filter(x -> !x.getStatus().equals("ended")).
-                map(x -> x.getSubject()).collect(Collectors.toList());
-        approved = approved.stream().filter(x -> !subjects.contains(x.getSubject())).collect(Collectors.toSet());
+        //extract the < mentor-subject > mappings
+        Map<String, String> subject_name_and_mentor_of_it = new HashMap<>();
+        for (Program program : programs_of_this_user)
+            if (!program.getStatus().equals("Bitti"))
+                subject_name_and_mentor_of_it.put(program.getSubject().getSubject_name(), program.getMentor().getUsername());
 
-        return approved.stream().collect(Collectors.toList());
+        Set<MentorshipApplication> suitable = new HashSet<>();
+        // find suitable programs
+        for (MentorshipApplication app : approved)
+            if (!(subject_name_and_mentor_of_it.containsKey(app.getSubject_name()) &&
+                    !subject_name_and_mentor_of_it.get(app.getSubject_name()).equals(app.getApplicant().getUsername())))
+                suitable.add(app);
+        //remove already enrolled programs
+        suitable.removeAll(suitable.stream().filter(x -> programs_of_this_user.stream().map(y -> y.getSubject())
+                .collect(Collectors.toSet()).contains(x.getSubject())).collect(Collectors.toSet()));
+        return suitable.stream().collect(Collectors.toList());
     }
 
     /**
