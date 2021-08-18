@@ -78,9 +78,16 @@ public class ProgramService {
         if (programFromDB != null) {
             return new MessageResponse("Program zaten var!", MessageType.ERROR);
         }
-        List<Program> programs_of_this_mentor = programRepository.findProgramByMentorEqualsAndSubjectEquals(program.getMentor(), program.getSubject());
+        //check whether this user working with another mentor on this subject
+        List<Program> programs_of_this_mentee = programRepository.findProgramByMentee(program.getMentee().getUsername());
+        if (!programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_id() == program.getSubject().getSubject_id())
+                .map(x->x.getMentor().getUsername()).collect(Collectors.toSet()).contains(program.getMentor().getUsername())){
+            return new MessageResponse("Aynı ana konu için sadece 1 mentor ile çalışabilirsin.",MessageType.ERROR);
+        }
+
 
         //check whether this mentor already working with 2 mentees, if so make application full.
+        List<Program> programs_of_this_mentor = programRepository.findProgramByMentorEqualsAndSubjectEquals(program.getMentor(), program.getSubject());
         if (programs_of_this_mentor.size() >= MAX_MENTEE_COUNT_PER_SUBJECT - 1) {
             MentorshipApplication application = applicationRepository.findApprovedByKeys(program.getMentor().getUsername(), program.getSubject().getSubject_id());
             if (application == null)

@@ -102,38 +102,103 @@ export default class ApplyMenteeTable extends Component {
 
     handleSearchProgram = (inputData, checked, subject_data) => {
         //TODO : maybe i can send axios upon each button pressed
-        let wanted_subjects = [];
-        for (let i in checked) {
-            if (checked[i])
-                wanted_subjects.push(String(subject_data[i][0]))
-        }
+
+        // case 1 : only subject
+        //case 2 : only text
+        //case 3 : both
         this.setState({isSearchDialogOpen: false, didSearch: true});
-
-
-        var axios = require('axios');
-        var data = JSON.stringify({
-            "query": {
-                "bool": {
-                    "must": [
-                        {
-                            "wildcard": {
-                                "experience": "*" + inputData.keyword + "*"
-                            }
-                        },
-                        {
-                            "term": {
-                                "status": "approved"
-                            }
-                        },
-                        {
-                            "terms": {
-                                "subject_id": wanted_subjects
-                            }
-                        }
-                    ]
-                }
+        if (Object.values(checked).includes(true) && (inputData.keyword !== undefined && inputData.keyword !== "")) {
+            //case 3
+            let wanted_subjects = [];
+            for (let i in checked) {
+                if (checked[i])
+                    wanted_subjects.push(String(subject_data[i][0]))
             }
-        });
+            console.log(wanted_subjects)
+            //search subjects
+            let keyword = inputData.keyword == undefined ? "" : inputData.keyword
+            var data = JSON.stringify({
+                "query": {
+                    "bool": {
+                        "must": [{
+                            "wildcard": {
+                                "experience": "*" + keyword + "*"
+                            }
+                        },
+                            {
+                                "term": {
+                                    "status": "approved"
+                                }
+                            },
+                            {
+                                "terms": {
+                                    "subject_id": wanted_subjects
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+
+        }
+        else if (Object.values(checked).includes(true) && (inputData.keyword === undefined || inputData.keyword === "")) {
+            // case 1
+            let wanted_subjects = [];
+            for (let i in checked) {
+                if (checked[i])
+                    wanted_subjects.push(String(subject_data[i][0]))
+            }
+            console.log(wanted_subjects)
+            //search subjects
+            let keyword = inputData.keyword == undefined ? "" : inputData.keyword
+            var data = JSON.stringify({
+                "query": {
+                    "bool": {
+                        "must": [
+                            {
+                                "term": {
+                                    "status": "approved"
+                                }
+                            },
+                            {
+                                "terms": {
+                                    "subject_id": wanted_subjects
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+
+        }
+        else {
+            //case 2
+
+            console.log("text")
+            //free text search
+            let keyword = inputData.keyword == undefined ? "" : inputData.keyword
+            var data = JSON.stringify({
+                "query": {
+                    "bool": {
+                        "must": [
+                            {
+                                "wildcard": {
+                                    "experience": "*" + keyword + "*"
+                                }
+                            },
+                            {
+                                "term": {
+                                    "status": "approved"
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+        }
+
+        console.log(data)
+        var axios = require('axios');
 
         var config = {
             method: 'post',
@@ -146,6 +211,7 @@ export default class ApplyMenteeTable extends Component {
 
         axios(config)
             .then(response => {
+                console.log(response)
                 this.setState({
                     SubjectData: response.data.hits.hits.map(x => x._source)
                 });
@@ -205,8 +271,6 @@ export default class ApplyMenteeTable extends Component {
                                             Başvur
                                         </Button>
                                     </TableCell>
-
-
                                 </TableRow>
                             })
                         }

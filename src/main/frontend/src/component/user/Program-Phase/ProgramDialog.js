@@ -496,7 +496,7 @@ export default class ProgramDialog extends Component {
                                                         onClick={() => this.setState({
                                                             isPhaseEvaluationDialogOpen: true,
                                                             current_phase_id: row.phase_id
-                                                        })}>Süreci
+                                                        })}>Fazı
                                                     Tamamla
                                                 </Button>}
                                                 {((String(this.state.programData.status).substring(0, 3) === "Faz" &&
@@ -507,7 +507,7 @@ export default class ProgramDialog extends Component {
                                                         onClick={() => this.setState({
                                                             isPhaseEvaluationDialogOpen: true,
                                                             current_phase_id: row.phase_id
-                                                        })}>Süreci Değerlendir
+                                                        })}>FAZI DEĞERLENDİR
                                                 </Button>}
                                                 {((String(this.state.programData.status).substring(0, 3) === "Faz" &&
                                                         String(this.state.programData.status).substring(4) > String(row.phase_id))
@@ -517,7 +517,7 @@ export default class ProgramDialog extends Component {
                                                         onClick={() => this.setState({
                                                             isPhaseEvaluationDialogOpen: true,
                                                             current_phase_id: row.phase_id
-                                                        })}>Süreci Değerlendir
+                                                        })}>FAZI DEĞERLENDİR
                                                 </Button>}
                                             </TableCell>
 
@@ -583,8 +583,7 @@ export default class ProgramDialog extends Component {
                                         </TableCell>
                                         <TableCell align="left">
                                             <Button color={"secondary"}
-                                                    onClick={() => this.props.handleAddPhase(this.props.program_id, this.state.inputNumber)}>FAZLARI
-                                                PLANLA
+                                                    onClick={() => this.props.handleAddPhase(this.props.program_id, this.state.inputNumber)}>SÜREÇ PLANLA
                                             </Button>
                                         </TableCell>
                                     </TableRow>
