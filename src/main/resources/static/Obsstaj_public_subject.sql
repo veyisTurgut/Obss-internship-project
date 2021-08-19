@@ -10,4 +10,7 @@ values  (3, 'java', 'spring security'),
         (12, 'SWE', 'Requirements Engineering'),
         (13, 'algorithms', 'graph'),
         (14, 'algorithms', 'greedy'),
-        (16, 'football', 'defence');
+        (16, 'football', 'defence'),
+        (19, 'music', 'singing'),
+        (20, 'music', 'acoustic guitar'),
+        (21, 'OS', 'Scheduling');

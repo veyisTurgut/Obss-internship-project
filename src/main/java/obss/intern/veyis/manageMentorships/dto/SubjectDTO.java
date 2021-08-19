@@ -22,6 +22,7 @@ public class SubjectDTO {
     @NotBlank(message = "Konu altadı boş olamaz!")
     private String subsubject_name;
 
+
     @JsonCreator
     public SubjectDTO(
             @JsonProperty("subject_id") Long subject_id,

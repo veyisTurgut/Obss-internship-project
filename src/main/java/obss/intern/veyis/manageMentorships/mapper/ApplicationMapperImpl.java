@@ -29,7 +29,8 @@ public class ApplicationMapperImpl implements ApplicationMapper {
                     mentorshipApplication.getSubject().getSubject_id(),
                     mentorshipApplication.getSubject().getSubject_name(),
                     mentorshipApplication.getSubject().getSubsubject_name(),
-                    mentorshipApplication.getExperience()
+                    mentorshipApplication.getExperience(),
+                    mentorshipApplication.getStatus()
             );
 
             return applicationDTO;

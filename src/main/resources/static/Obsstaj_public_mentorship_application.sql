@@ -2,14 +2,37 @@ insert into public.mentorship_application (applicant_username, subject_id, exper
 values  ('yasin_ser', 3, 'Now my life is sweet like cinnamon
 Like a freakin'' dream I''m livin'' in
 Baby, love me ''cause I''m playing on the radio', 'approved', 'java', 'spring security'),
-        ('veyis_t', 9, 'Will you still love me when I''m no longer young and beautiful?
-Will you still love me when I got nothing but my aching soul?
-I know you will, I know you will, I know that you will
-Will you still love me when I''m no longer beautiful?', 'open', 'OS', 'IPC'),
+        ('ihsan_gokcul', 20, 'I can hear sirens, sirens
+He hit me and it felt like a kiss
+I can hear violins, violins
+Give me all of that ultraviolence', 'open', 'music', 'acoustic guitar'),
+        ('ihsan_gokcul', 19, 'They judge me like a picture book
+By the colors, like they forgot to read', 'open', 'music', 'singing'),
+        ('fiq', 19, 'Singing blues has been gettin'' old
+But you can be my full-time baby, hot or cold', 'open', 'music', 'singing'),
+        ('fiq', 12, 'Sometimes it feels like I''ve got a war in my mind
+I want to get off, but I keep ridin'' the ride', 'open', 'SWE', 'Requirements Engineering'),
+        ('aberoz', 16, 'var böyle dönemler ve hiçbir şey inşaat ama hızlı bir şekilde çok ANKET baş bilmeniz gerekir barcelona futbol kalitesinde bir modeldir', 'open', 'football', 'defence'),
+        ('aberoz', 21, 'In the land of gods and monsters
+I was an angel living in the garden of evil', 'open', 'OS', 'OS'),
+        ('aberoz', 8, 'I''m flyin'' to the moon again, dreamin'' about heroin
+How it gave you everything and took your life away', 'open', 'python', 'data science'),
+        ('gokhan_uys', 4, 'The day I saw your white Mustang
+Your white Mustang', 'open', 'java', 'oop'),
+        ('gokhan_uys', 5, 'Everything looks better from above, my king
+Like aquamarine, ocean''s blue', 'open', 'python', 'django'),
+        ('volkan_yildiz', 16, 'Calling out my name in the summer rain
+Ciao, amore
+Salvatore can wait', 'open', 'football', 'defence'),
+        ('volkan_yildiz', 6, 'Blue hydrangea, cold cash divine
+Cashmere, cologne, and white sunshine
+Red racing cars, Sunset and Vine', 'open', 'react-js', 'class components'),
         ('yasin_ser', 6, 'Likes to watch me in the glass room, bathroom
 Chateau Marmont, slippin'' on my red dress, puttin'' on my makeup
 Glass room, perfume, cognac, lilac fumes
 Says it feels like heaven to him', 'open', 'react-js', 'class components'),
+        ('volkan_yildiz', 10, 'Baby, if you wanna leave, come to California
+Be a freak like me, too', 'approved', 'matlab', 'image processing'),
         ('gokhan_uys', 9, 'Your poetry''s bad and you blame the news
 But I can’t change that, and I can''t change your mood, ah', 'open', 'OS', 'IPC'),
         ('yasin_ser', 4, 'Money is the anthem of success
@@ -38,4 +61,7 @@ I don''t know why', 'approved', 'algorithms', 'greedy'),
         ('omer_erk', 10, 'Down on the West coast, they got a sayin''
 "If you''re not drinkin'', then you''re not playin''"
 But you''ve got the music
-You''ve got the music in you, don''t you?', 'approved', 'matlab', 'image processing');
+You''ve got the music in you, don''t you?', 'approved', 'matlab', 'image processing'),
+        ('veyis_t', 11, 'i think i am capable', 'open', 'SWE', 'Software Development'),
+        ('veyis_t', 9, 'I’ll pick you up / If you come back to America, just hit me up', 'open', 'OS', 'IPC'),
+        ('veyis_t', 13, 'You can see my heart burning in the distance / Baby, baby, baby, I’m your man', 'approved', 'algorithms', 'graph');

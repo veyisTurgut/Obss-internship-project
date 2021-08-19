@@ -37,16 +37,21 @@ public class ApplicationDTO {
     @JsonProperty("experience")
     private String experience;
 
+    @JsonProperty("status")
+    private String status;
+
     @JsonCreator
     public ApplicationDTO(@JsonProperty("applicant_username") String applicant_username,
                           @JsonProperty("subject_id") Long subject_id,
                           @JsonProperty("subject_name") String subject_name,
                           @JsonProperty("subsubject_name") String subsubject_name,
-                          @JsonProperty("experience") String experience) {
+                          @JsonProperty("experience") String experience,
+                          @JsonProperty("status") String status) {
         this.applicant_username = applicant_username;
         this.subject_name = subject_name;
         this.subject_id = subject_id;
         this.subsubject_name = subsubject_name;
         this.experience = experience;
+        this.status = status;
     }
 }

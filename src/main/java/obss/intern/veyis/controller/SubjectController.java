@@ -2,7 +2,9 @@ package obss.intern.veyis.controller;
 
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
+import obss.intern.veyis.manageMentorships.dto.ApplicationDTO;
 import obss.intern.veyis.manageMentorships.dto.SubjectDTO;
+import obss.intern.veyis.manageMentorships.mapper.ApplicationMapperImpl;
 import obss.intern.veyis.manageMentorships.mapper.SubjectMapperImpl;
 import obss.intern.veyis.service.SubjectService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +21,7 @@ public class SubjectController {
 
     private final SubjectService subjectService;
     private final SubjectMapperImpl subjectMapper;
+    private final ApplicationMapperImpl applicationMapper;
 
     /**
      * <h1> Get All Subjects -- Endpoint</h1>
@@ -43,8 +46,8 @@ public class SubjectController {
      */
     @PreAuthorize("hasAnyAuthority('ROLE_ADMINS','ROLE_USERS')")
     @GetMapping("/{username}")//admin-user
-    public List<SubjectDTO> getSubjectsThatAUserApplied(@PathVariable String username) {
-        return subjectMapper.mapToDto(subjectService.getSubjectsThatAUserApplied(username));
+    public List<ApplicationDTO> getSubjectsThatAUserApplied(@PathVariable String username) {
+        return applicationMapper.mapToDto(subjectService.getSubjectsThatAUserApplied(username));
     }
 
     /**

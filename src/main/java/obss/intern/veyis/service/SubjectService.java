@@ -3,6 +3,7 @@ package obss.intern.veyis.service;
 import lombok.RequiredArgsConstructor;
 import obss.intern.veyis.config.response.MessageResponse;
 import obss.intern.veyis.config.response.MessageType;
+import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Subject;
 import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
 import obss.intern.veyis.manageMentorships.repository.SubjectRepository;
@@ -38,10 +39,10 @@ public class SubjectService {
      * @return List<Subject>: List of subjects.
      * @see Subject
      */
-    public List<Subject> getSubjectsThatAUserApplied(String username) {
+    public List<MentorshipApplication> getSubjectsThatAUserApplied(String username) {
         return applicationRepository.findByUsername(username).stream()
                 //  .filter(x -> x.getApplicant().getUsername().equals(username))
-                .map(x -> x.getSubject()).collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     /**
@@ -54,7 +55,7 @@ public class SubjectService {
      * @see Subject
      */
     public List<Subject> getAllSubjectsExceptAUser(String username) {
-        Set<Subject> applied = getSubjectsThatAUserApplied(username).stream().collect(Collectors.toSet());
+        Set<Subject> applied = getSubjectsThatAUserApplied(username).stream().map(x->x.getSubject()).collect(Collectors.toSet());
         Set<Subject> all = subjectRepository.findAll().stream().collect(Collectors.toSet());
         all.removeAll(applied);
         return all.stream().collect(Collectors.toList());
@@ -84,7 +85,11 @@ public class SubjectService {
      * @return MessageResponse: SUCCESS upon successful operation, ERROR with an explanation otherwise.
      */
     public MessageResponse deleteSubjectById(Long subject_id) {
-        subjectRepository.deleteSubject(subject_id);
+        try {
+            subjectRepository.deleteSubject(subject_id);
+        }catch (Exception e){
+            return new MessageResponse("Bu konuyla ilgili aktif programlar var. Silinemez!", MessageType.ERROR);
+        }
         return new MessageResponse("Silindi", MessageType.SUCCESS);
     }
 

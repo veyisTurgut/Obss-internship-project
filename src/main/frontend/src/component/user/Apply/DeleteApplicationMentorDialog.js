@@ -32,7 +32,7 @@ export default function DeleteApplicationMentorDialog(props) {
                 <DialogTitle id="alert-dialog-slide-title">{"Mentorluk Başvurusu Silme Ekranı"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Başvurunu gerçekten silmek istiyor musun?
+                       <b> {props.subject_name} / {props.subsubject_name} </b>başvurunu gerçekten silmek istiyor musun?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

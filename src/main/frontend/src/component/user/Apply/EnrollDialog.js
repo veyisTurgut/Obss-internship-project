@@ -57,7 +57,7 @@ export default class EnrollDialog extends Component {
 
 
                     <DialogContentText id="alert-dialog-slide-description">
-                        Programa gerçekten kaydolmak istiyor musun?
+                        <b>{this.props.subject_name} / {this.props.subsubject_name} </b>programına gerçekten kaydolmak istiyor musun?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

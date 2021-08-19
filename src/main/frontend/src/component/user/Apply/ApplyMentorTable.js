@@ -24,6 +24,7 @@ export default class ApplyMentorTable extends Component {
         this.state = {
             navValue: "new",
             SubjectData: [],
+            ApplicationData: [],
             appliedSubjectData: [],
             isDeleteDialogOpen: false,
             isEnrolldialogOpen: false,
@@ -68,8 +69,9 @@ export default class ApplyMentorTable extends Component {
                         'Authorization': Cookie.get("Authorization")
                     }
                 }).then(response => {
+                    console.log(response.data)
                     this.setState({
-                        SubjectData: response.data
+                        ApplicationData: response.data
                     });
                 });
             } else if (this.state.navValue === "new" && prevState.navValue !== this.state.navValue) {
@@ -79,6 +81,7 @@ export default class ApplyMentorTable extends Component {
                         'Authorization': Cookie.get("Authorization")
                     }
                 }).then(response => {
+                    console.log(response)
                     this.setState({
                         SubjectData: response.data
                     });
@@ -203,7 +206,47 @@ export default class ApplyMentorTable extends Component {
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    {this. state.navValue === "old" && <TableBody>
+                        {this.state.ApplicationData
+                            .map((p, index) => {
+                        return <TableRow key={index}>
+                            <TableCell align="center">{p.subject_name}</TableCell>
+                            <TableCell align="center">{p.subsubject_name}</TableCell>
+                            <TableCell align="center">
+                                { p.status === "open" &&
+                                <Button align="center" color="secondary"
+                                        startIcon={<DeleteIcon/>}
+                                        onClick={() => this.setState({
+                                            isDeleteDialogOpen: true,
+                                            subject_name: p.subject_name,
+                                            subsubject_name: p.subsubject_name
+                                        })}>
+                                    Başvuruyu Geri Çek
+                                </Button>}
+                                {p.status === "rejected" && "ÇOKTAN REDDEDİLDİ"}
+                                {p.status === "approved" && "ÇOKTAN ONAYLANDI"}
+                            </TableCell>
+                            <EnrollDialog
+                                who={"Mentor"}
+                                subject_name={this.state.subject_name}
+                                subsubject_name={this.state.subsubject_name}
+                                experience=""
+                                onClose={() => this.setState({isEnrollDialogOpen: false})}
+                                handleEnrollProgram={this.handleApplyToBeAMentor}
+                                open={this.state.isEnrollDialogOpen}
+                            />
+                            <DeleteApplicationMentorDialog
+                                subject_name={this.state.subject_name}
+                                subsubject_name={this.state.subsubject_name}
+                                onClose={() => this.setState({isDeleteDialogOpen: false})}
+                                handleDeleteApplicationProgram={this.deleteApplication}
+                                open={this.state.isDeleteDialogOpen}
+                            />
+                        </TableRow>})
+                        }
+                        </TableBody>}
+
+                    {this. state.navValue === "new" && <TableBody>
                         {this.state.SubjectData.sort((a, b) => (a.subject_name > b.subject_name || a.subsubject_name > b.subsubject_name) ? 1 : -1)
                             .filter(x => x.applicant_username !== Cookie.get("Username")).map((p, index) => {
                                 return <TableRow key={index}>
@@ -220,16 +263,7 @@ export default class ApplyMentorTable extends Component {
                                                 })}>
                                             Başvur
                                         </Button>}
-                                        {this.state.navValue === "old" &&
-                                        <Button align="center" color="secondary"
-                                                startIcon={<DeleteIcon/>}
-                                                onClick={() => this.setState({
-                                                    isDeleteDialogOpen: true,
-                                                    subject_name: p.subject_name,
-                                                    subsubject_name: p.subsubject_name
-                                                })}>
-                                            Başvuruyu Geri Çek
-                                        </Button>}
+
                                     </TableCell>
                                     <EnrollDialog
                                         who={"Mentor"}
@@ -250,7 +284,7 @@ export default class ApplyMentorTable extends Component {
                                 </TableRow>
                             })
                         }
-                    </TableBody>
+                    </TableBody>}
                     <CustomizedSnackbars open={this.state.openToast}
                                          onClick={() => this.setState({openToast: true})}
                                          handleCloseToast={() => this.setState({openToast: false})}
