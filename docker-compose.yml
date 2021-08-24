@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  postgres:
+    image: "postgres"
+    container_name: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: Obsstaj
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 5432
+    volumes:
+      - ./src/main/resources/static/:/tmp/
+
+  spring:
+    build: .
+    container_name: "spring"
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/Obsstaj
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 5432
+    depends_on:
+      - postgres
+
+  react:
+    image: "react"
+    build: 
+      context: "./frontend"
+    container_name: "react"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - spring
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    container_name: elasticsearch
+    environment:
+      - node.name=es01
+      - discovery.type=single-node
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.port=9200
+      - "http.cors.allow-origin=*"
+      - "http.cors.enabled=true"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+      - "http.cors.allow-credentials=true"
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    depends_on:
+      - postgres
+
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.2.0
+    container_name: logstash
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+      - ./config:/etc/logstash/conf.d
+    ports:
+      - "5000:5000"  
+    links:
+      - elasticsearch
+      
+volumes:
+  data01:
+    driver: local

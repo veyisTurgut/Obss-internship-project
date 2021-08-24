@@ -80,10 +80,17 @@ public class ProgramService {
         }
         //check whether this user working with another mentor on this subject
         List<Program> programs_of_this_mentee = programRepository.findProgramByMentee(program.getMentee().getUsername());
-        if (!programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_id() == program.getSubject().getSubject_id())
+
+        if (!programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_name().equals(program.getSubject().getSubject_name()))
+                .map(x -> x.getMentor().getUsername()).collect(Collectors.toSet()).equals(Collections.emptySet())
+                && !programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_name().equals(program.getSubject().getSubject_name()))
+                .map(x -> x.getMentor().getUsername()).collect(Collectors.toSet()).contains(program.getMentor().getUsername())) {
+            return new MessageResponse("Aynı ana konu için sadece 1 mentor ile çalışabilirsin.", MessageType.ERROR);
+        }
+        /*if (!programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_id() == program.getSubject().getSubject_id())
                 .map(x->x.getMentor().getUsername()).collect(Collectors.toSet()).contains(program.getMentor().getUsername())){
             return new MessageResponse("Aynı ana konu için sadece 1 mentor ile çalışabilirsin.",MessageType.ERROR);
-        }
+        }*/
 
 
         //check whether this mentor already working with 2 mentees, if so make application full.
