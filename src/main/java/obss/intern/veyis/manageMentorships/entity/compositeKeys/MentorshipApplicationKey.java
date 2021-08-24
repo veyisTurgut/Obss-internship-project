@@ -1,11 +1,7 @@
 package obss.intern.veyis.manageMentorships.entity.compositeKeys;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;

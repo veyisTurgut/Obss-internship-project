@@ -1,8 +1,7 @@
 package obss.intern.veyis.manageMentorships.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.MentorshipApplicationKey;
 
 import javax.persistence.*;
@@ -19,6 +18,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class MentorshipApplication {
 
     @EmbeddedId

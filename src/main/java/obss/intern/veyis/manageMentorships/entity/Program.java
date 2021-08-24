@@ -1,9 +1,7 @@
 package obss.intern.veyis.manageMentorships.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
 
 import javax.persistence.*;
@@ -14,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
 public class Program {
 

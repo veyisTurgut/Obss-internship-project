@@ -8,7 +8,6 @@ import obss.intern.veyis.manageMentorships.dto.ProgramDTO;
 import obss.intern.veyis.manageMentorships.entity.MentorshipApplication;
 import obss.intern.veyis.manageMentorships.entity.Phase;
 import obss.intern.veyis.manageMentorships.entity.Program;
-import obss.intern.veyis.manageMentorships.entity.compositeKeys.ProgramId;
 import obss.intern.veyis.manageMentorships.repository.ApplicationRepository;
 import obss.intern.veyis.manageMentorships.repository.PhaseRepository;
 import obss.intern.veyis.manageMentorships.repository.ProgramRepository;
@@ -80,18 +79,18 @@ public class ProgramService {
         }
         //check whether this user working with another mentor on this subject
         List<Program> programs_of_this_mentee = programRepository.findProgramByMentee(program.getMentee().getUsername());
-
+        //after
         if (!programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_name().equals(program.getSubject().getSubject_name()))
                 .map(x -> x.getMentor().getUsername()).collect(Collectors.toSet()).equals(Collections.emptySet())
                 && !programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_name().equals(program.getSubject().getSubject_name()))
                 .map(x -> x.getMentor().getUsername()).collect(Collectors.toSet()).contains(program.getMentor().getUsername())) {
             return new MessageResponse("Aynı ana konu için sadece 1 mentor ile çalışabilirsin.", MessageType.ERROR);
         }
-        /*if (!programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_id() == program.getSubject().getSubject_id())
+        /* // before
+        if (!programs_of_this_mentee.stream().filter(x -> x.getSubject().getSubject_id() == program.getSubject().getSubject_id())
                 .map(x->x.getMentor().getUsername()).collect(Collectors.toSet()).contains(program.getMentor().getUsername())){
             return new MessageResponse("Aynı ana konu için sadece 1 mentor ile çalışabilirsin.",MessageType.ERROR);
         }*/
-
 
         //check whether this mentor already working with 2 mentees, if so make application full.
         List<Program> programs_of_this_mentor = programRepository.findProgramByMentorEqualsAndSubjectEquals(program.getMentor(), program.getSubject());
@@ -189,7 +188,6 @@ public class ProgramService {
                 * Final * stands for current year.
 
                 Final note: If expected final date due is longer than a year, this may fail.
-
              */
             String cron_date = "0 " + phaseDTO.getExpected_end_date().getMinutes() + " " + (phaseDTO.getExpected_end_date().getHours() - 4) + " " +
                     phaseDTO.getExpected_end_date().getDate() + " " + (phaseDTO.getExpected_end_date().getMonth() + 1) + " *";

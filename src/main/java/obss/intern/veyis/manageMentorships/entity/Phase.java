@@ -1,8 +1,6 @@
 package obss.intern.veyis.manageMentorships.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import obss.intern.veyis.manageMentorships.entity.compositeKeys.PhaseKey;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +12,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Phase implements Comparable<Phase> {
 
     @EmbeddedId
