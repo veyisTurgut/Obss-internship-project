@@ -27,6 +27,7 @@ services:
 
   react:
     image: "react"
+    container_name: "reactx"
     build: 
       context: "./frontend"
     container_name: "react"
