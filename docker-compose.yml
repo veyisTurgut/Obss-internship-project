@@ -30,7 +30,6 @@ services:
     container_name: "reactx"
     build: 
       context: "./frontend"
-    container_name: "react"
     ports:
       - "3000:3000"
     depends_on:
