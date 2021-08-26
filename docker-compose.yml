@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     image: "postgres"
-    container_name: "postgresx"
+    container_name: "postgresy"
     ports:
       - "5432:5432"
     environment:
@@ -15,9 +15,9 @@ services:
 
   spring:
     build: .
-    container_name: "springx"
+    container_name: "springy"
     ports:
-      - "8085:8080"
+      - "8081:8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/Obsstaj
       SPRING_DATASOURCE_USERNAME: postgres
@@ -27,52 +27,51 @@ services:
 
   react:
     image: "react"
-    container_name: "reactx"
     build: 
       context: "./frontend"
+    container_name: "reacty"
     ports:
       - "3000:3000"
     depends_on:
       - spring
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
-    container_name: "elasticsearchx"
-    environment:
-      - node.name=es01
-      - discovery.type=single-node
-      - cluster.name=es-docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - http.port=9200
-      - "http.cors.allow-origin=*"
-      - "http.cors.enabled=true"
-      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
-      - "http.cors.allow-credentials=true"
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+#    container_name: elasticsearchy
+#    environment:
+#      - node.name=es01
+#      - discovery.type=single-node
+#      - cluster.name=es-docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - http.port=9200
+#      - "http.cors.allow-origin=*"
+#      - "http.cors.enabled=true"
+#      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+#      - "http.cors.allow-credentials=true"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - data01:/usr/share/elasticsearch/data
+#    ports:
+#      - 9200:9200
+#    depends_on:
+#      - postgres
 
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data01:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    depends_on:
-      - postgres
 
-
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.2.0
-    container_name: logstashx
-    command: logstash -f /etc/logstash/conf.d/logstash.conf
-    volumes:
-      - ./config:/etc/logstash/conf.d
-    ports:
-      - "5000:5000"  
-    links:
-      - elasticsearch
+#    logstash:
+#    image: docker.elastic.co/logstash/logstash:7.2.0
+#    container_name: logstashy
+#    command: logstash -f /etc/logstash/conf.d/applicationsync.conf
+#    volumes:
+#      - ./config:/etc/logstash
+#    ports:
+#      - "5000:5000"  
+#    depends_on:
+#      - elasticsearch
       
-volumes:
-  data01:
-    driver: local
+#volumes:
+#  data01:
+#    driver: local
