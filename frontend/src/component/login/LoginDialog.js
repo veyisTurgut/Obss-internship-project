@@ -54,8 +54,8 @@ export default class LoginDialog extends Component {
     }
 
     onSubmit(inputData, userType) {
-        console.log(process.env.REACT_APP_SERVER_URL)
-        axios.post("http://localhost:8081/login", inputData,
+
+        axios.post(process.env.REACT_APP_SERVER_URL + "login", inputData,
             {
                 headers: {
                     'Access-Control-Allow-Origin': '*'
