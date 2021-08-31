@@ -1,5 +1,6 @@
 version: '3'
 
+
 services:
   postgres:
     image: "postgres"
@@ -10,11 +11,12 @@ services:
       POSTGRES_DB: Obsstaj
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 5432
-    volumes:
-      - ./src/main/resources/static/:/tmp/
+    #volumes:
+    #  - ./src/main/resources/static/:/tmp/
 
   spring:
     build: .
+    image: "veyis/veyisturgut_spring"
     container_name: "springy"
     ports:
       - "8081:8081"
@@ -26,7 +28,7 @@ services:
       - postgres
 
   react:
-    image: "react"
+    image: "veyis/react"
     build: 
       context: "./frontend"
     container_name: "reacty"
