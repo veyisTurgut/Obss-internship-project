@@ -12,7 +12,6 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Phase implements Comparable<Phase> {
 
     @EmbeddedId
