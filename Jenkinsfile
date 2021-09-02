@@ -1,3 +1,4 @@
+//dummy change
 node {
     stage ('Clone the project'){
         git branch: "main", credentialsId: "github", url: 'https://github.com/veyisTurgut/Obss-internship-project.git'
