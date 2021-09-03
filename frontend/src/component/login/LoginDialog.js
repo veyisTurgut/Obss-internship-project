@@ -151,11 +151,6 @@ export default class LoginDialog extends Component {
                             onSuccess={this.responseGoogle}
                             onFailure={this.responseGoogle}/>
 
-                        <GoogleLogin
-                            clientId={"270274380163-497s6h2fvf124dm0bs9lq50qrp7kgd8p.apps.googleusercontent.com"}
-                            buttonText={"GOOGLE"}
-                            onSuccess={this.responseGoogle}
-                            onFailure={this.responseGoogle}/>
                         {this.state.adminDialogFields.map(field => (
                             <TextField
                                 autoFocus
