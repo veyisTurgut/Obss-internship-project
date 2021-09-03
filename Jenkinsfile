@@ -41,9 +41,14 @@ node {
         }
     }
 
+    stage ("Docker push"){
+        sh "docker push veyis/rac"
+        sh "docker push veyis/veyisturgut_spring"
+    }
+//TODO before running docker-compose, build it and push new containers to docker-hub
     stage("Run"){
         withCredentials([string(credentialsId: 'github-token', variable: 'TOKEN')]) {
-                sh 'ssh -tt -o "StrictHostKeyChecking=no" -i /var/lib/jenkins/nodepair.pem ec2-user@ec2-18-119-162-119.us-east-2.compute.amazonaws.com " git clone https://veyisTurgut:$TOKEN@github.com/veyisTurgut/Obss-internship-project.git; cd Obss-internship-project; docker start postgresy; docker exec -t postgresy pg_dumpall -c -U postgres > backup_dump.sql; docker-compose up -d; cat backup_dump.sql | docker exec -i postgresy psql -U postgres"'
+                sh 'ssh -tt -o "StrictHostKeyChecking=no" -i /var/lib/jenkins/nodepair.pem ec2-user@ec2-18-119-162-119.us-east-2.compute.amazonaws.com " git clone https://veyisTurgut:$TOKEN@github.com/veyisTurgut/Obss-internship-project.git; cd Obss-internship-project; docker pull veyis/veyisturgut_spring; docker pull veyis/rac; docker start postgresy; docker exec -t postgresy pg_dumpall -c -U postgres > backup_dump.sql; docker-compose up -d; cat backup_dump.sql | docker exec -i postgresy psql -U postgres"'
         }
     }
 }
