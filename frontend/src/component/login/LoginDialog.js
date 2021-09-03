@@ -144,6 +144,13 @@ export default class LoginDialog extends Component {
                                 onClick={() => this.setState({userType: "USER"})}>
                             Kullanıcı
                         </Button>
+
+                        <GoogleLogin
+                            clientId={"1095334986352-qvh3e0golquc916ilbv6jl5qun3a7j96.apps.googleusercontent.com"}
+                            buttonText={"GOOGLE"}
+                            onSuccess={this.responseGoogle}
+                            onFailure={this.responseGoogle}/>
+
                         <GoogleLogin
                             clientId={"270274380163-497s6h2fvf124dm0bs9lq50qrp7kgd8p.apps.googleusercontent.com"}
                             buttonText={"GOOGLE"}
