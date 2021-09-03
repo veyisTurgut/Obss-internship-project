@@ -35,6 +35,12 @@ node {
         stage("Resolve spring dependency"){
             sh "mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)"
         }
+
+        stage("Sonar code analysis"){
+            withCredentials([string(credentialsId: 'sonar-token', variable: 'TOKEN')]) {
+                sh " mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$TOKEN"
+            }
+        }
         
         stage("Run"){
             withCredentials([string(credentialsId: 'github-token', variable: 'TOKEN')]) {
