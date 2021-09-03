@@ -17,8 +17,8 @@
 
     <properties>
         <java.version>11</java.version>
+        <sonar.projectKey>test_obss</sonar.projectKey>
     </properties>
-
 
     <dependencies>
 

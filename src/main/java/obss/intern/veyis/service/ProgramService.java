@@ -173,6 +173,7 @@ public class ProgramService {
                 }
             }
             //expected end date of current phase cant be later than the next one.
+            //TODO check whether this is last phase!
             Date next_phase_expected_end = phaseRepository.getPhaseById(phaseDTO.getPhase_id() + 1, phaseDTO.getProgram_id()).getExpected_end_date();
             if (next_phase_expected_end != null && next_phase_expected_end.compareTo(phaseDTO.getExpected_end_date()) <= 0) {
                 return new MessageResponse("Bu fazın bitişi sonraki fazın tahmini bitiş tarihinden önce olmalı.", MessageType.ERROR);

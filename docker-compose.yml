@@ -4,20 +4,20 @@ version: '3'
 services:
   postgres:
     image: "postgres"
-    container_name: "postgresy"
+    container_name: "db"
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: Obsstaj
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 5432
-    #volumes:
-    #  - ./src/main/resources/static/:/tmp/
+    volumes:
+      - ./src/main/resources/static/:/tmp/
 
   spring:
     build: .
     image: "veyis/veyisturgut_spring"
-    container_name: "springy"
+    container_name: "backend"
     ports:
       - "8081:8081"
     environment:
@@ -31,7 +31,7 @@ services:
     image: "veyis/react"
     build: 
       context: "./frontend"
-    container_name: "reacty"
+    container_name: "frontend"
     ports:
       - "3000:3000"
     depends_on:
