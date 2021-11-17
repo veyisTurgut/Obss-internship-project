@@ -35,7 +35,7 @@ public class EmailSender implements Runnable {
      */
     private static void emailSender(Phase phase) throws MessagingException {
         String myAccount = "obss.veyis.deneme@gmail.com";
-        String password = "WM'*cR4)8m;JHd7}";
+        String password = "*******";
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
